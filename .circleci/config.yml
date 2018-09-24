@@ -15,6 +15,7 @@ jobs:
           name: Test
           command: npm run test:cov
       - run: test -d "sonar-scanner-3.1.0.1141-linux" && echo "usando cache" || ( wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.1.0.1141-linux.zip && sudo apt-get update && sudo apt-get install unzip && sudo apt-get install -y jq && unzip sonar-scanner-cli-3.1.0.1141-linux.zip )
+      - run: cp $CIRCLE_WORKING_DIRECTORY/sonar-project.properties $CIRCLE_WORKING_DIRECTORY/sonar-scanner-3.1.0.1141-linux/conf/
       - run: ./sonar-scanner-3.1.0.1141-linux/bin/sonar-scanner
       - save_cache:
           paths:
