@@ -1,16 +1,12 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { VehiclesService } from './vehicles.service';
 
-const soap = require('soap-as-promised');
-
 @Controller('vehicles')
 export class VehiclesController {
+  constructor(private readonly vehiclesService: VehiclesService) {}
 
   @Get(":place/:owner_document/:vehicle_document")
   async getTickets(@Param() params): Promise<String> {
-      return await soap.createClient('http://example.org/wsdl')
-    
-    .then((result) => console.log(`The result was: ${result}`))
-    .catch((error) => console.error(`There was an error! ${error}`));
+    return await this.vehiclesService.getTickets(params.place, params.owner_document, params.vehicle_document);
   }
 }
