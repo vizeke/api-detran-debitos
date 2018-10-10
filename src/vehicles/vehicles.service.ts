@@ -4,10 +4,10 @@ const builder = require('xmlbuilder');
 
 @Injectable()
 export class VehiclesService {
-  private readonly url = 'http://requestbin.fullcontact.com/u4yaidu4';
+  private readonly url = 'http://requestbin.fullcontact.com/1c5uq3c1';
 
-  async getTickets(place, owner_document, vehicle_document): Promise<String> {
-    var xml = builder.create('root', {encoding: "utf-8"})
+  async getTickets(place, owner_document, vehicle_document): Promise<JSON> {
+    var xml = builder.begin({encoding: "utf-8"})
     .ele('soap:Envelope', {"xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance", "xmlns:xsd": "http://www.w3.org/2001/XMLSchema", "xmlns:soap": "http://schemas.xmlsoap.org/soap/envelope/"})
       .ele('soap:Header')
         .ele("SegurancaDetran", {"xmlns": "http://tempuri.org/"})
@@ -25,8 +25,6 @@ export class VehiclesService {
         .up()
       .up()
     .end({ pretty: true});
-
-    console.log(xml)
 
     const options = {
           uri: this.url,

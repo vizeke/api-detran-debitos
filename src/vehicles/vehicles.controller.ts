@@ -5,8 +5,8 @@ import { VehiclesService } from './vehicles.service';
 export class VehiclesController {
   constructor(private readonly vehiclesService: VehiclesService) {}
 
-  @Get(":place/:owner_document/:vehicle_document")
-  async getTickets(@Param() params): Promise<String> {
-    return await this.vehiclesService.getTickets(params.place, params.owner_document, params.vehicle_document);
+  @Get(":plate/:owner_document/:vehicle_document")
+  async getTickets(@Param() params): Promise<JSON> {
+    return await this.vehiclesService.getTickets(params.plate, params.owner_document, params.vehicle_document);
   }
 }
