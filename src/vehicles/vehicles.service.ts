@@ -35,7 +35,10 @@ export class VehiclesService {
             'Content-Length': Buffer.byteLength(xml)
           },
     };
-    return request.post(options);
+
+    var req = await request.post(options);
+    
+    return parser.toJson(req);
   }
 
   async searchVehicle(plate, owner_document): Promise<JSON> {
@@ -67,8 +70,8 @@ export class VehiclesService {
             'Content-Length': Buffer.byteLength(xml)
           },
     };
-    var req = request.post(options); 
-
+    var req = await request.post(options);
+    
     return parser.toJson(req);
   }
 }
