@@ -25,7 +25,7 @@ export class VehiclesService {
       .up()
     .end({ pretty: true});
 
-    const options = {
+    const optionsPost = {
           uri: this.url,
           body: xml,
           json: false,
@@ -36,8 +36,36 @@ export class VehiclesService {
           },
     };
 
-    var req = await request.post(options);
-    req = JSON.parse(parser.toJson(req)); 
+    var req = await request.post(optionsPost);
+    
+    const options2Json = {
+      object: true,
+    };
+
+    req = parser.toJson(req, options2Json);
+
+    /**
+     * TO DO
+     * Ver como fazer para veiculos com registro de furto/roubo ativo
+     * Placa ABC1234
+     * CPF 12345678910
+     * {
+        "soap:Envelope": {
+          "xmlns:soap": "http://schemas.xmlsoap.org/soap/envelope/",
+          "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+          "soap:Body": {
+            "ObterDadosVeiculoResponse": {
+              "xmlns": "http://tempuri.org/",
+                "ObterDadosVeiculoResult": {
+                  "MensagemErro": "Consulta não permitida para veículo com registro de furto/roubo ativo"
+                }
+              }
+            }
+          }
+        }
+     * 
+     */
 
     return req["soap:Envelope"]["soap:Body"]["ObterDadosVeiculoResponse"]["ObterDadosVeiculoResult"]["VeiculoInfo"];
   }
@@ -61,7 +89,7 @@ export class VehiclesService {
       .up()
     .end({ pretty: true});
 
-    const options = {
+    const optionsPost = {
           uri: this.url,
           body: xml,
           json: false,
@@ -71,9 +99,13 @@ export class VehiclesService {
             'Content-Length': Buffer.byteLength(xml)
           },
     };
-    var req = await request.post(options);
-    req = JSON.parse(parser.toJson(req)); 
-    
+    var req = await request.post(optionsPost);
+
+    const options2Json = {
+      object: true,
+    };
+
+    req = parser.toJson(req, options2Json);
     return req["soap:Envelope"]["soap:Body"]["ObterDebitosResponse"]["ObterDebitosResult"]["Debito"];
   }
 }
