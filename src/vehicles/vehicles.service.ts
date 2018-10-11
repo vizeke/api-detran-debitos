@@ -37,8 +37,9 @@ export class VehiclesService {
     };
 
     var req = await request.post(options);
-    
-    return parser.toJson(req);
+    req = JSON.parse(parser.toJson(req)); 
+
+    return req["soap:Envelope"]["soap:Body"]["ObterDadosVeiculoResponse"]["ObterDadosVeiculoResult"]["VeiculoInfo"];
   }
 
   async searchVehicle(plate, owner_document): Promise<JSON> {
@@ -71,7 +72,8 @@ export class VehiclesService {
           },
     };
     var req = await request.post(options);
+    req = JSON.parse(parser.toJson(req)); 
     
-    return parser.toJson(req);
+    return req["soap:Envelope"]["soap:Body"]["ObterDebitosResponse"]["ObterDebitosResult"]["Debito"];
   }
 }
