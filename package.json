@@ -21,6 +21,7 @@
     "@nestjs/core": "^5.0.0",
     "ajv": "^6.5.3",
     "cucumber": "^5.0.1",
+    "dotenv": "^6.1.0",
     "fastify-formbody": "^2.0.0",
     "g": "^2.0.1",
     "jest-cucumber": "^1.0.11",
