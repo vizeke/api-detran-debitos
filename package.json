@@ -23,6 +23,7 @@
     "cucumber": "^5.0.1",
     "fastify-formbody": "^2.0.0",
     "g": "^2.0.1",
+    "jest-cucumber": "^1.0.11",
     "reflect-metadata": "^0.1.12",
     "request-promise": "^4.2.2",
     "rxjs": "^6.0.0",

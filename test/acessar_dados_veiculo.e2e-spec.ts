@@ -6,7 +6,7 @@ import { AppModule } from '../src/app.module';
 const feature = loadFeature('./test/features/acessar_dados_veiculo.feature');
 
 jest.mock( '../src/app.module' );
-jest.mock( '../src/api-detran/services/vehicles.service' );
+jest.mock( '../src/detran/services/vehicles.service' );
 
 let resposta: any;
 let plate: string;
@@ -52,19 +52,19 @@ defineFeature(feature, test => {
 
   test('Exibindo os dados de veículo inexistente', ({ given, when, then }) => {
     given('O usuario informa a placa do veiculo', async () => {
-      plate = 'ROU8470';
+      plate = 'a';
     });
     given('informa o renavam', async () => {
-      cpf = '12345678910';
+      cpf = '0';
     });
     when('o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
       .get( '/vehicles/${plate}/${cpf}' );
-      expect( resposta.status ).toBe( 400 );
+      expect( resposta.status ).toBe( 404 );
     });
     then('o sistema retorna uma mensagem informando que o veículo não existe', async () => {
 
-      pending();
+      expect();
     });
   });
 
