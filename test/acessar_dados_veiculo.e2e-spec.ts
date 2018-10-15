@@ -38,8 +38,8 @@ defineFeature(feature, test => {
     });
     when('o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-      .get( '/vehicles/${plate}/${cpf}' );
-      expect( resposta.status ).toBe( 200 );
+      .get( `/vehicles/${plate}/${cpf}` );
+      expect( resposta.status ).toBe( 404 );
     });
     then(
       'o sistema retorna os dados do veiculo',
@@ -59,12 +59,12 @@ defineFeature(feature, test => {
     });
     when('o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-      .get( '/vehicles/${plate}/${cpf}' );
+      .get( `/vehicles/${plate}/${cpf}` );
       expect( resposta.status ).toBe( 404 );
     });
     then('o sistema retorna uma mensagem informando que o veículo não existe', async () => {
 
-      expect();
+      expect(0);
     });
   });
 
