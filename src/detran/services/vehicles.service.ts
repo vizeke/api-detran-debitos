@@ -13,7 +13,8 @@ export class VehiclesService {
     const xml = builder.begin({encoding: 'utf-8'})
     .ele('soap:Envelope', {'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
                           'xmlns:xsd': 'http://www.w3.org/2001/XMLSchema',
-                          'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/'})
+                          'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/'
+                          })
       .ele('soap:Header')
         .ele('SegurancaDetran', {'xmlns': 'http://tempuri.org/'})
           .ele('Usuario', process.env.DETRAN_USER).up()

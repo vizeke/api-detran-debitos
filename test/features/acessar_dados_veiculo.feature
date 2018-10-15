@@ -5,7 +5,7 @@ Essa funcionalidade permite ao usuario acessar os dados do veículo.
 
 Cenário: Exibindo os dados do veículo
 Dado O usuario informa a placa do veiculo
-E informa o renavam
+E informa o CPF
 Quando o usuario solicitar os dados do veiculo
 Então o sistema retorna os dados do veiculo
 
