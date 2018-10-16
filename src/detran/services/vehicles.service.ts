@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as request from 'request-promise';
+import { DetranSoapClient } from './detran-soap-client';
 
 const builder = require('xmlbuilder');
 const parser = require('xml2json');
@@ -7,11 +8,20 @@ require('dotenv').config();
 
 @Injectable()
 export class VehiclesService {
+
+  /**
+   *
+   */
+  /*constructor(public detranSoapClient: DetranSoapClient) {
+    
+  }*/
+
   private readonly url = process.env.DETRAN_URL;
 
-  async searchVehicle(plate, owner_document): Promise<JSON> {
+  async searchVehicle(plate, owner_document): Promise<any> { // Promise<JSON> {
 
     //console.log(process.env.DETRAN_USER, process.env.DETRAN_PASS );
+    /*
     const xml = builder.begin({encoding: 'utf-8'})
     .ele('soap:Envelope', {'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance', 'xmlns:xsd': 'http://www.w3.org/2001/XMLSchema', 'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/'})
       .ele('soap:Header')
@@ -29,8 +39,29 @@ export class VehiclesService {
         .up()
       .up()
     .end({ pretty: true});
+*/
 
-    const optionsPost = {
+    const detranSoapClient = new DetranSoapClient();
+
+    var vehicle = {
+      veiculoConsulta: {
+        Placa: plate,
+        CPF: owner_document
+      }
+    };
+
+    return await detranSoapClient._client
+      .then(client => client.ObterDadosVeiculo(vehicle))
+      .then(response => {
+        console.log(response);
+        return response;
+      })
+      .catch(console.error);
+
+
+    return await this.getTickets('','');
+
+    /*const optionsPost = {
           uri: this.url,
           body: xml,
           json: false,
@@ -43,12 +74,12 @@ export class VehiclesService {
 
     const options2Json = {
       object: true,
-    };
+    };*/
 
     //console.log(xml);
-    let req = await request.post(optionsPost);
+    // let req = await request.post(optionsPost);
 
-    req = parser.toJson(req, options2Json);
+    // req = parser.toJson(req, options2Json);
 
     /**
      * TO DO
@@ -71,8 +102,6 @@ export class VehiclesService {
      *    }
      *  }
      */
-
-    return req['soap:Envelope']['soap:Body']['ObterDadosVeiculoResponse']['ObterDadosVeiculoResult']['VeiculoInfo'];
   }
 
   async getTickets(plate, owner_document): Promise<JSON> {
