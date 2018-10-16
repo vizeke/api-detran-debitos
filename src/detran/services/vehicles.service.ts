@@ -3,6 +3,7 @@ import * as request from 'request-promise';
 
 const builder = require('xmlbuilder');
 const parser = require('xml2json');
+require('dotenv').config();
 
 @Injectable()
 export class VehiclesService {
@@ -10,11 +11,9 @@ export class VehiclesService {
 
   async searchVehicle(plate, owner_document): Promise<JSON> {
 
+    //console.log(process.env.DETRAN_USER, process.env.DETRAN_PASS );
     const xml = builder.begin({encoding: 'utf-8'})
-    .ele('soap:Envelope', {'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                          'xmlns:xsd': 'http://www.w3.org/2001/XMLSchema',
-                          'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/'
-                          })
+    .ele('soap:Envelope', {'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance', 'xmlns:xsd': 'http://www.w3.org/2001/XMLSchema', 'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/'})
       .ele('soap:Header')
         .ele('SegurancaDetran', {'xmlns': 'http://tempuri.org/'})
           .ele('Usuario', process.env.DETRAN_USER ).up()
@@ -26,6 +25,7 @@ export class VehiclesService {
           .ele('veiculoConsulta')
           .ele('Placa', plate).up()
           .ele('CPF', owner_document).up()
+          .ele('Renavam', 'renavam').up()
         .up()
       .up()
     .end({ pretty: true});
@@ -45,6 +45,7 @@ export class VehiclesService {
       object: true,
     };
 
+    //console.log(xml);
     let req = await request.post(optionsPost);
 
     req = parser.toJson(req, options2Json);
