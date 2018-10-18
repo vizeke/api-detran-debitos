@@ -1,7 +1,7 @@
 import { Module, HttpModule } from '@nestjs/common';
-import { VehiclesController } from '../detran/controllers/vehicles.controller';
-import { VehiclesService } from '../detran/services/vehicles.service';
-import { DetranSoapClient } from '../detran/services/detran-soap-client';
+import { VehiclesController } from './controllers/vehicles.controller';
+import { VehiclesService } from './services/vehicles.service';
+import { DetranSoapClient } from './services/detran-soap-client';
 
 @Module({
   imports: [HttpModule],

@@ -37,9 +37,11 @@
   "devDependencies": {
     "@nestjs/testing": "^5.0.0",
     "@types/express": "^4.0.39",
-    "@types/jest": "^21.1.8",
+    "@types/jest": "^21.1.10",
     "@types/node": "^9.3.0",
     "@types/supertest": "^2.0.4",
+    "eslint": "^2.13.1",
+    "eslint-config-prodest": "^1.0.12",
     "jest": "^21.2.1",
     "nodemon": "^1.14.1",
     "prettier": "^1.11.1",
@@ -51,9 +53,7 @@
     "tslint": "5.3.2",
     "webpack": "^4.2.0",
     "webpack-cli": "^2.0.13",
-    "webpack-node-externals": "^1.6.0",
-    "eslint": "^2.13.1",
-    "eslint-config-prodest": "^1.0.12"
+    "webpack-node-externals": "^1.6.0"
   },
   "jest": {
     "moduleFileExtensions": [

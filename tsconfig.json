@@ -15,7 +15,7 @@
     "baseUrl": "./src"
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "ignored/app.controller.spec.ts", "ignored/main.hmr.ts", "ignored/app.service.ts", "ignored/app.controller.ts"
   ],
   "exclude": [
     "node_modules",

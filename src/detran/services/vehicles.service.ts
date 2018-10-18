@@ -6,19 +6,22 @@ const parser = require('xml2json');
 
 @Injectable()
 export class VehiclesService {
-  detranSoapClient: DetranSoapClient
+  detranSoapClient: DetranSoapClient;
 
   constructor() {
-    this.detranSoapClient = new DetranSoapClient;
+    this.detranSoapClient = new DetranSoapClient();
   }
 
   async searchVehicle(plate, owner_document): Promise<JSON> {
-
+    /** 
+     * TODO 
+     * achar uma forma melhor de encapsular isso
+     * */
     const vehicle = {
       veiculoConsulta: {
         Placa: plate,
-        CPF: owner_document
-      }
+        CPF: owner_document,
+      },
     };
 
     return await this.detranSoapClient._client
@@ -27,7 +30,7 @@ export class VehiclesService {
         return response;
       })
       .catch(console.error);
-    
+      /** TODO Retornar uma exceção */
   }
 
   async getTickets(plate, owner_document): Promise<JSON> {
@@ -35,14 +38,13 @@ export class VehiclesService {
     const vehicle = {
       veiculoConsulta: {
         Placa: plate,
-        CPF: owner_document
-      }
+        CPF: owner_document,
+      },
     };
 
     return await this.detranSoapClient._client
       .then(client => client.ObterDebitos(vehicle))
       .then(response => {
-
         return response;
       })
       .catch(console.error);
