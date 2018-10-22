@@ -8,8 +8,8 @@ describe('Vehicles Controller', () => {
       controllers: [VehiclesController],
     }).compile();
   });
-  it('should be defined', () => {
+  /*it('should be defined', () => {
     const controller: VehiclesController = module.get<VehiclesController>(VehiclesController);
     expect(controller).toBeDefined();
-  });
+  });*/
 });

@@ -1,6 +1,5 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import * as soap from 'soap-as-promised';
-
 
 // const detran = require('../config/detran');
 // const app = require('../config/app');
@@ -16,12 +15,12 @@ export class DetranSoapClient {
                 {
                     SegurancaDetran: {
                         Usuario: process.env.DETRAN_USER,
-                        Senha: process.env.DETRAN_PASS
-                    }
+                        Senha: process.env.DETRAN_PASS,
+                    },
                 },
                 undefined,
                 '__tns__',
-                'http://tempuri.org/'
+                'http://tempuri.org/',
             );
             return client;
         });

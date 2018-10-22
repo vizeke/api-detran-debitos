@@ -19,6 +19,7 @@
   "dependencies": {
     "@nestjs/common": "^5.0.0",
     "@nestjs/core": "^5.0.0",
+    "@nestjs/swagger": "^2.5.1",
     "@types/dotenv": "^4.0.3",
     "ajv": "^6.5.3",
     "cucumber": "^5.0.1",

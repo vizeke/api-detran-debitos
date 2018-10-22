@@ -8,13 +8,13 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/dist/main.js",
+            "program": "${workspaceFolder}/dist/src/main.js",
             "preLaunchTask": "build:watch",
             "envFile": "${workspaceFolder}/.env",
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
             ]
-        }
+        },
         {
             "name": "Debug Jest tests",
             "type": "node",
