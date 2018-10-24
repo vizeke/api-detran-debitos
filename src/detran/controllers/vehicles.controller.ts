@@ -4,6 +4,9 @@ import { ApiOperation, ApiResponse, ApiImplicitParam } from '@nestjs/swagger';
 
 @Controller('veiculos')
 export class VehiclesController {
+  resposta: any;
+  statushttp: string;
+
   constructor(private readonly vehiclesService: VehiclesService) {}
 
   @Get(':plate/:owner_document')
@@ -12,7 +15,7 @@ export class VehiclesController {
     title: 'Dados do veiculo',
   })
   @ApiResponse( { status: 200, description: 'Veiculo encontrado'} )
-  @ApiResponse( { status: 204, description: 'Veiculo não econtrado'} )
+  @ApiResponse( { status: 204, description: 'Sem conteudo'} )
   @ApiImplicitParam( {
     name: 'plate',
     description: 'Placa do veiculo',
@@ -24,13 +27,27 @@ export class VehiclesController {
     required: true,
   })
   async searchVehicle( @Res() res, @Param() params){
+    // console.log('RES CONTROLLER', res);
     /** TODO try catch */
+    this.statushttp = '200';
     try {
-      res.status( HttpStatus.OK )
-      .send(await this.vehiclesService.searchVehicle(params.plate, params.owner_document));
+      this.resposta = await this.vehiclesService.searchVehicle(params.plate, params.owner_document);
+      console.log('RESPOSTA >>>>>>>> ', this.resposta);
+      // switch (Object.keys(this.resposta)[0]) {
+      //   case ('VeiculoInfo'):
+      //     this.statushttp = '200';
+      //     break;
+      //   case ('MensagemErro'):
+      //     this.statushttp = '204';
+      //     break;
+      //   default:
+      //   //console.log('\n\nEntrou\n\n');
+      // }
+      res.status( this.statushttp )
+      .send(this.resposta);
     }catch ( error ){
-      res.status( HttpStatus.NOT_FOUND)
-      .send(' Veiculo nao encontrado ');
+      res.status( HttpStatus.NO_CONTENT)
+      .send(' Requisição retornou sem conteúdo! Tente mais tarde ');
     }
     // return await this.vehiclesService.searchVehicle(params.plate, params.owner_document);
   }
@@ -41,7 +58,7 @@ export class VehiclesController {
     title: 'Débitos do veiculo',
   })
   @ApiResponse( { status: 200, description: 'Veiculo encontrado'} )
-  @ApiResponse( { status: 204, description: 'Veiculo não econtrado'} )
+  @ApiResponse( { status: 404, description: 'Veiculo não econtrado'} )
   @ApiImplicitParam( {
     name: 'plate',
     description: 'Placa do veiculo',

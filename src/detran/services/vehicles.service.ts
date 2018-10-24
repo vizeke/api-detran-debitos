@@ -1,8 +1,8 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { DetranSoapClient } from './detran-soap-client';
 
-//const builder = require('xmlbuilder');
-//const parser = require('xml2json');
+// const builder = require('xmlbuilder');
+// const parser = require('xml2json');
 
 @Injectable()
 export class VehiclesService {
@@ -13,7 +13,7 @@ export class VehiclesService {
     this.detranSoapClient = new DetranSoapClient();
   }
 
-  async searchVehicle(plate, owner_document){
+  async searchVehicle( plate, owner_document){
     /**
      * TO DO
      * achar uma forma melhor de encapsular isso
@@ -24,29 +24,16 @@ export class VehiclesService {
         CPF: owner_document,
       },
     };
-
+    // console.log();
     this.res = await this.detranSoapClient._client
       .then(client => client.ObterDadosVeiculo(vehicle))
       .then(response => {
         return response;
       }).catch();
 
-    // this.res = JSON.stringify(this.res);
-    // let res2 = this.res.ObterDadosVeiculoResult;
-    // console.log('OBJECT.KEYS >>>>>>>> ', Object.keys(this.res.ObterDadosVeiculoResult));
-    // console.log('OBJECT.VALUES >>>>>>>> ', Object.values(this.res.ObterDadosVeiculoResult));
-    // console.log('OBJECT.ENTRIES >>>>>>>> ', Object.entries(this.res.ObterDadosVeiculoResult));
+    // console.log('RES >>>>>>>> ', this.res);
 
-    switch (Object.keys(this.res.ObterDadosVeiculoResult)) {
-      case (['VeiculoInfo']):
-        console.log('\n\nVeiculoinfo\n\n');
-        break;
-      default:
-      console.log('\n\nEntrou\n\n');
-    }
-    // console.log('RES >>>>>>>> ', this.res.ObterDadosVeiculoResult);
-
-    return this.res;
+    return this.res.ObterDadosVeiculoResult;
       /** TODO Retornar uma exceção */
   }
 
