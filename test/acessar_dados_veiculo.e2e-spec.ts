@@ -1,12 +1,10 @@
 import { loadFeature, defineFeature } from '../node_modules/jest-cucumber';
-import request from 'supertest' ;
-import { Test, TestingModule } from '@nestjs/testing' ;
-import { INestApplication } from '@nestjs/common' ;
-import { AppModule } from '../src/app.module';
+import request from 'supertest';
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
 import { DetranModule } from '../src/detran/detran.module';
-const feature = loadFeature('./test/features/acessar_dados_veiculo.feature');
-
-jest.mock( '../src/app.module' );
+const feature = loadFeature( './test/features/acessar_dados_veiculo.feature' );
+jest.mock( '../src/detran/detran.module' );
 jest.mock( '../src/detran/services/vehicles.service' );
 
 let resposta: any;
@@ -14,7 +12,7 @@ let plate: string;
 let cpf: string;
 let dataVehicle: any;
 
-defineFeature(feature, test => {
+defineFeature( feature, test => {
   let module: TestingModule;
   let app: INestApplication;
 
@@ -30,7 +28,7 @@ defineFeature(feature, test => {
    * TODO
    * Tratar a partir de excessÕes
    */
-  test('Exibindo os dados do veículo', ({
+  test( 'Exibindo os dados do veículo', ( {
     given,
     when,
     then,
@@ -43,87 +41,87 @@ defineFeature(feature, test => {
     });
     when('o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-      .get(`/veiculos/${plate}/${cpf}`);
+        .get( `/veiculos/${plate}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
-    });
+    } );
     then(
       'o sistema retorna os dados do veiculo',
       async () => {
         dataVehicle = resposta.body;
-        expect( Object.keys(dataVehicle.ObterDadosVeiculoResult) ).toContain('VeiculoInfo');
+        expect( Object.keys( dataVehicle.ObterDadosVeiculoResult ) ).toContain( 'VeiculoInfo' );
       },
     );
-  });
+  } );
 
-  test('Exibindo os dados de veículo inexistente', ({ given, when, then }) => {
-    given('O usuario informa a placa do veiculo', async () => {
+  test( 'Exibindo os dados de veículo inexistente', ( { given, when, then } ) => {
+    given( 'O usuario informa a placa do veiculo', async () => {
       plate = 'XXX0000';
-    });
-    given('informa o CPF', async () => {
+    } );
+    given( 'informa o CPF', async () => {
       cpf = '00000000000';
-    });
-    when('o usuario solicitar os dados do veiculo', async () => {
+    } );
+    when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-      .get( `/veiculos/${plate}/${cpf}` );
+        .get( `/veiculos/${plate}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
-    });
-    then('o sistema retorna uma mensagem informando que o veículo não existe', async () => {
+    } );
+    then( 'o sistema retorna uma mensagem informando que o veículo não existe', async () => {
       dataVehicle = resposta.body;
-      expect(dataVehicle.ObterDadosVeiculoResult.MensagemErro)
-      .toEqual('Veículo placa XXX0000 e CPF/CNPJ 00000000000 não encontrado.');
-    });
-  });
+      expect( dataVehicle.ObterDadosVeiculoResult.MensagemErro )
+        .toEqual( "Veículo não encontrado." );
+    } );
+  } );
 
-  test('Exibindo os dados de veículo com registro de furto/roubo ativo', ({ given, when, then }) => {
-    given('O usuario informa a placa do veiculo', () => {
+  test( 'Exibindo os dados de veículo com registro de furto/roubo ativo', ( { given, when, then } ) => {
+    given( 'O usuario informa a placa do veiculo', () => {
       plate = 'ROU8470';
-    });
-    given('informa o CPF', () => {
+    } );
+    given( 'informa o CPF', () => {
       cpf = '12345678910';
-    });
-    when('o usuario solicitar os dados do veiculo', async () => {
+    } );
+    when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-      .get( `/veiculos/${plate}/${cpf}` );
+        .get( `/veiculos/${plate}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
-    });
-    then('o sistema retorna uma mensagem informando que a consulta não é permitida para esse tipo de resgitro ativo', () => {
+    } );
+    then( 'o sistema retorna uma mensagem informando que a consulta não é permitida para esse tipo de resgitro ativo', () => {
       dataVehicle = resposta.body;
-      expect(dataVehicle.ObterDadosVeiculoResult.MensagemErro)
-      .toEqual('Consulta não permitida para veículo com registro de furto/roubo ativo');
-    });
-  });
+      expect( dataVehicle.ObterDadosVeiculoResult.MensagemErro )
+        .toEqual( 'Consulta não permitida para veículo com registro de furto/roubo ativo' );
+    } );
+  } );
 
-  test('Exibindo as infrações do veículo', ({ given, when, then }) => {
-    given('O usuario informa a placa do veiculo', () => {
+  test( 'Exibindo as infrações do veículo', ( { given, when, then } ) => {
+    given( 'O usuario informa a placa do veiculo', () => {
       pending();
-    });
-    given('informa o CPF', () => {
+    } );
+    given( 'informa o CPF', () => {
       pending();
-    });
-    when('o usuario solicitar as infrações associadas ao veiculo', () => {
+    } );
+    when( 'o usuario solicitar as infrações associadas ao veiculo', () => {
       pending();
-    });
-    then('o sistema retorna as infrações associdas ao veiculo', () => {
+    } );
+    then( 'o sistema retorna as infrações associdas ao veiculo', () => {
       pending();
-    });
-  });
+    } );
+  } );
 
-  test('Veiculo nao possui infrações', ({ given, when, then }) => {
-    given('O usuario informa a placa do veiculo', () => {
+  test( 'Veiculo nao possui infrações', ( { given, when, then } ) => {
+    given( 'O usuario informa a placa do veiculo', () => {
       pending();
-    });
-    given('informa o CPF', () => {
+    } );
+    given( 'informa o CPF', () => {
       pending();
-    });
-    when('o usuario seleciona exibir as associadas ao veiculo', () => {
+    } );
+    when( 'o usuario seleciona exibir as associadas ao veiculo', () => {
       pending();
-    });
-    then('o sistema retorna uma mensagem informando que o veiculo não possui infrações', () => {
+    } );
+    then( 'o sistema retorna uma mensagem informando que o veiculo não possui infrações', () => {
       pending();
-    });
-  });
+    } );
+  } );
 
-  afterAll(async () => {
+  afterAll( async () => {
     await app.close();
-  });
-});
+  } );
+} );
