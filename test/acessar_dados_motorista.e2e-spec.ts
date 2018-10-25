@@ -20,8 +20,7 @@ defineFeature( feature, test => {
     when( 'o usuario solicitar a situação da CNH', () => {
       pending();
     } );
-    then(
-      'o sistema retorna as seguintes informações da CNH: situação da CNH, motivo do bloqueio, data de expiração, pontos de infrações, existe processo de habilitacao, existe processo administrativo',
+    then( `o sistema retorna as seguintes informações da CNH: situação da CNH, motivo do bloqueio, data de expiração, pontos de infrações, existe processo de habilitacao, existe processo administrativo`,
       () => {
         pending();
       },

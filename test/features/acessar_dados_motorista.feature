@@ -8,8 +8,7 @@ Dado O usuário informou uma CNH
 E informou o CPF
 E informou o numero da cedula da CNH
 Quando o usuario solicitar a situação da CNH
-Então o sistema retorna as seguintes informações da CNH: situação da CNH, motivo do bloqueio,
-data de expiração, pontos de infrações, existe processo de habilitacao, existe processo administrativo
+Então o sistema retorna as seguintes informações da CNH: situação da CNH, motivo do bloqueio, data de expiração, pontos de infrações, existe processo de habilitacao, existe processo administrativo
 
 Cenário: Nenhuma CNH cadastrada
 Dado O usuário informou uma CNH

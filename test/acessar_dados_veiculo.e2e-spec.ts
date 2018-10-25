@@ -68,7 +68,7 @@ defineFeature( feature, test => {
     then( 'o sistema retorna uma mensagem informando que o veículo não existe', async () => {
       dataVehicle = resposta.body;
       expect( dataVehicle.ObterDadosVeiculoResult.MensagemErro )
-        .toEqual( "Veículo não encontrado." );
+        .toEqual( 'Veículo não encontrado.' );
     } );
   } );
 

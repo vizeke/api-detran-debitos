@@ -5,7 +5,6 @@ import { ApiOperation, ApiResponse, ApiImplicitParam } from '@nestjs/swagger';
 @Controller( 'veiculos' )
 export class VehiclesController {
   resposta: any;
-  statushttp: string;
 
   constructor( private readonly vehiclesService: VehiclesService ) { }
 
@@ -26,30 +25,15 @@ export class VehiclesController {
     description: 'Documento do proprietario do veiculo',
     required: true,
   } )
-  async searchVehicle ( @Res() res, @Param() params ) {
-    // console.log('RES CONTROLLER', res);
-    /** TODO try catch */
-    this.statushttp = '200';
+  async searchVehicle( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.vehiclesService.searchVehicle( params.plate, params.owner_document );
-      // console.log('RESPOSTA >>>>>>>> ', this.resposta);
-      // switch (Object.keys(this.resposta)[0]) {
-      //   case ('VeiculoInfo'):
-      //     this.statushttp = '200';
-      //     break;
-      //   case ('MensagemErro'):
-      //     this.statushttp = '204';
-      //     break;
-      //   default:
-      //   //console.log('\n\nEntrou\n\n');
-      // }
-      res.status( this.statushttp )
+      res.status(HttpStatus.OK)
         .send( this.resposta );
     } catch ( error ) {
       res.status( HttpStatus.NO_CONTENT )
         .send( ' Requisição retornou sem conteúdo! Tente mais tarde ' );
     }
-    // return await this.vehiclesService.searchVehicle(params.plate, params.owner_document);
   }
 
   @Get( ':plate/:owner_document/debitos' )
@@ -69,7 +53,7 @@ export class VehiclesController {
     description: 'Documento do proprietario do veiculo',
     required: true,
   } )
-  async getTickets ( @Param() params ): Promise<JSON> {
+  async getTickets( @Param() params ): Promise<JSON> {
     return await this.vehiclesService.getTickets( params.plate, params.owner_document );
   }
 

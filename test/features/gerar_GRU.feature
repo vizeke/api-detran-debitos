@@ -9,7 +9,7 @@ Quando o usuario escolher os debitos
 E  solicita a geração da GRU
 Então o sistema retorna a GRU com os debitos
 
-Cenário: Selecionando um débito que possuem outros tipos débitos obrigatorios
+Cenário: Selecionando um débito que possuem outros tipos de débitos obrigatorios
 Dado O usuario possui debitos
 Quando o usuario escolhe um debito que tem outros tipos de débitos obrigatorios
 E  solicita a geração da GRU
