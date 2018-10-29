@@ -1,0 +1,5 @@
+enum errorEnum {
+    RENAVAN_NAO_ENCONTRADO = 1,
+    CPF_NAO_ENCONTRADO = 2,
+    VEICULO_ROUBADO = 3,
+}
