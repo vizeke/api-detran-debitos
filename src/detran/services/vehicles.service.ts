@@ -24,17 +24,14 @@ export class VehiclesService {
         CPF: owner_document,
       },
     };
-    // console.log();
+
     this.res = await this.detranSoapClient._client
       .then(client => client.ObterDadosVeiculo(vehicle))
       .then(response => {
         return response;
       }).catch();
 
-    // console.log('RES >>>>>>>> ', this.res);
-
     return this.res.ObterDadosVeiculoResult;
-      /** TODO Retornar uma exceção */
   }
 
   async getTickets(plate, owner_document): Promise<JSON> {
@@ -46,11 +43,13 @@ export class VehiclesService {
       },
     };
 
-    return await this.detranSoapClient._client
+    this.res = await this.detranSoapClient._client
       .then(client => client.ObterDebitos(vehicle))
       .then(response => {
         return response;
       })
       .catch(console.error);
+
+    return this.res.ObterDebitosResult;
   }
 }
