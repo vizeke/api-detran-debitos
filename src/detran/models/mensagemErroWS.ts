@@ -1,12 +1,13 @@
 import { HttpStatus } from "@nestjs/common";
 
 const MSG_FURTO = 'Consulta não permitida para veículo com registro de furto/roubo ativo';
-const MSG_RENAVAN = 'Consulta não permitida para veículo com registro de furto/roubo ativo';
+const MSG_RENAVAN = 'Renavam';
 
-export class RespostaErroWSIB {
+export class MensagemErroWS {
     public res: any;
     public status: number;
     public erro: errorEnum;
+
     constructor(resposta: any){
         this.res = resposta;
         this.status = HttpStatus.FORBIDDEN;
@@ -25,7 +26,6 @@ export class RespostaErroWSIB {
                 this.erro = errorEnum.CPF_NAO_ENCONTRADO;
                 break;
         }
-        console.log(this.res.MensagemErro);
         return this.status;
     }
 }

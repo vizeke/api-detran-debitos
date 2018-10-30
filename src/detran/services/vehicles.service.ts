@@ -13,7 +13,12 @@ export class VehiclesService {
     this.detranSoapClient = new DetranSoapClient();
   }
 
-  async searchVehicle( plate, owner_document){
+  async getDataVehiclesDB( plate, owner_document){
+
+    return 'Em desenvolvimento';
+  }
+
+  async getDataVehiclesWS( plate, owner_document){
     /**
      * TO DO
      * achar uma forma melhor de encapsular isso
@@ -30,11 +35,14 @@ export class VehiclesService {
       .then(response => {
         return response;
       }).catch();
+      /**
+       * TO DO catch
+       */
 
     return this.res.ObterDadosVeiculoResult;
   }
 
-  async getTickets(plate, owner_document): Promise<JSON> {
+  async getDebits(plate, owner_document): Promise<JSON> {
 
     const vehicle = {
       veiculoConsulta: {
@@ -51,5 +59,44 @@ export class VehiclesService {
       .catch(console.error);
 
     return this.res.ObterDebitosResult;
+  }
+
+  async getDebitsPreview(plate, owner_document): Promise<JSON> {
+
+    const vehicle = {
+      veiculoConsulta: {
+        Placa: plate,
+        CPF: owner_document,
+      },
+    };
+
+    this.res = await this.detranSoapClient._client
+      .then(client => client.ObterTiposDebitos(vehicle))
+      .then(response => {
+        return response;
+      })
+      .catch(console.error);
+
+    return this.res.ObterTiposDebitosResult;
+  }
+
+  async getTypeDebits( plate, owner_document, type_debits ){
+
+    const vehicle = {
+      veiculoConsulta: {
+        Placa: plate,
+        CPF: owner_document,
+      },
+      tipoSelecionado: type_debits,
+    };
+
+    this.res = await this.detranSoapClient._client
+      .then(client => client.ObterDebitosPorTipoDebito(vehicle))
+      .then(response => {
+        return response;
+      })
+      .catch(console.error);
+
+    return this.res.ObterDebitosPorTipoDebitoResult;
   }
 }

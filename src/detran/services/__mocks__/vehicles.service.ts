@@ -8,7 +8,6 @@ export class VehiclesService {
   async searchVehicle( plate, owner_document ) {
 
     const respostaVeiculoEncontrado = {
-      ObterDadosVeiculoResult: {
         VeiculoInfo: {
           Veiculo: {
             Placa: 'VAL1705',
@@ -19,19 +18,14 @@ export class VehiclesService {
           MarcaModelo: 'VW/PARATI 1.6 TRACKFIELD',
           AnoFabricacao: 2006,
         },
-      },
     };
 
     const respostaVeiculoRoubado = {
-      ObterDadosVeiculoResult: {
         MensagemErro: 'Consulta não permitida para veículo com registro de furto/roubo ativo',
-      },
     };
 
     const respostaVeiculoNEncontrado = {
-      ObterDadosVeiculoResult: {
         MensagemErro: 'Veículo não encontrado.',
-      },
     };
 
     if ( plate === 'VAL1705' && owner_document === '9876543210' ) {
@@ -50,7 +44,6 @@ export class VehiclesService {
       Documento 9876543210
     */
     const respostaListaDebitos = {
-      ObterDebitosResult: {
         Debito: {
           Debito: [
             {
@@ -127,7 +120,6 @@ export class VehiclesService {
             },
           ],
         },
-      },
     };
 
     /*
@@ -135,9 +127,7 @@ export class VehiclesService {
       Documento 12345678910
      */
     const respostaNenhumDebito = {
-      ObterDebitosResult: {
          Debito: null,
-      },
     };
 
     if (plate === 'VAL1705' && owner_document === '9876543210'){
