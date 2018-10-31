@@ -15,8 +15,6 @@ describe( 'VehiclesService', () => {
     service = module.get<VehiclesService>( VehiclesService );
   } );
 
-
-
   it( 'SearchVehicle() com dados válidos deve retornar dados do proprietário', async () => {
     plate = 'VAL1705';
     owner_document = '9876543210';
@@ -25,8 +23,6 @@ describe( 'VehiclesService', () => {
       .toBe( "JOSE SILVA" );
   } );
 
-
-
   it( 'SearchVehicle() com dados errados deve retornar mensagem de erro', async () => {
     plate = 'arrays começam em 1';
     owner_document = 'usem goto! é legal sim abiguinhos';
@@ -34,7 +30,6 @@ describe( 'VehiclesService', () => {
     expect( respostaDoTeste.ObterDadosVeiculoResult.MensagemErro )
       .toBe( 'Veículo não encontrado.' );
   } );
-
 
   it( 'SearchVehicle() com dados de veículo roubado deve impedir a consulta', async () => {
     plate = 'ROU8470';
