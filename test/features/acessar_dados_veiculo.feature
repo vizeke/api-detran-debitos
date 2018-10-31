@@ -1,5 +1,5 @@
 #language: pt
-Funcionalidade: Acessar os dados do motorista
+Funcionalidade: Acessar os dados do veículo
 
 Essa funcionalidade permite ao usuario acessar os dados do veículo.
 

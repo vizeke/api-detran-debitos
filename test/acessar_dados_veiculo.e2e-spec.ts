@@ -26,8 +26,10 @@ defineFeature( feature, test => {
 
   /**
    * TODO
-   * Tratar a partir de excessÕes
+   * Tratar a partir de excessões
+   * Criar outro teste para acesso aos dados pelo banco de dados
    */
+
   test( 'Exibindo os dados do veículo', ( {
     given,
     when,
@@ -41,14 +43,14 @@ defineFeature( feature, test => {
     });
     when('o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${plate}/${cpf}` );
+        .get( `/vehicles/dataWS/${plate}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then(
       'o sistema retorna os dados do veiculo',
       async () => {
         dataVehicle = resposta.body;
-        expect( Object.keys( dataVehicle.ObterDadosVeiculoResult ) ).toContain( 'VeiculoInfo' );
+        expect( Object.keys( dataVehicle ) ).toContain( 'VeiculoInfo' );
       },
     );
   } );
@@ -62,12 +64,12 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${plate}/${cpf}` );
-      expect( resposta.status ).toBe( 200 );
+        .get( `/vehicles/dataWS/${plate}/${cpf}` );
+      expect( resposta.status ).toBe( 403 );
     } );
     then( 'o sistema retorna uma mensagem informando que o veículo não existe', async () => {
       dataVehicle = resposta.body;
-      expect( dataVehicle.ObterDadosVeiculoResult.MensagemErro )
+      expect( dataVehicle.MensagemErro )
         .toEqual( 'Veículo não encontrado.' );
     } );
   } );
@@ -81,12 +83,12 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${plate}/${cpf}` );
-      expect( resposta.status ).toBe( 200 );
+        .get( `/vehicles/dataWS/${plate}/${cpf}` );
+      expect( resposta.status ).toBe( 403 );
     } );
     then( 'o sistema retorna uma mensagem informando que a consulta não é permitida para esse tipo de resgitro ativo', () => {
       dataVehicle = resposta.body;
-      expect( dataVehicle.ObterDadosVeiculoResult.MensagemErro )
+      expect( dataVehicle.MensagemErro )
         .toEqual( 'Consulta não permitida para veículo com registro de furto/roubo ativo' );
     } );
   } );

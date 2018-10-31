@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { VehiclesService } from '../services/vehicles.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
-import { MensagemErroWS } from 'detran/models/mensagemErroWS';
+import { MensagemErroWS } from '../models/mensagemErroWS';
 
 @Controller( 'vehicles' )
 @ApiUseTags('api-detran')
@@ -67,11 +67,11 @@ export class VehiclesController {
          * TO DO
          */
           this.respostaErro = new MensagemErroWS(this.resposta);
-          res.status(this.respostaErro.status).send(this.resposta.MensagemErro);
+          res.status(this.respostaErro.status).send(this.resposta);
           break;
       }
     } catch ( error ) {
-      res.status( HttpStatus.NOT_FOUND )
+      res.status( HttpStatus.BAD_REQUEST )
       .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', error );
     }
   }
@@ -98,7 +98,7 @@ export class VehiclesController {
       this.resposta = await this.vehiclesService.getDebits( params.plate, params.owner_document );
       res.status(HttpStatus.OK).send(this.resposta);
     } catch (error) {
-      res.status(HttpStatus.NOT_FOUND).send(this.resposta.MensagemErro);
+      res.status(HttpStatus.BAD_REQUEST).send('Erro ao requisitar os débitos');
     }
 
   }
@@ -125,12 +125,12 @@ export class VehiclesController {
       this.resposta = await this.vehiclesService.getDebitsPreview( params.plate, params.owner_document );
       res.status(HttpStatus.OK).send(this.resposta);
     } catch (error) {
-      res.status(HttpStatus.NOT_FOUND)
+      res.status(HttpStatus.BAD_REQUEST)
       .send('Erro ao exibir preview dos debitos.');
     }
   }
 
-  @Get( 'debits-tipo/:plate/:owner_document/:type_debits' )
+  @Get( 'debits-type/:plate/:owner_document/:type_debits' )
   @ApiOperation( {
     description: 'Retorna uma lista de um tipo de débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',

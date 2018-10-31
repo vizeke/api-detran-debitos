@@ -36,13 +36,17 @@ defineFeature( feature, test => {
     given( 'informa o CPF ou CNPJ do proprietario', () => {
       cpf = '9876543210';
     } );
-    when( 'o usuario solicitar uma previa da lista de debitos', () => {
-      pending();
+    
+    when( 'o usuario solicitar uma previa da lista de debitos', async () => {
+      resposta = await request( app.getHttpServer() )
+        .get( `/vehicles/debits-preview/${plate}/${cpf}` );
+      expect( resposta.status ).toBe( 200 );
     } );
     then(
       'o sistema retorna uma lista com a previa de todos os tipos de debitos',
-      () => {
-        pending();
+      async () => {
+      dataVehicle = resposta.body;
+      expect( Object.keys( dataVehicle ) ).toContain( 'TipoDebito' );
       },
     );
   } );
@@ -56,16 +60,16 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar uma lista com todos debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${plate}/${cpf}/debitos` );
+        .get( `/vehicles/debits/${plate}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com todos os debitos', async () => {
       dataVehicle = resposta.body;
-      expect( Object.keys( dataVehicle.ObterDebitosResult.Debito ) ).toContain( 'Debito' );
+      expect( Object.keys( dataVehicle.Debito ) ).toContain( 'Debito' );
     } );
   } );
 
-  test( 'Listando todos os debitos por tipo de debito', ( {
+  test( 'Listando todos os debitos de um tipo de debito', ( {
     given,
     when,
     then,
@@ -81,11 +85,12 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar uma lista de debitos do tipo selecionado', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${plate}/${cpf}/debitos` );
+        .get( `/vehicles/debits-type/${plate}/${cpf}/${tipoDebito}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com o tipo de debito selecionado', () => {
-      pending();
+      dataVehicle = resposta.body;
+      expect( Object.keys( dataVehicle.Debito ) ).toContain( 'Debito' );
     } );
   } );
 
@@ -98,12 +103,12 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar uma lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${plate}/${cpf}/debitos` );
+        .get( `/vehicles/debits/${plate}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com nenhum debito', async () => {
       dataVehicle = resposta.body;
-      expect( dataVehicle.ObterDebitosResult.Debito ).toBeNull();
+      expect( dataVehicle.Debito ).toBeNull();
     } );
   } );
 } );

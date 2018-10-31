@@ -15,7 +15,7 @@ E informa o CPF ou CNPJ do proprietario
 Quando o usuario solicitar uma lista com todos debitos
 Então o sistema retorna uma lista com todos os debitos
 
-Cenario: Listando todos os debitos por tipo de debito
+Cenario: Listando todos os debitos de um tipo de debito
 Dado o usuario informa a placa do veiculo
 E informa o CPF ou CNPJ do proprietario
 E o tipo de debito

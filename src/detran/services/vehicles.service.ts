@@ -14,7 +14,6 @@ export class VehiclesService {
   }
 
   async getDataVehiclesDB( plate, owner_document){
-
     return 'Em desenvolvimento';
   }
 

@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class VehiclesService {
-  async searchVehicle( plate, owner_document ) {
+  async getDataVehiclesWS( plate, owner_document ): Promise<any> {
 
     const respostaVeiculoEncontrado = {
         VeiculoInfo: {
@@ -37,7 +37,7 @@ export class VehiclesService {
     }
   }
 
-  async getTickets( plate, owner_document ): Promise<any> {
+  async getDebits( plate, owner_document ): Promise<any> {
 
     /*
       Placa VAL1705
@@ -135,5 +135,58 @@ export class VehiclesService {
     }else{
       return respostaNenhumDebito;
     }
+  }
+
+  async getDebitsPreview( plate, owner_document ): Promise<any>{
+
+    const respostaPossuiDebitos = {
+      TipoDebito: {
+        TemLicenciamentoAtual: 'S',
+        TemLicenciamentoAnterio: 'N',
+        TemDPVAT: 'S',
+        TemIPVA: 'S',
+        TemMulta: 'N',
+        TemIPVAAnterior: 'S',
+        TemDPVATAnterior: 'N',
+      },
+    };
+    
+    return respostaPossuiDebitos;
+  }
+
+  async getTypeDebits( plate, owner_document, type_debits ): Promise<any> {
+    
+    const respostaTypeDebits = {
+      Debito: {
+        Debito: [
+          {
+            DescricaoServico: 'IPVA 4ª Cota 2018',
+            ValorAtualizadoFranquia: '112.0500',
+            DataVencimento: '2018-08-20T03:00:00.000Z',
+            DpvatCotas: '',
+            IdDebito: 84677072,
+            Placa: 'VAL1705',
+            IpvaExercicio: 0,
+            IpvaAnterior: -1,
+            LicenciamentoExercicio: 1,
+            LicenciamentoAnterior: -1,
+            TaxaServico: 1,
+            Multas: -1,
+            IpvaParcelamento: -1,
+            TaxaEspecial: -1,
+            TaxaPatio: -1,
+            DpvatExercicio: -1,
+            DpvatAnterior: -1,
+            CodigoServico: 129,
+            Classe: 3,
+            Exercicio: 2018,  
+            Parcela: 4,
+            IpvaCotas: '20184',
+          }
+        ],
+      },
+    }
+
+    return respostaTypeDebits;
   }
 }
