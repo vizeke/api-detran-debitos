@@ -154,7 +154,7 @@ export class VeiculosService {
     return respostaPossuiDebitos;
   }
 
-  async getTypeDebits( placa, doc_proprietario, type_debits ): Promise<any> {
+  async getTypeDebits( placa, doc_proprietario, tipo_debito ): Promise<any> {
     
     const respostaTypeDebits = {
       Debito: {

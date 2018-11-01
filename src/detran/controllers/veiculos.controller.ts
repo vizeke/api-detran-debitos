@@ -18,8 +18,8 @@ export class VeiculosController {
     description: 'retorna os dados do veiculo através do WebService InternetBanking',
     title: 'Dados do veiculo WS',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
-  @ApiResponse( { status: 403, description: 'MensagemErro' } )
+  @ApiResponse( { status: 200, description: 'Retorna informações do veiculo ' } )
+  @ApiResponse( { status: 403, description: 'Veiculo não encontrado ou não permitido vizualisar as informações' } )
   @ApiImplicitParam( {
     name: 'placa',
     description: 'Placa do veiculo',
@@ -41,7 +41,6 @@ export class VeiculosController {
         /**
          * TO DO
          */
-
           this.respostaErro = new MensagemErroWS(this.resposta);
           res.status(this.respostaErro.status).send(this.resposta.MensagemErro);
           break;
@@ -106,7 +105,7 @@ export class VeiculosController {
     }
   }
 
-  @Get( 'debitos-tipo/:placa/:doc_proprietario/:type_debits' )
+  @Get( 'debitos-tipo/:placa/:doc_proprietario/:tipo_debito' )
   @ApiOperation( {
     description: 'Retorna uma lista de um tipo de débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',
@@ -124,17 +123,17 @@ export class VeiculosController {
     required: true,
   } )
   @ApiImplicitParam( {
-    name: 'type_debits',
+    name: 'tipo_debito',
     description: 'Tipo de debitos',
     required: true,
   } )
   async getTypeDebits( @Res() res, @Param() params ) {
     try {
-      this.resposta = await this.veiculosService.getTypeDebits( params.placa, params.doc_proprietario, params.type_debits );
+      this.resposta = await this.veiculosService.getTypeDebits( params.placa, params.doc_proprietario, params.tipo_debito );
       res.status(HttpStatus.OK).send(this.resposta);
     } catch (error) {
       res.status(HttpStatus.NOT_FOUND)
-      .send(`Erro ao exibir lista de debitos do tipo ${params.type_debits}.`);
+      .send(`Erro ao exibir lista de debitos do tipo ${params.tipo_debito}.`);
     }
   }
 

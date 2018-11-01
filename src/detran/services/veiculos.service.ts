@@ -79,16 +79,20 @@ export class VeiculosService {
     return this.res.ObterTiposDebitosResult;
   }
 
-  async getTypeDebits( placa, doc_proprietario, type_debits ){
+  async getTypeDebits( placa, doc_proprietario, tipo_debito ){
 
     const vehicle = {
       veiculoConsulta: {
         Placa: placa,
         CPF: doc_proprietario,
       },
-      tipoSelecionado: type_debits,
+      tipoSelecionado: tipo_debito,
     };
 
+    /**
+     * TO DO uppercase em tipoSelecionado
+     */
+    
     this.res = await this.detranSoapClient._client
       .then(client => client.ObterDebitosPorTipoDebito(vehicle))
       .then(response => {
