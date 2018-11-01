@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { VehiclesController } from '../../detran/controllers/vehicles.controller';
-import { VehiclesService } from '../../detran/services/vehicles.service';
+import { VeiculosController } from '../controllers/veiculos.controller';
+import { VeiculosService } from '../services/veiculos.service';
 
 @Module( {
-  controllers: [ VehiclesController ],
-  providers: [ VehiclesService ],
+  controllers: [ VeiculosController ],
+  providers: [ VeiculosService ],
 } )
 export class DetranModule { }

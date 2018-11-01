@@ -4,8 +4,8 @@ import { Injectable } from '@nestjs/common';
 // const parser = require('xml2json');
 
 @Injectable()
-export class VehiclesService {
-  async getDataVehiclesWS( plate, owner_document ): Promise<any> {
+export class VeiculosService {
+  async getDataVeiculosWS( placa, doc_proprietario ): Promise<string> {
 
     const respostaVeiculoEncontrado = {
         VeiculoInfo: {
@@ -28,16 +28,16 @@ export class VehiclesService {
         MensagemErro: 'Veículo não encontrado.',
     };
 
-    if ( plate === 'VAL1705' && owner_document === '9876543210' ) {
+    if ( placa === 'VAL1705' && doc_proprietario === '9876543210' ) {
       return respostaVeiculoEncontrado;
-    } else if ( plate === 'ROU8470' && owner_document === '12345678910' ) {
+    } else if ( placa === 'ROU8470' && doc_proprietario === '12345678910' ) {
       return respostaVeiculoRoubado;
     } else {
       return respostaVeiculoNEncontrado;
     }
   }
 
-  async getDebits( plate, owner_document ): Promise<any> {
+  async getDebits( placa, doc_proprietario ): Promise<any> {
 
     /*
       Placa VAL1705
@@ -130,14 +130,14 @@ export class VehiclesService {
          Debito: null,
     };
 
-    if (plate === 'VAL1705' && owner_document === '9876543210'){
+    if (placa === 'VAL1705' && doc_proprietario === '9876543210'){
       return respostaListaDebitos;
     }else{
       return respostaNenhumDebito;
     }
   }
 
-  async getDebitsPreview( plate, owner_document ): Promise<any>{
+  async getDebitsPreview( placa, doc_proprietario ): Promise<any>{
 
     const respostaPossuiDebitos = {
       TipoDebito: {
@@ -154,7 +154,7 @@ export class VehiclesService {
     return respostaPossuiDebitos;
   }
 
-  async getTypeDebits( plate, owner_document, type_debits ): Promise<any> {
+  async getTypeDebits( placa, doc_proprietario, type_debits ): Promise<any> {
     
     const respostaTypeDebits = {
       Debito: {

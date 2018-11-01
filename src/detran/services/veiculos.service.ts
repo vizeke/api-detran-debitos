@@ -5,7 +5,7 @@ import { DetranSoapClient } from './detran-soap-client';
 // const parser = require('xml2json');
 
 @Injectable()
-export class VehiclesService {
+export class VeiculosService {
   detranSoapClient: DetranSoapClient;
   res: any;
 
@@ -13,19 +13,19 @@ export class VehiclesService {
     this.detranSoapClient = new DetranSoapClient();
   }
 
-  async getDataVehiclesDB( plate, owner_document){
+  async getDataVeiculosDB( placa, doc_proprietario){
     return 'Em desenvolvimento';
   }
 
-  async getDataVehiclesWS( plate, owner_document){
+  async getDataVeiculosWS( placa, doc_proprietario){
     /**
      * TO DO
      * achar uma forma melhor de encapsular isso
      */
     const vehicle = {
       veiculoConsulta: {
-        Placa: plate,
-        CPF: owner_document,
+        Placa: placa,
+        CPF: doc_proprietario,
       },
     };
 
@@ -41,12 +41,12 @@ export class VehiclesService {
     return this.res.ObterDadosVeiculoResult;
   }
 
-  async getDebits(plate, owner_document): Promise<JSON> {
+  async getDebits(placa, doc_proprietario): Promise<JSON> {
 
     const vehicle = {
       veiculoConsulta: {
-        Placa: plate,
-        CPF: owner_document,
+        Placa: placa,
+        CPF: doc_proprietario,
       },
     };
 
@@ -60,12 +60,12 @@ export class VehiclesService {
     return this.res.ObterDebitosResult;
   }
 
-  async getDebitsPreview(plate, owner_document): Promise<JSON> {
+  async getDebitsPreview(placa, doc_proprietario): Promise<JSON> {
 
     const vehicle = {
       veiculoConsulta: {
-        Placa: plate,
-        CPF: owner_document,
+        Placa: placa,
+        CPF: doc_proprietario,
       },
     };
 
@@ -79,12 +79,12 @@ export class VehiclesService {
     return this.res.ObterTiposDebitosResult;
   }
 
-  async getTypeDebits( plate, owner_document, type_debits ){
+  async getTypeDebits( placa, doc_proprietario, type_debits ){
 
     const vehicle = {
       veiculoConsulta: {
-        Placa: plate,
-        CPF: owner_document,
+        Placa: placa,
+        CPF: doc_proprietario,
       },
       tipoSelecionado: type_debits,
     };

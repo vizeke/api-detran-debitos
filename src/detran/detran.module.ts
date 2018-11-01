@@ -1,11 +1,11 @@
 import { Module, HttpModule } from '@nestjs/common';
-import { VehiclesController } from './controllers/vehicles.controller';
-import { VehiclesService } from './services/vehicles.service';
+import { VeiculosController } from './controllers/veiculos.controller';
+import { VeiculosService } from './services/veiculos.service';
 import { DetranSoapClient } from './services/detran-soap-client';
 
 @Module({
   imports: [HttpModule],
-  controllers: [VehiclesController],
-  providers: [VehiclesService, DetranSoapClient],
+  controllers: [VeiculosController],
+  providers: [VeiculosService, DetranSoapClient],
 })
 export class DetranModule {}

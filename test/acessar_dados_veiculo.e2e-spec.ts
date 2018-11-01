@@ -5,10 +5,10 @@ import { INestApplication } from '@nestjs/common';
 import { DetranModule } from '../src/detran/detran.module';
 const feature = loadFeature( './test/features/acessar_dados_veiculo.feature' );
 jest.mock( '../src/detran/detran.module' );
-jest.mock( '../src/detran/services/vehicles.service' );
+jest.mock( '../src/detran/services/veiculos.service' );
 
 let resposta: any;
-let plate: string;
+let placa: string;
 let cpf: string;
 let dataVehicle: any;
 
@@ -36,14 +36,14 @@ defineFeature( feature, test => {
     then,
   }) => {
     given('O usuario informa a placa do veiculo', async () => {
-      plate = 'ROU8470';
+      placa = 'VAL1705';
     });
     given('informa o CPF', async () => {
-      cpf = '12345678910';
+      cpf = '9876543210';
     });
     when('o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/vehicles/dataWS/${plate}/${cpf}` );
+        .get( `/veiculos/${placa}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then(
@@ -57,14 +57,14 @@ defineFeature( feature, test => {
 
   test( 'Exibindo os dados de veículo inexistente', ( { given, when, then } ) => {
     given( 'O usuario informa a placa do veiculo', async () => {
-      plate = 'XXX0000';
+      placa = 'XXX0000';
     } );
     given( 'informa o CPF', async () => {
       cpf = '00000000000';
     } );
     when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/vehicles/dataWS/${plate}/${cpf}` );
+        .get( `/veiculos/${placa}/${cpf}` );
       expect( resposta.status ).toBe( 403 );
     } );
     then( 'o sistema retorna uma mensagem informando que o veículo não existe', async () => {
@@ -76,14 +76,14 @@ defineFeature( feature, test => {
 
   test( 'Exibindo os dados de veículo com registro de furto/roubo ativo', ( { given, when, then } ) => {
     given( 'O usuario informa a placa do veiculo', () => {
-      plate = 'ROU8470';
+      placa = 'ROU8470';
     } );
     given( 'informa o CPF', () => {
       cpf = '12345678910';
     } );
     when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/vehicles/dataWS/${plate}/${cpf}` );
+        .get( `/veiculos/${placa}/${cpf}` );
       expect( resposta.status ).toBe( 403 );
     } );
     then( 'o sistema retorna uma mensagem informando que a consulta não é permitida para esse tipo de resgitro ativo', () => {

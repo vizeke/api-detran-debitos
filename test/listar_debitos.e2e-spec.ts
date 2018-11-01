@@ -5,10 +5,10 @@ import { INestApplication } from '@nestjs/common';
 import { DetranModule } from '../src/detran/detran.module';
 const feature = loadFeature( './test/features/listar_debitos.feature' );
 jest.mock( '../src/detran/detran.module' );
-jest.mock( '../src/detran/services/vehicles.service' );
+jest.mock( '../src/detran/services/veiculos.service' );
 
 let resposta: any;
-let plate: string;
+let placa: string;
 let cpf: string;
 let dataVehicle: any;
 let tipoDebito: string;
@@ -31,7 +31,7 @@ defineFeature( feature, test => {
     then,
   } ) => {
     given( 'o usuario informa a placa do veiculo', () => {
-      plate = 'VAL1705';
+      placa = 'VAL1705';
     } );
     given( 'informa o CPF ou CNPJ do proprietario', () => {
       cpf = '9876543210';
@@ -39,7 +39,7 @@ defineFeature( feature, test => {
     
     when( 'o usuario solicitar uma previa da lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/vehicles/debits-preview/${plate}/${cpf}` );
+        .get( `/veiculos/debitos-preview/${placa}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then(
@@ -53,14 +53,14 @@ defineFeature( feature, test => {
 
   test( 'Listando todos os debitos do usuario', ( { given, when, then } ) => {
     given( 'o usuario informa a placa do veiculo', async () => {
-      plate = 'VAL1705';
+      placa = 'VAL1705';
     } );
     given( 'informa o CPF ou CNPJ do proprietario', async () => {
       cpf = '9876543210';
     } );
     when( 'o usuario solicitar uma lista com todos debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/vehicles/debits/${plate}/${cpf}` );
+        .get( `/veiculos/debitos/${placa}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com todos os debitos', async () => {
@@ -75,7 +75,7 @@ defineFeature( feature, test => {
     then,
   } ) => {
     given( 'o usuario informa a placa do veiculo', async () => {
-      plate = 'VAL1705';
+      placa = 'VAL1705';
     } );
     given( 'informa o CPF ou CNPJ do proprietario', async () => {
       cpf = '9876543210';
@@ -85,7 +85,7 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar uma lista de debitos do tipo selecionado', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/vehicles/debits-type/${plate}/${cpf}/${tipoDebito}` );
+        .get( `/veiculos/debitos-tipo/${placa}/${cpf}/${tipoDebito}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com o tipo de debito selecionado', () => {
@@ -96,14 +96,14 @@ defineFeature( feature, test => {
 
   test( 'O usuario não possui nenhum débito', ( { given, when, then } ) => {
     given( 'o usuario informa a placa do veiculo', async () => {
-      plate = 'XXX0000';
+      placa = 'XXX0000';
     } );
     given( 'informa o CPF ou CNPJ do proprietario', async () => {
       cpf = '2345678910';
     } );
     when( 'o usuario solicitar uma lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/vehicles/debits/${plate}/${cpf}` );
+        .get( `/veiculos/debitos/${placa}/${cpf}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com nenhum debito', async () => {
