@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { VeiculoInfo } from '../../models/veiculoInfo.dto';
+import { SegurancaDetran } from '../../models/segurançaDetran.dto';
 
 // const builder = require('xmlbuilder');
 // const parser = require('xml2json');
 
 @Injectable()
 export class VeiculosService {
-  async getDataVeiculosWS( placa, doc_proprietario ): Promise<string> {
+  async getDataVeiculosWS( placa, doc_proprietario ): Promise<any> {
 
     const respostaVeiculoEncontrado = {
         VeiculoInfo: {
@@ -20,6 +22,12 @@ export class VeiculosService {
         },
     };
 
+    const teste = new VeiculoInfo(respostaVeiculoEncontrado.VeiculoInfo);
+    // const sd = new SegurancaDetran();
+
+    // console.log ('TESTE: ', teste);
+    // console.log('SEGURANCA: ', sd);
+    // console.log('USER: ', process.env.DETRAN_USER, '\n SENHA: ', process.env.DETRAN_PASS);
     const respostaVeiculoRoubado = {
         MensagemErro: 'Consulta não permitida para veículo com registro de furto/roubo ativo',
     };
@@ -150,12 +158,12 @@ export class VeiculosService {
         TemDPVATAnterior: 'N',
       },
     };
-    
+
     return respostaPossuiDebitos;
   }
 
   async getTypeDebits( placa, doc_proprietario, tipo_debito ): Promise<any> {
-    
+
     const respostaTypeDebits = {
       Debito: {
         Debito: [
@@ -179,13 +187,13 @@ export class VeiculosService {
             DpvatAnterior: -1,
             CodigoServico: 129,
             Classe: 3,
-            Exercicio: 2018,  
+            Exercicio: 2018,
             Parcela: 4,
             IpvaCotas: '20184',
-          }
+          },
         ],
       },
-    }
+    };
 
     return respostaTypeDebits;
   }

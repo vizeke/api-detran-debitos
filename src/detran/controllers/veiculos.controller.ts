@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { VeiculosService } from '../services/veiculos.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
-import { MensagemErroWS } from '../models/mensagemErroWS';
+import { MensagemErro } from '../models/mensagemErro';
 /**
  * TO DO colocar em pt-br as rotas
  */
@@ -9,7 +9,7 @@ import { MensagemErroWS } from '../models/mensagemErroWS';
 @ApiUseTags('api-detran')
 export class VeiculosController {
   resposta: any;
-  respostaErro: MensagemErroWS;
+  respostaErro: MensagemErro;
 
   constructor( private readonly veiculosService: VeiculosService ) { }
 
@@ -33,6 +33,7 @@ export class VeiculosController {
   async getDataVeiculosWS( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getDataVeiculosWS( params.placa, params.doc_proprietario );
+
       switch (Object.keys(this.resposta)[0]) {
         case ('VeiculoInfo'):
           res.status(HttpStatus.OK).send( this.resposta );
@@ -41,7 +42,7 @@ export class VeiculosController {
         /**
          * TO DO
          */
-          this.respostaErro = new MensagemErroWS(this.resposta);
+          this.respostaErro = new MensagemErro(this.resposta);
           res.status(this.respostaErro.status).send(this.resposta.MensagemErro);
           break;
       }

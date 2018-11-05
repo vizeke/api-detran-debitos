@@ -1,9 +1,9 @@
-import { HttpStatus } from "@nestjs/common";
+import { HttpStatus } from '@nestjs/common';
 
 const MSG_FURTO = 'Consulta não permitida para veículo com registro de furto/roubo ativo';
 const MSG_RENAVAN = 'Renavam';
 
-export class MensagemErroWS {
+export class MensagemErro {
     public res: any;
     public status: number;
     public erro: errorEnum;
