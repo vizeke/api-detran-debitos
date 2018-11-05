@@ -1,12 +1,12 @@
 
 export class Veiculo{
-    placa: string;
-    cpf: number;
-    renavam: number;
+    Placa: string;
+    CPF: number;
+    Renavam: number;
 
     constructor(veic: any){
-        this.placa = veic.Placa;
-        this.cpf = veic.CPF;
-        this.renavam = this.renavam;
+        this.Placa = veic.Placa;
+        this.CPF = veic.CPF;
+        this.Renavam = veic.Renavam;
     }
 }

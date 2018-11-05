@@ -1,17 +1,24 @@
 import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { VeiculosService } from '../services/veiculos.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
-import { MensagemErro } from '../models/mensagemErro';
+import { Retorno } from '../models/retorno';
 /**
  * TO DO colocar em pt-br as rotas
  */
 @Controller( 'veiculos' )
 @ApiUseTags('api-detran')
 export class VeiculosController {
-  resposta: any;
-  respostaErro: MensagemErro;
+  resposta: Retorno;
+  respostaErro: any;
 
   constructor( private readonly veiculosService: VeiculosService ) { }
+
+  /*
+    Para teste
+  @Get( '' )
+  async testControler( @Res() res, @Param() params ) {
+  }
+  */
 
   @Get( ':placa/:doc_proprietario' )
   @ApiOperation( {
@@ -33,19 +40,7 @@ export class VeiculosController {
   async getDataVeiculosWS( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getDataVeiculosWS( params.placa, params.doc_proprietario );
-
-      switch (Object.keys(this.resposta)[0]) {
-        case ('VeiculoInfo'):
-          res.status(HttpStatus.OK).send( this.resposta );
-          break;
-        case ('MensagemErro'):
-        /**
-         * TO DO
-         */
-          this.respostaErro = new MensagemErro(this.resposta);
-          res.status(this.respostaErro.status).send(this.resposta.MensagemErro);
-          break;
-      }
+      res.status( this.resposta.status ).send( this.resposta.res );
     } catch ( err ) {
       res.status( HttpStatus.BAD_REQUEST )
       .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', err );
@@ -58,7 +53,7 @@ export class VeiculosController {
     title: 'Débitos do veiculo',
   } )
   @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
-  @ApiResponse( { status: 403, description: 'MensagemErro' } )
+  @ApiResponse( { status: 403, description: 'retorno' } )
   @ApiImplicitParam( {
     name: 'placa',
     description: 'Placa do veiculo',
@@ -72,7 +67,7 @@ export class VeiculosController {
   async getDebits( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getDebits( params.placa, params.doc_proprietario );
-      res.status(HttpStatus.OK).send(this.resposta);
+      res.status(this.resposta.status).send(this.resposta.res);
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).send('Erro ao requisitar os débitos');
     }
@@ -85,7 +80,7 @@ export class VeiculosController {
     title: 'Prévia dos débitos do veiculo',
   } )
   @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
-  @ApiResponse( { status: 403, description: 'MensagemErro' } )
+  @ApiResponse( { status: 403, description: 'retorno' } )
   @ApiImplicitParam( {
     name: 'placa',
     description: 'Placa do veiculo',
@@ -99,7 +94,7 @@ export class VeiculosController {
   async getDebitsPreview( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getDebitsPreview( params.placa, params.doc_proprietario );
-      res.status(HttpStatus.OK).send(this.resposta);
+      res.status(this.resposta.status).send(this.resposta.res);
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST)
       .send('Erro ao exibir preview dos debitos.');
@@ -112,7 +107,7 @@ export class VeiculosController {
     title: 'Prévia dos débitos do veiculo',
   } )
   @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
-  @ApiResponse( { status: 403, description: 'MensagemErro' } )
+  @ApiResponse( { status: 403, description: 'retorno' } )
   @ApiImplicitParam( {
     name: 'placa',
     description: 'Placa do veiculo',

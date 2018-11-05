@@ -20,15 +20,15 @@ describe( 'VeiculosService', () => {
     placa = 'VAL1705';
     doc_proprietario = '9876543210';
     respostaDoTeste = await service.getDataVeiculosWS( placa, doc_proprietario );
-    expect( Object.keys(respostaDoTeste)[0])
+    expect( Object.keys(respostaDoTeste.res)[0])
       .toBe( 'VeiculoInfo' );
   } );
 
   it( 'getDataVeiculosWS() com dados errados deve retornar mensagem de erro', async () => {
-    placa = 'arrays começam em 1';
-    doc_proprietario = 'usem goto! é legal sim abiguinhos';
+    placa = 'a';
+    doc_proprietario = '12345678910';
     respostaDoTeste = await service.getDataVeiculosWS( placa, doc_proprietario );
-    expect( respostaDoTeste.MensagemErro )
+    expect( respostaDoTeste.res.MensagemErro )
       .toBe( 'Veículo não encontrado.' );
   } );
 
@@ -36,7 +36,7 @@ describe( 'VeiculosService', () => {
     placa = 'ROU8470';
     doc_proprietario = '12345678910';
     respostaDoTeste = await service.getDataVeiculosWS( placa, doc_proprietario );
-    expect( respostaDoTeste.MensagemErro )
+    expect( respostaDoTeste.res.MensagemErro )
       .toBe( 'Consulta não permitida para veículo com registro de furto/roubo ativo' );
   } );
 
@@ -46,7 +46,7 @@ describe( 'VeiculosService', () => {
     placa = 'VAL1705';
     doc_proprietario = '9876543210';
     respostaDoTeste = await service.getDebits( placa, doc_proprietario );
-    expect( Object.keys(respostaDoTeste.Debito)[0] )
+    expect( Object.keys(respostaDoTeste.res.Debito)[0] )
       .toBe( 'Debito' );
   } );
 
@@ -54,7 +54,7 @@ describe( 'VeiculosService', () => {
     placa = 'XXX0000';
     doc_proprietario = '12345678910';
     respostaDoTeste = await service.getDebits( placa, doc_proprietario );
-    expect( respostaDoTeste.Debito )
+    expect( respostaDoTeste.res.Debito )
       .toBe( null );
   } );
 
@@ -64,7 +64,7 @@ describe( 'VeiculosService', () => {
     placa = 'VAL1705';
     doc_proprietario = '9876543210';
     respostaDoTeste = await service.getDebitsPreview( placa, doc_proprietario );
-    expect( Object.keys(respostaDoTeste)[0] )
+    expect( Object.keys(respostaDoTeste.res)[0] )
       .toBe( 'TipoDebito' );
   } );
 
@@ -75,7 +75,7 @@ describe( 'VeiculosService', () => {
     doc_proprietario = '9876543210';
     tipo_debito = 'IPVA'
     respostaDoTeste = await service.getTypeDebits( placa, doc_proprietario, tipo_debito );
-    expect( Object.keys(respostaDoTeste)[0] )
+    expect( Object.keys(respostaDoTeste.res)[0] )
       .toBe( 'Debito' );
   } );
 

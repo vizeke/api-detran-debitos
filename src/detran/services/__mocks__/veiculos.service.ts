@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { VeiculoInfo } from '../../models/veiculoInfo.dto';
-import { SegurancaDetran } from '../../models/segurançaDetran.dto';
+// import { VeiculoInfo } from '../../models/veiculoInfo.dto';
+import { Retorno } from '../../models/retorno';
 
 // const builder = require('xmlbuilder');
 // const parser = require('xml2json');
 
 @Injectable()
 export class VeiculosService {
+  resposta: Retorno;
+
   async getDataVeiculosWS( placa, doc_proprietario ): Promise<any> {
 
-    const respostaVeiculoEncontrado = {
+    if ( placa === 'VAL1705' && doc_proprietario === '9876543210' ) {
+      this.resposta = new Retorno({
         VeiculoInfo: {
           Veiculo: {
             Placa: 'VAL1705',
@@ -20,29 +23,19 @@ export class VeiculosService {
           MarcaModelo: 'VW/PARATI 1.6 TRACKFIELD',
           AnoFabricacao: 2006,
         },
-    };
+      });
 
-    const teste = new VeiculoInfo(respostaVeiculoEncontrado.VeiculoInfo);
-    // const sd = new SegurancaDetran();
-
-    // console.log ('TESTE: ', teste);
-    // console.log('SEGURANCA: ', sd);
-    // console.log('USER: ', process.env.DETRAN_USER, '\n SENHA: ', process.env.DETRAN_PASS);
-    const respostaVeiculoRoubado = {
-        MensagemErro: 'Consulta não permitida para veículo com registro de furto/roubo ativo',
-    };
-
-    const respostaVeiculoNEncontrado = {
-        MensagemErro: 'Veículo não encontrado.',
-    };
-
-    if ( placa === 'VAL1705' && doc_proprietario === '9876543210' ) {
-      return respostaVeiculoEncontrado;
     } else if ( placa === 'ROU8470' && doc_proprietario === '12345678910' ) {
-      return respostaVeiculoRoubado;
+      this.resposta = new Retorno({
+        MensagemErro: 'Consulta não permitida para veículo com registro de furto/roubo ativo',
+      });
     } else {
-      return respostaVeiculoNEncontrado;
+      this.resposta = new Retorno({
+        MensagemErro: 'Veículo não encontrado.',
+      });
     }
+
+    return this.resposta;
   }
 
   async getDebits( placa, doc_proprietario ): Promise<any> {
@@ -141,7 +134,7 @@ export class VeiculosService {
     if (placa === 'VAL1705' && doc_proprietario === '9876543210'){
       return respostaListaDebitos;
     }else{
-      return respostaNenhumDebito;
+      return this.resposta = new Retorno(respostaNenhumDebito);
     }
   }
 
@@ -159,7 +152,7 @@ export class VeiculosService {
       },
     };
 
-    return respostaPossuiDebitos;
+    return this.resposta = new Retorno(respostaPossuiDebitos);
   }
 
   async getTypeDebits( placa, doc_proprietario, tipo_debito ): Promise<any> {
@@ -195,6 +188,6 @@ export class VeiculosService {
       },
     };
 
-    return respostaTypeDebits;
+    return this.resposta = new Retorno(respostaTypeDebits);
   }
 }

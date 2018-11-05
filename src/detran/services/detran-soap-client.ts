@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as soap from 'soap-as-promised';
+import { SegurancaDetran } from 'detran/models/segurancaDetran.dto';
 
 // const detran = require('../config/detran');
 // const app = require('../config/app');
@@ -8,15 +9,14 @@ import * as soap from 'soap-as-promised';
 export class DetranSoapClient {
     private readonly serviceUrl = process.env.DETRAN_URL;
     _client: any;
+    private readonly segurancaDetran = new SegurancaDetran();
 
     constructor() {
+
         this._client = soap.createClient(this.serviceUrl).then(client => {
             client.addSoapHeader(
                 {
-                    SegurancaDetran: {
-                        Usuario: process.env.DETRAN_USER,
-                        Senha: process.env.DETRAN_PASS,
-                    },
+                    SegurancaDetran: new SegurancaDetran(),
                 },
                 undefined,
                 '__tns__',

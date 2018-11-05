@@ -36,7 +36,7 @@ defineFeature( feature, test => {
     given( 'informa o CPF ou CNPJ do proprietario', () => {
       cpf = '9876543210';
     } );
-    
+
     when( 'o usuario solicitar uma previa da lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
         .get( `/veiculos/debitos-preview/${placa}/${cpf}` );

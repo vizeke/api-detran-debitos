@@ -1,5 +1,9 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { DetranSoapClient } from './detran-soap-client';
+import { SegurancaDetran } from 'detran/models/segurancaDetran.dto';
+import { Veiculo } from 'detran/models/veiculo.dto';
+import { VeiculoInfo } from 'detran/models/veiculoInfo.dto';
+import { Retorno } from 'detran/models/retorno';
 
 // const builder = require('xmlbuilder');
 // const parser = require('xml2json');
@@ -8,29 +12,34 @@ import { DetranSoapClient } from './detran-soap-client';
 export class VeiculosService {
   detranSoapClient: DetranSoapClient;
   res: any;
+  resposta: any;
+  vehicle: any;
+  err: Error;
 
   constructor() {
     this.detranSoapClient = new DetranSoapClient();
   }
 
-  async getDataVeiculosDB( placa, doc_proprietario){
-    return 'Em desenvolvimento';
+  /**
+   * Para testes
+   */
+  async testService( placa, doc_proprietario){
+    const teste = new SegurancaDetran();
+    return teste;
+    // return 'Em desenvolvimento';
   }
 
-  async getDataVeiculosWS( placa, doc_proprietario){
-    /**
-     * TO DO
-     * achar uma forma melhor de encapsular isso
-     */
-    const vehicle = {
-      veiculoConsulta: {
+  async getDataVeiculosWS( placa, doc_proprietario): Promise<Retorno> {
+
+    this.vehicle = {
+      veiculoConsulta: new Veiculo({
         Placa: placa,
         CPF: doc_proprietario,
-      },
+      }),
     };
 
     this.res = await this.detranSoapClient._client
-      .then(client => client.ObterDadosVeiculo(vehicle))
+      .then(client => client.ObterDadosVeiculo(this.vehicle))
       .then(response => {
         return response;
       }).catch();
@@ -38,68 +47,63 @@ export class VeiculosService {
        * TO DO catch
        */
 
-    return this.res.ObterDadosVeiculoResult;
+    return new Retorno(this.res.ObterDadosVeiculoResult);
   }
 
-  async getDebits(placa, doc_proprietario): Promise<JSON> {
+  async getDebits(placa, doc_proprietario): Promise<Retorno> {
 
-    const vehicle = {
-      veiculoConsulta: {
+    this.vehicle = {
+      veiculoConsulta: new Veiculo({
         Placa: placa,
         CPF: doc_proprietario,
-      },
+      }),
     };
 
     this.res = await this.detranSoapClient._client
-      .then(client => client.ObterDebitos(vehicle))
+      .then(client => client.ObterDebitos(this.vehicle))
       .then(response => {
         return response;
       })
-      .catch(console.error);
+      .catch();
 
-    return this.res.ObterDebitosResult;
+    return new Retorno(this.res.ObterDebitosResult);
   }
 
-  async getDebitsPreview(placa, doc_proprietario): Promise<JSON> {
+  async getDebitsPreview(placa, doc_proprietario): Promise<Retorno> {
 
-    const vehicle = {
-      veiculoConsulta: {
+    this.vehicle = {
+      veiculoConsulta: new Veiculo({
         Placa: placa,
         CPF: doc_proprietario,
-      },
+      }),
     };
 
     this.res = await this.detranSoapClient._client
-      .then(client => client.ObterTiposDebitos(vehicle))
+      .then(client => client.ObterTiposDebitos(this.vehicle))
       .then(response => {
         return response;
       })
-      .catch(console.error);
+      .catch();
 
-    return this.res.ObterTiposDebitosResult;
+    return new Retorno(this.res.ObterTiposDebitosResult);
   }
 
   async getTypeDebits( placa, doc_proprietario, tipo_debito ){
 
-    const vehicle = {
-      veiculoConsulta: {
+    this.vehicle = {
+      veiculoConsulta: new Veiculo({
         Placa: placa,
         CPF: doc_proprietario,
-      },
-      tipoSelecionado: tipo_debito,
+      }),
+      tipoSelecionado: tipo_debito.toUpperCase(),
     };
 
-    /**
-     * TO DO uppercase em tipoSelecionado
-     */
-    
     this.res = await this.detranSoapClient._client
-      .then(client => client.ObterDebitosPorTipoDebito(vehicle))
+      .then(client => client.ObterDebitosPorTipoDebito(this.vehicle))
       .then(response => {
         return response;
-      })
-      .catch(console.error);
+      }).catch();
 
-    return this.res.ObterDebitosPorTipoDebitoResult;
+    return new Retorno(this.res.ObterDebitosPorTipoDebitoResult);
   }
 }

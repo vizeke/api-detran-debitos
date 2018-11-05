@@ -27,7 +27,7 @@ defineFeature( feature, test => {
   /**
    * TODO
    * Tratar a partir de excessões
-   * 
+   *
    */
 
   test( 'Exibindo os dados do veículo', ( {
@@ -68,8 +68,8 @@ defineFeature( feature, test => {
       expect( resposta.status ).toBe( 403 );
     } );
     then( 'o sistema retorna uma mensagem informando que o veículo não existe', async () => {
-      dataVehicle = resposta.text;
-      expect( dataVehicle )
+      dataVehicle = resposta.body;
+      expect( dataVehicle.MensagemErro )
         .toEqual( 'Veículo não encontrado.' );
     } );
   } );
@@ -87,8 +87,8 @@ defineFeature( feature, test => {
       expect( resposta.status ).toBe( 403 );
     } );
     then( 'o sistema retorna uma mensagem informando que a consulta não é permitida para esse tipo de resgitro ativo', () => {
-      dataVehicle = resposta.text;
-      expect( dataVehicle )
+      dataVehicle = resposta.body;
+      expect( dataVehicle.MensagemErro )
         .toEqual( 'Consulta não permitida para veículo com registro de furto/roubo ativo' );
     } );
   } );
