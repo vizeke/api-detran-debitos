@@ -39,7 +39,7 @@ defineFeature( feature, test => {
 
     when( 'o usuario solicitar uma previa da lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/debitos-preview/${placa}/${cpf}` );
+        .get( `/veiculos/${placa}/${cpf}/debitos-preview` );
       expect( resposta.status ).toBe( 200 );
     } );
     then(
@@ -60,7 +60,7 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar uma lista com todos debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/debitos/${placa}/${cpf}` );
+        .get( `/veiculos/${placa}/${cpf}/debitos` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com todos os debitos', async () => {
@@ -85,12 +85,13 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar uma lista de debitos do tipo selecionado', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/debitos-tipo/${placa}/${cpf}/${tipoDebito}` );
+        .get( `/veiculos/${placa}/${cpf}/${tipoDebito}/debitos-tipo` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com o tipo de debito selecionado', () => {
       dataVehicle = resposta.body;
-      expect( Object.keys( dataVehicle.Debito ) ).toContain( 'Debito' );
+      console.log(dataVehicle);
+      expect( Object.keys( dataVehicle.res.Debito ) ).toContain( 'Debito' );
     } );
   } );
 
@@ -103,7 +104,7 @@ defineFeature( feature, test => {
     } );
     when( 'o usuario solicitar uma lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/debitos/${placa}/${cpf}` );
+        .get( `/veiculos/${placa}/${cpf}/debitos` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com nenhum debito', async () => {

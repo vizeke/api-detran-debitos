@@ -1,8 +1,8 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { DetranSoapClient } from './detran-soap-client';
-import { SegurancaDetran } from 'detran/models/segurancaDetran.dto';
-import { Veiculo } from 'detran/models/veiculo.dto';
-import { VeiculoInfo } from 'detran/models/veiculoInfo.dto';
+import { SegurancaDetran } from 'detran/models/segurancaDetran.model';
+import { Veiculo } from 'detran/models/veiculo.model';
+// import { VeiculoInfo } from 'detran/models/veiculoInfo.model';
 import { Retorno } from 'detran/models/retorno';
 
 // const builder = require('xmlbuilder');
@@ -20,16 +20,7 @@ export class VeiculosService {
     this.detranSoapClient = new DetranSoapClient();
   }
 
-  /**
-   * Para testes
-   */
-  async testService( placa, doc_proprietario){
-    const teste = new SegurancaDetran();
-    return teste;
-    // return 'Em desenvolvimento';
-  }
-
-  async getDataVeiculosWS( placa, doc_proprietario): Promise<Retorno> {
+  async getDadosVeiculos( placa, doc_proprietario): Promise<Retorno> {
 
     this.vehicle = {
       veiculoConsulta: new Veiculo({

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as soap from 'soap-as-promised';
-import { SegurancaDetran } from 'detran/models/segurancaDetran.dto';
+import { SegurancaDetran } from 'detran/models/segurancaDetran.model';
 
 // const detran = require('../config/detran');
 // const app = require('../config/app');
@@ -9,7 +9,6 @@ import { SegurancaDetran } from 'detran/models/segurancaDetran.dto';
 export class DetranSoapClient {
     private readonly serviceUrl = process.env.DETRAN_URL;
     _client: any;
-    private readonly segurancaDetran = new SegurancaDetran();
 
     constructor() {
 

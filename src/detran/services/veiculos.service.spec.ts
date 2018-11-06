@@ -19,15 +19,15 @@ describe( 'VeiculosService', () => {
   it( 'SearchVehicle() com dados válidos deve retornar dados do veículo', async () => {
     placa = 'VAL1705';
     doc_proprietario = '9876543210';
-    respostaDoTeste = await service.getDataVeiculosWS( placa, doc_proprietario );
+    respostaDoTeste = await service.getDadosVeiculos( placa, doc_proprietario );
     expect( Object.keys(respostaDoTeste.res)[0])
       .toBe( 'VeiculoInfo' );
   } );
 
-  it( 'getDataVeiculosWS() com dados errados deve retornar mensagem de erro', async () => {
+  it( 'getDadosVeiculosWS() com dados errados deve retornar mensagem de erro', async () => {
     placa = 'a';
     doc_proprietario = '12345678910';
-    respostaDoTeste = await service.getDataVeiculosWS( placa, doc_proprietario );
+    respostaDoTeste = await service.getDadosVeiculos( placa, doc_proprietario );
     expect( respostaDoTeste.res.MensagemErro )
       .toBe( 'Veículo não encontrado.' );
   } );
@@ -35,7 +35,7 @@ describe( 'VeiculosService', () => {
   it( 'SearchVehicle() com dados de veículo roubado deve impedir a consulta', async () => {
     placa = 'ROU8470';
     doc_proprietario = '12345678910';
-    respostaDoTeste = await service.getDataVeiculosWS( placa, doc_proprietario );
+    respostaDoTeste = await service.getDadosVeiculos( placa, doc_proprietario );
     expect( respostaDoTeste.res.MensagemErro )
       .toBe( 'Consulta não permitida para veículo com registro de furto/roubo ativo' );
   } );

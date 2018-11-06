@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-// import { VeiculoInfo } from '../../models/veiculoInfo.dto';
+// import { VeiculoInfo } from '../../models/veiculoInfo.model';
 import { Retorno } from '../../models/retorno';
 
 // const builder = require('xmlbuilder');
@@ -9,7 +9,7 @@ import { Retorno } from '../../models/retorno';
 export class VeiculosService {
   resposta: Retorno;
 
-  async getDataVeiculosWS( placa, doc_proprietario ): Promise<any> {
+  async getDadosVeiculos( placa, doc_proprietario ): Promise<any> {
 
     if ( placa === 'VAL1705' && doc_proprietario === '9876543210' ) {
       this.resposta = new Retorno({

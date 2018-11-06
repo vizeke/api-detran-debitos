@@ -5,7 +5,7 @@ export class DebitosWS {
     private readonly password: string;
 
     constructor(){
-        this.serviceUrl = 'http://novo.detrannet.dchm.es.gov.br/wsInternetbanking/serviceInternetBanking.asmx?wsdl';
+        this.serviceUrl = process.env.DETRAN_URL;
         this.user = process.env.DETRAN_USER;
         this.password = process.env.DETRAN_PASS;
     }

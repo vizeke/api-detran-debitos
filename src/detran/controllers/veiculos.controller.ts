@@ -13,13 +13,6 @@ export class VeiculosController {
 
   constructor( private readonly veiculosService: VeiculosService ) { }
 
-  /*
-    Para teste
-  @Get( '' )
-  async testControler( @Res() res, @Param() params ) {
-  }
-  */
-
   @Get( ':placa/:doc_proprietario' )
   @ApiOperation( {
     description: 'retorna os dados do veiculo através do WebService InternetBanking',
@@ -37,9 +30,9 @@ export class VeiculosController {
     description: 'Documento do proprietario do veiculo',
     required: true,
   } )
-  async getDataVeiculosWS( @Res() res, @Param() params ) {
+  async getDadosVeiculos( @Res() res, @Param() params ) {
     try {
-      this.resposta = await this.veiculosService.getDataVeiculosWS( params.placa, params.doc_proprietario );
+      this.resposta = await this.veiculosService.getDadosVeiculos( params.placa, params.doc_proprietario );
       res.status( this.resposta.status ).send( this.resposta.res );
     } catch ( err ) {
       res.status( HttpStatus.BAD_REQUEST )
@@ -47,7 +40,7 @@ export class VeiculosController {
     }
   }
 
-  @Get( 'debitos/:placa/:doc_proprietario' )
+  @Get( ':placa/:doc_proprietario/debitos' )
   @ApiOperation( {
     description: 'retorna uma lista com os débitos do veiculo',
     title: 'Débitos do veiculo',
@@ -74,7 +67,7 @@ export class VeiculosController {
 
   }
 
-  @Get( 'debitos-preview/:placa/:doc_proprietario' )
+  @Get( ':placa/:doc_proprietario/debitos-preview' )
   @ApiOperation( {
     description: 'Retorna uma previa dos débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',
@@ -101,7 +94,7 @@ export class VeiculosController {
     }
   }
 
-  @Get( 'debitos-tipo/:placa/:doc_proprietario/:tipo_debito' )
+  @Get( ':placa/:doc_proprietario/:tipo_debito/debitos-tipo' )
   @ApiOperation( {
     description: 'Retorna uma lista de um tipo de débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',

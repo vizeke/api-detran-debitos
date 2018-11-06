@@ -1,4 +1,4 @@
-import { Veiculo } from './veiculo.dto';
+import { Veiculo } from './veiculo.model';
 
 export class VeiculoInfo {
     veiculo: Veiculo;
