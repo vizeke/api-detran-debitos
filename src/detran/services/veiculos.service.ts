@@ -97,4 +97,24 @@ export class VeiculosService {
 
     return new Retorno(this.res.ObterDebitosPorTipoDebitoResult);
   }
+
+  async gerarGRU( placa, doc_proprietario, lista_id_debitos ){
+
+    this.vehicle = {
+      listaDebitos: lista_id_debitos,
+      veiculoConsulta: new Veiculo({
+        Placa: placa,
+        CPF: doc_proprietario,
+      }),
+    };
+
+    this.res = await this.detranSoapClient._client
+      .then(client => client.GerarGuia(this.vehicle))
+      .then(response => {
+        return response;
+      }).catch();
+
+    // console.log('RES >> ', this.res);
+    return this.res; // new Retorno(this.res.GerarGuiaResponse);
+  }
 }

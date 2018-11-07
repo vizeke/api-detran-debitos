@@ -19,7 +19,7 @@ export class VeiculosController {
     title: 'Dados do veiculo WS',
   } )
   @ApiResponse( { status: 200, description: 'Retorna informações do veiculo ' } )
-  @ApiResponse( { status: 403, description: 'Veiculo não encontrado ou não permitido vizualisar as informações' } )
+  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
     description: 'Placa do veiculo',
@@ -46,7 +46,7 @@ export class VeiculosController {
     title: 'Débitos do veiculo',
   } )
   @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
-  @ApiResponse( { status: 403, description: 'retorno' } )
+  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
     description: 'Placa do veiculo',
@@ -73,7 +73,7 @@ export class VeiculosController {
     title: 'Prévia dos débitos do veiculo',
   } )
   @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
-  @ApiResponse( { status: 403, description: 'retorno' } )
+  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
     description: 'Placa do veiculo',
@@ -100,7 +100,7 @@ export class VeiculosController {
     title: 'Prévia dos débitos do veiculo',
   } )
   @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
-  @ApiResponse( { status: 403, description: 'retorno' } )
+  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
     description: 'Placa do veiculo',
@@ -119,11 +119,45 @@ export class VeiculosController {
   async getTypeDebits( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getTypeDebits( params.placa, params.doc_proprietario, params.tipo_debito );
-      res.status(HttpStatus.OK).send(this.resposta);
+      res.status(this.resposta.status).send(this.resposta.res);
     } catch (error) {
       res.status(HttpStatus.NOT_FOUND)
       .send(`Erro ao exibir lista de debitos do tipo ${params.tipo_debito}.`);
     }
   }
+
+  @Get( ':placa/:doc_proprietario/:lista_id_debitos/gerar-gru' )
+  @ApiOperation( {
+    description: 'Retornar uma a gru a partir de um conjunto de debitos ',
+    title: 'Gerar GRU',
+  } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
+  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
+  @ApiImplicitParam( {
+    name: 'placa',
+    description: 'Placa do veiculo',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'doc_proprietario',
+    description: 'Documento do proprietario do veiculo',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'lista_id_debitos',
+    description: 'Lista de IDs de debitos para gerar a GRU',
+    required: true,
+  } )
+  async gerarGRU( @Res() res, @Param() params ) {
+
+    try {
+      const r = await this.veiculosService.gerarGRU( params.placa, params.doc_proprietario, params.lista_id_debitos );
+      res.status(HttpStatus.OK).send(r);
+    } catch (error) {
+      res.status(HttpStatus.NOT_FOUND)
+      .send('Erro ao gerar a GRU.');
+    }
+  }
+
 
 }

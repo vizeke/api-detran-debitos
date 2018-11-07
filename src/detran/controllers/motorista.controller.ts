@@ -1,12 +1,12 @@
 import { Controller, Get, Res, HttpStatus } from '@nestjs/common';
-import { MotoristaService } from 'detran/services/motorista.service';
+import { MotoristaService } from '../services/motorista.service';
 
 @Controller('motorista')
 export class MotoristaController {
     resposta: any;
     constructor( private readonly motoristaService: MotoristaService ) { }
 
-    @Get('')
+    @Get('a')
     async getDadosGeraisCNH( @Res() res) {
 
         try {
@@ -17,6 +17,4 @@ export class MotoristaController {
           .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', err );
         }
     }
-
-
 }
