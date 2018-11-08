@@ -22,7 +22,7 @@ import { MotoristaController } from './controllers/motorista.controller';
  */
 
 @Module({
-  imports: [  HttpModule ],
+  imports: [ HttpModule ],
   controllers: [VeiculosController, MotoristaController],
   providers: [VeiculosService, DetranSoapClient, MotoristaService],
 })

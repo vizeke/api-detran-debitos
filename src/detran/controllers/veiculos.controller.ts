@@ -151,13 +151,11 @@ export class VeiculosController {
   async gerarGRU( @Res() res, @Param() params ) {
 
     try {
-      const r = await this.veiculosService.gerarGRU( params.placa, params.doc_proprietario, params.lista_id_debitos );
-      res.status(HttpStatus.OK).send(r);
+      this.resposta = await this.veiculosService.gerarGRU( params.placa, params.doc_proprietario, params.lista_id_debitos );
+      res.status( this.resposta.status ).send( this.resposta.res );
     } catch (error) {
-      res.status(HttpStatus.NOT_FOUND)
+      res.status(HttpStatus.BAD_REQUEST)
       .send('Erro ao gerar a GRU.');
     }
   }
-
-
 }

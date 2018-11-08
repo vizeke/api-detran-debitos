@@ -4,6 +4,7 @@ import { SegurancaDetran } from 'detran/models/segurancaDetran.model';
 import { Veiculo } from 'detran/models/veiculo.model';
 // import { VeiculoInfo } from 'detran/models/veiculoInfo.model';
 import { Retorno } from 'detran/models/retorno';
+import { ObjetoGerarGuiaResult } from 'detran/models/objetoGerarGuiaResult.model';
 
 // const builder = require('xmlbuilder');
 // const parser = require('xml2json');
@@ -108,13 +109,21 @@ export class VeiculosService {
       }),
     };
 
+    //this.validarListaDebitos(placa, doc_proprietario, lista_id_debitos);
+
+    // console.log(this.vehicle);
     this.res = await this.detranSoapClient._client
       .then(client => client.GerarGuia(this.vehicle))
       .then(response => {
         return response;
       }).catch();
 
-    // console.log('RES >> ', this.res);
-    return this.res; // new Retorno(this.res.GerarGuiaResponse);
+    // const o = new ObjetoGerarGuiaResult(this.res.GerarGuiaResult);
+    // o.contarItem();
+    return new Retorno(this.res.GerarGuiaResult);
+  }
+
+  async validarListaDebitos(placa: string, doc_proprietario: string, lista_id_debitos: string){
+
   }
 }
