@@ -6,7 +6,7 @@ stages:
 #  - stress
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
+  key: 'cache-detran'
   paths:
   - node_modules/
   
