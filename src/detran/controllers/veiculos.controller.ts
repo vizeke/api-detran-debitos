@@ -33,7 +33,7 @@ export class VeiculosController {
   async getDadosVeiculos( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getDadosVeiculos( params.placa, params.doc_proprietario );
-      res.status( this.resposta.status ).send( this.resposta.res );
+      res.status( this.resposta.status ).send( this.resposta.res);
     } catch ( err ) {
       res.status( HttpStatus.BAD_REQUEST )
       .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', err );
@@ -60,7 +60,7 @@ export class VeiculosController {
   async getDebits( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getDebits( params.placa, params.doc_proprietario );
-      res.status(this.resposta.status).send(this.resposta.res);
+      res.status( this.resposta.status ).send( this.resposta.res);
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).send('Erro ao requisitar os débitos');
     }
@@ -87,7 +87,7 @@ export class VeiculosController {
   async getDebitsPreview( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getDebitsPreview( params.placa, params.doc_proprietario );
-      res.status(this.resposta.status).send(this.resposta.res);
+      res.status( this.resposta.status ).send( this.resposta.res);
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST)
       .send('Erro ao exibir preview dos debitos.');
@@ -119,14 +119,14 @@ export class VeiculosController {
   async getTypeDebits( @Res() res, @Param() params ) {
     try {
       this.resposta = await this.veiculosService.getTypeDebits( params.placa, params.doc_proprietario, params.tipo_debito );
-      res.status(this.resposta.status).send(this.resposta.res);
+      res.status( this.resposta.status ).send( this.resposta.res );
     } catch (error) {
       res.status(HttpStatus.NOT_FOUND)
       .send(`Erro ao exibir lista de debitos do tipo ${params.tipo_debito}.`);
     }
   }
 
-  @Get( ':placa/:doc_proprietario/:lista_id_debitos/gerar-gru' )
+  @Get( ':placa/:doc_proprietario/:lista_id_debitos/gerar-gru/:tipo_debito' )
   @ApiOperation( {
     description: 'Retornar uma a gru a partir de um conjunto de debitos ',
     title: 'Gerar GRU',
@@ -151,7 +151,7 @@ export class VeiculosController {
   async gerarGRU( @Res() res, @Param() params ) {
 
     try {
-      this.resposta = await this.veiculosService.gerarGRU( params.placa, params.doc_proprietario, params.lista_id_debitos );
+      this.resposta = await this.veiculosService.gerarGRU( params.placa, params.doc_proprietario, params.lista_id_debitos, params.tipo_debito );
       res.status( this.resposta.status ).send( this.resposta.res );
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST)

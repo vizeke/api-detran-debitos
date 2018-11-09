@@ -91,7 +91,7 @@ defineFeature( feature, test => {
     then( 'o sistema retorna uma lista com o tipo de debito selecionado', () => {
       dataVehicle = resposta.body;
       console.log(dataVehicle);
-      expect( Object.keys( dataVehicle.res.Debito ) ).toContain( 'Debito' );
+      expect( Object.keys( dataVehicle.Debito ) ).toContain( 'Debito' );
     } );
   } );
 
