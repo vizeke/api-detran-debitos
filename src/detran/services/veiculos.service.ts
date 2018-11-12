@@ -113,7 +113,6 @@ export class VeiculosService {
   async gerarGRU( params: any ): Promise<Retorno>{
 
     this.vehicle = {
-      listaDebitos: params.lista_id_debitos,
       veiculoConsulta: new Veiculo({
         Placa: params.placa,
         CPF: params.doc_proprietario,
@@ -141,13 +140,18 @@ export class VeiculosService {
       }
     }
 
+    this.vehicle.listaDebitos = array_ids.toString();
+
+    console.log('VEHICLE >> ', this.vehicle);
+
     if (validacao){
-      this.vehicle.lista_id_debitos = array_ids.toString();
       try {
         this.res = await this.detranSoapClient._client
         .then(client => client.GerarGuia(this.vehicle))
         .then(response => {
           return response;
+        }).catch(err => {
+          return err;
         });
       } catch (error) {
         this.res = {
@@ -160,21 +164,10 @@ export class VeiculosService {
       };
     }
 
-    return new Retorno(this.res);
+    return new Retorno(this.res.GerarGuiaResult);
   }
 
   async validarListaDebitos(placa: string, doc_proprietario: string, lista_id_debitos: string, tipo_debito: string){
-
-    const debitos: any = await this.getTypeDebits(placa, doc_proprietario, tipo_debito);
-    const array_ids: any = lista_id_debitos.split(',');
-
-    for (let i = 0; i < array_ids.length; i++) {
-      array_ids[i] = parseInt(array_ids[i], 10);
-    }
-
-    for (const debit of debitos.res.Debito.Debito) {
-
-    }
 
     return true;
   }
