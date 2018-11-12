@@ -34,9 +34,9 @@ export class VeiculosController {
     try {
       this.resposta = await this.veiculosService.getDadosVeiculos( params.placa, params.doc_proprietario );
       res.status( this.resposta.status ).send( this.resposta.res);
-    } catch ( err ) {
+    } catch ( error ) {
       res.status( HttpStatus.BAD_REQUEST )
-      .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', err );
+      .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', error );
     }
   }
 
@@ -94,7 +94,7 @@ export class VeiculosController {
     }
   }
 
-  @Get( ':placa/:doc_proprietario/:tipo_debito/debitos-tipo' )
+  @Get( ':placa/:doc_proprietario/debitos-tipo/:tipo_debito' )
   @ApiOperation( {
     description: 'Retorna uma lista de um tipo de débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',
@@ -126,10 +126,10 @@ export class VeiculosController {
     }
   }
 
-  @Get( ':placa/:doc_proprietario/:lista_id_debitos/gerar-gru/:tipo_debito' )
+  @Get( ':placa/:doc_proprietario/gerar-gru' )
   @ApiOperation( {
-    description: 'Retornar uma a gru a partir de um conjunto de debitos ',
-    title: 'Gerar GRU',
+    description: 'Retornar uma GRU com todos os debitos ',
+    title: 'Gerar GRU de todosos débitos',
   } )
   @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
@@ -143,15 +143,38 @@ export class VeiculosController {
     description: 'Documento do proprietario do veiculo',
     required: true,
   } )
-  @ApiImplicitParam( {
-    name: 'lista_id_debitos',
-    description: 'Lista de IDs de debitos para gerar a GRU',
-    required: true,
-  } )
   async gerarGRU( @Res() res, @Param() params ) {
 
     try {
-      this.resposta = await this.veiculosService.gerarGRU( params.placa, params.doc_proprietario, params.lista_id_debitos, params.tipo_debito );
+      this.resposta = await this.veiculosService.gerarGRU( params);
+      res.status( this.resposta.status ).send( this.resposta.res );
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST)
+      .send('Erro ao gerar a GRU.');
+    }
+  }
+
+  @Get( ':placa/:doc_proprietario/gerar-gru/:lista_id_debitos/:tipo_debito' )
+  @ApiOperation( {
+    description: 'Retornar uma GRU com todos os debitos ',
+    title: 'Gerar GRU de todosos débitos',
+  } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
+  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
+  @ApiImplicitParam( {
+    name: 'placa',
+    description: 'Placa do veiculo',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'doc_proprietario',
+    description: 'Documento do proprietario do veiculo',
+    required: true,
+  } )
+  async gerarGRUParcial( @Res() res, @Param() params ) {
+
+    try {
+      this.resposta = await this.veiculosService.gerarGRU( params);
       res.status( this.resposta.status ).send( this.resposta.res );
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST)

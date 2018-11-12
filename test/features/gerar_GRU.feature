@@ -16,7 +16,8 @@ E  solicita a geração da GRU
 Então o sistema retorna uma mensagem informando que é necessário selecionar os outros débitos obrigatórios
 
 Cenário: Selecionando todos debitos
-Dado O usuario possui debitos
+Dado o usuario informa a placa do veiculo
+E informa o CPF ou CNPJ do proprietario
 Quando o usuario deseja pagar todos os debitos
 E  solicita a geração da GRU
 Então o sistema retorna a GRU com os debitos

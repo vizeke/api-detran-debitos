@@ -1,8 +1,29 @@
 import { loadFeature, defineFeature } from '../node_modules/jest-cucumber';
-
+import request from 'supertest';
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { DetranModule } from '../src/detran/detran.module';
 const feature = loadFeature( './test/features/gerar_GRU.feature' );
+jest.mock( '../src/detran/detran.module' );
+jest.mock( '../src/detran/services/veiculos.service' );
+
+let resposta: any;
+let placa: string;
+let cpf: string;
+let dataVehicle: any;
+let tipoDebito: string;
 
 defineFeature( feature, test => {
+  let module: TestingModule;
+  let app: INestApplication;
+
+  beforeAll( async () => {
+    module = await Test.createTestingModule( {
+      imports: [ DetranModule ],
+    } ).compile();
+    app = module.createNestApplication();
+    await app.init();
+  } );
   test( 'Selecionando alguns debitos', ( {
     given,
     when,
@@ -41,17 +62,23 @@ defineFeature( feature, test => {
   } );
 
   test( 'Selecionando todos debitos', ( { given, when, then } ) => {
-    given( 'O usuario possui debitos', () => {
-      pending();
+    given( 'o usuario informa a placa do veiculo', () => {
+      placa = 'ABC1234';
     } );
-    when( 'o usuario deseja pagar todos os debitos', () => {
-      pending();
+    given('informa o CPF ou CNPJ do proprietario', () =>{
+      cpf = '12345678910';
+    });
+    when( 'o usuario deseja pagar todos os debitos', async () => {
+      resposta = await request( app.getHttpServer() )
+        .get( `/veiculos/${placa}/${cpf}/gerar-gru` );
+      expect( resposta.status ).toBe( 200 );
     } );
     when( 'solicita a geração da GRU', () => {
-      pending();
+      // Já testado acima
     } );
     then( 'o sistema retorna a GRU com os debitos', () => {
-      pending();
+      dataVehicle = resposta.body;
+      expect( Object.keys( dataVehicle.Guia ) ).toContain( 'ItemGuia' );
     } );
   } );
 

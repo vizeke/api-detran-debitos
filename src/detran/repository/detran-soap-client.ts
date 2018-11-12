@@ -7,7 +7,7 @@ import { SegurancaDetran } from 'detran/models/segurancaDetran.model';
 
 @Injectable()
 export class DetranSoapClient {
-    private readonly serviceUrl = process.env.DETRAN_URL;
+    private readonly serviceUrl = '127.0.0.1'; // process.env.DETRAN_URL;
     _client: any;
 
     constructor() {

@@ -12,9 +12,9 @@ export class MotoristaController {
         try {
           this.resposta = await this.motoristaService.getDadosGeraisCNH();
           res.status( HttpStatus.OK ).send( this.resposta);
-        } catch ( err ) {
+        } catch ( error ) {
           res.status( HttpStatus.BAD_REQUEST )
-          .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', err );
+          .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', error );
         }
     }
 }

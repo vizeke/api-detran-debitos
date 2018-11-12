@@ -79,4 +79,14 @@ describe( 'VeiculosService', () => {
       .toBe( 'Debito' );
   } );
 
+  /* gerarGRU() */
+  it( 'getTypeDebits() somente com a placa do carro e o documento do proprietario', async () => {
+    const params = {
+      placa: 'ABC1234',
+      doc_proprietario: '9876543210',
+    };
+    respostaDoTeste = await service.gerarGRU( params );
+    expect( Object.keys(respostaDoTeste.res.Guia)[0] )
+      .toBe( 'ItemGuia' );
+  } );
 } );
