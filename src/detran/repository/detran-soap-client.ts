@@ -12,7 +12,8 @@ export class DetranSoapClient {
 
     constructor() {
 
-        this._client = soap.createClient(this.serviceUrl).then(client => {
+        this._client = soap.createClient(this.serviceUrl)
+        .then(client => {
             client.addSoapHeader(
                 {
                     SegurancaDetran: new SegurancaDetran(),

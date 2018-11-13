@@ -24,7 +24,7 @@ defineFeature( feature, test => {
     app = module.createNestApplication();
     await app.init();
   } );
-  test( 'Selecionando alguns debitos', ( {
+  test( 'Solicitando alguns debitos', ( {
     given,
     when,
     then,
@@ -46,7 +46,7 @@ defineFeature( feature, test => {
     );
   } );
 
-  test( 'Selecionando um débito que possuem outros tipos de débitos obrigatorios', ( { given, when, then } ) => {
+  test( 'Solicitando um débito que possuem outros tipos de débitos obrigatorios', ( { given, when, then } ) => {
     given( 'O usuario possui debitos', () => {
       pending();
     } );
@@ -61,11 +61,11 @@ defineFeature( feature, test => {
     } );
   } );
 
-  test( 'Selecionando todos debitos', ( { given, when, then } ) => {
+  test( 'Solicitando todos debitos', ( { given, when, then } ) => {
     given( 'o usuario informa a placa do veiculo', () => {
       placa = 'ABC1234';
     } );
-    given('informa o CPF ou CNPJ do proprietario', () =>{
+    given('informa o CPF ou CNPJ do proprietario', () => {
       cpf = '12345678910';
     });
     when( 'o usuario deseja pagar todos os debitos', async () => {
@@ -82,7 +82,7 @@ defineFeature( feature, test => {
     } );
   } );
 
-  test( 'Nenhum debito selecionado', ( { given, when, then } ) => {
+  test( 'Nenhum debito solicitado', ( { given, when, then } ) => {
     given( 'O usuario possui debitos', () => {
       pending();
     } );
@@ -97,8 +97,8 @@ defineFeature( feature, test => {
     } );
   } );
 
-  test( 'Selecionando um tipo de debito que possui débitos anteriores', ( { given, when, then } ) => {
-    given( 'O usuario possui débitos atrasdos', () => {
+  test( 'Solicitando um tipo de debito que possui débitos anteriores', ( { given, when, then } ) => {
+    given( 'O usuario possui débitos atrasados', () => {
       pending();
     } );
     when( 'o usuario deseja pagar um débito de 2017-1', () => {

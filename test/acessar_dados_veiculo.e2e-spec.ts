@@ -24,24 +24,18 @@ defineFeature( feature, test => {
     await app.init();
   } );
 
-  /**
-   * TODO
-   * Tratar a partir de excessões
-   *
-   */
-
   test( 'Exibindo os dados do veículo', ( {
     given,
     when,
     then,
-  }) => {
-    given('O usuario informa a placa do veiculo', async () => {
+  } ) => {
+    given( 'O usuario informa a placa do veiculo', async () => {
       placa = 'VAL1705';
-    });
-    given('informa o CPF', async () => {
-      cpf = '9876543210';
-    });
-    when('o usuario solicitar os dados do veiculo', async () => {
+    } );
+    given( 'informa o CPF', async () => {
+      cpf = '98765432101112';
+    } );
+    when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
         .get( `/veiculos/${placa}/${cpf}` );
       expect( resposta.status ).toBe( 200 );

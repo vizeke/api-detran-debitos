@@ -31,12 +31,11 @@ defineFeature( feature, test => {
     then,
   } ) => {
     given( 'o usuario informa a placa do veiculo', () => {
-      placa = 'VAL1705';
+      placa = 'VAL170S';
     } );
     given( 'informa o CPF ou CNPJ do proprietario', () => {
-      cpf = '9876543210';
+      cpf = '98765432101112';
     } );
-
     when( 'o usuario solicitar uma previa da lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
         .get( `/veiculos/${placa}/${cpf}/debitos-preview` );
@@ -56,7 +55,7 @@ defineFeature( feature, test => {
       placa = 'VAL1705';
     } );
     given( 'informa o CPF ou CNPJ do proprietario', async () => {
-      cpf = '9876543210';
+      cpf = '98765432101112';
     } );
     when( 'o usuario solicitar uma lista com todos debitos', async () => {
       resposta = await request( app.getHttpServer() )
@@ -78,19 +77,18 @@ defineFeature( feature, test => {
       placa = 'VAL1705';
     } );
     given( 'informa o CPF ou CNPJ do proprietario', async () => {
-      cpf = '9876543210';
+      cpf = '98765432101112';
     } );
     given( 'o tipo de debito', async () => {
       tipoDebito = 'IPVA';
     } );
     when( 'o usuario solicitar uma lista de debitos do tipo selecionado', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}/${tipoDebito}/debitos-tipo` );
+        .get( `/veiculos/${placa}/${cpf}/debitos-tipo/${tipoDebito}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com o tipo de debito selecionado', () => {
       dataVehicle = resposta.body;
-      console.log(dataVehicle);
       expect( Object.keys( dataVehicle.Debito ) ).toContain( 'Debito' );
     } );
   } );
@@ -112,4 +110,9 @@ defineFeature( feature, test => {
       expect( dataVehicle.Debito ).toBeNull();
     } );
   } );
+
+  afterAll( async () => {
+    await app.close();
+  } );
+
 } );

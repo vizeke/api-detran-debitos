@@ -2,9 +2,7 @@ import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { VeiculosService } from '../services/veiculos.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
 import { Retorno } from '../models/retorno';
-/**
- * TO DO colocar em pt-br as rotas
- */
+
 @Controller( 'veiculos' )
 @ApiUseTags('api-detran')
 export class VeiculosController {
@@ -32,7 +30,7 @@ export class VeiculosController {
   } )
   async getDadosVeiculos( @Res() res, @Param() params ) {
     try {
-      this.resposta = await this.veiculosService.getDadosVeiculos( params.placa, params.doc_proprietario );
+      this.resposta = await this.veiculosService.getDadosVeiculos( params );
       res.status( this.resposta.status ).send( this.resposta.res);
     } catch ( error ) {
       res.status( HttpStatus.BAD_REQUEST )
@@ -57,9 +55,9 @@ export class VeiculosController {
     description: 'Documento do proprietario do veiculo',
     required: true,
   } )
-  async getDebits( @Res() res, @Param() params ) {
+  async getDebitos( @Res() res, @Param() params ) {
     try {
-      this.resposta = await this.veiculosService.getDebits( params.placa, params.doc_proprietario );
+      this.resposta = await this.veiculosService.getDebitos( params );
       res.status( this.resposta.status ).send( this.resposta.res);
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).send('Erro ao requisitar os débitos');
@@ -84,9 +82,9 @@ export class VeiculosController {
     description: 'Documento do proprietario do veiculo',
     required: true,
   } )
-  async getDebitsPreview( @Res() res, @Param() params ) {
+  async getDebitosPreview( @Res() res, @Param() params ) {
     try {
-      this.resposta = await this.veiculosService.getDebitsPreview( params.placa, params.doc_proprietario );
+      this.resposta = await this.veiculosService.getDebitosPreview( params );
       res.status( this.resposta.status ).send( this.resposta.res);
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST)
@@ -116,9 +114,9 @@ export class VeiculosController {
     description: 'Tipo de debitos',
     required: true,
   } )
-  async getTypeDebits( @Res() res, @Param() params ) {
+  async getTiposDebitos( @Res() res, @Param() params ) {
     try {
-      this.resposta = await this.veiculosService.getTypeDebits( params.placa, params.doc_proprietario, params.tipo_debito );
+      this.resposta = await this.veiculosService.getTiposDebitos( params );
       res.status( this.resposta.status ).send( this.resposta.res );
     } catch (error) {
       res.status(HttpStatus.NOT_FOUND)
@@ -144,34 +142,6 @@ export class VeiculosController {
     required: true,
   } )
   async gerarGRU( @Res() res, @Param() params ) {
-
-    try {
-      this.resposta = await this.veiculosService.gerarGRU( params);
-      res.status( this.resposta.status ).send( this.resposta.res );
-    } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST)
-      .send('Erro ao gerar a GRU.');
-    }
-  }
-
-  @Get( ':placa/:doc_proprietario/gerar-gru/:lista_id_debitos/:tipo_debito' )
-  @ApiOperation( {
-    description: 'Retornar uma GRU com todos os debitos ',
-    title: 'Gerar GRU de todosos débitos',
-  } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
-  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
-  @ApiImplicitParam( {
-    name: 'placa',
-    description: 'Placa do veiculo',
-    required: true,
-  } )
-  @ApiImplicitParam( {
-    name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo',
-    required: true,
-  } )
-  async gerarGRUParcial( @Res() res, @Param() params ) {
 
     try {
       this.resposta = await this.veiculosService.gerarGRU( params);

@@ -1,22 +1,18 @@
 import { Injectable } from '@nestjs/common';
-// import { VeiculoInfo } from '../../models/veiculoInfo.model';
 import { Retorno } from '../../models/retorno';
-
-// const builder = require('xmlbuilder');
-// const parser = require('xml2json');
 
 @Injectable()
 export class VeiculosService {
   resposta: Retorno;
 
-  async getDadosVeiculos( placa, doc_proprietario ): Promise<any> {
+  async getDadosVeiculos( params ): Promise<any> {
 
-    if ( placa === 'VAL1705' && doc_proprietario === '9876543210' ) {
+    if (params.placa === 'VAL1705' && params.doc_proprietario === '98765432101112' ) {
       this.resposta = new Retorno({
         VeiculoInfo: {
           Veiculo: {
             Placa: 'VAL1705',
-            CPF: 9876543210,
+            CPF: 98765432101112,
             Renavam: 10987654321,
           },
           Nome: 'JOSE SILVA',
@@ -25,7 +21,7 @@ export class VeiculosService {
         },
       });
 
-    } else if ( placa === 'ROU8470' && doc_proprietario === '12345678910' ) {
+    } else if (params.placa === 'ROU8470' && params.doc_proprietario === '12345678910' ) {
       this.resposta = new Retorno({
         MensagemErro: 'Consulta não permitida para veículo com registro de furto/roubo ativo',
       });
@@ -38,11 +34,11 @@ export class VeiculosService {
     return this.resposta;
   }
 
-  async getDebits( placa, doc_proprietario ): Promise<any> {
+  async getDebitos( params ): Promise<any> {
 
     /*
       Placa VAL1705
-      Documento 9876543210
+      Documento 98765432101112
     */
     const respostaListaDebitos = {
         Debito: {
@@ -131,14 +127,14 @@ export class VeiculosService {
          Debito: null,
     };
 
-    if (placa === 'VAL1705' && doc_proprietario === '9876543210'){
-      return respostaListaDebitos;
+    if ( params.placa === 'VAL1705' && params.doc_proprietario === '98765432101112'){
+      return this.resposta = new Retorno(respostaListaDebitos);
     }else{
       return this.resposta = new Retorno(respostaNenhumDebito);
     }
   }
 
-  async getDebitsPreview( placa, doc_proprietario ): Promise<any>{
+  async getDebitosPreview( params ): Promise<any>{
 
     const respostaPossuiDebitos = {
       TipoDebito: {
@@ -155,9 +151,9 @@ export class VeiculosService {
     return this.resposta = new Retorno(respostaPossuiDebitos);
   }
 
-  async getTypeDebits( placa, doc_proprietario, tipo_debito ): Promise<any> {
+  async getTiposDebitos( params ): Promise<any> {
 
-    const respostaTypeDebits = {
+    const respostaTiposDebitos = {
       Debito: {
         Debito: [
           {
@@ -188,7 +184,7 @@ export class VeiculosService {
       },
     };
 
-    return this.resposta = new Retorno(respostaTypeDebits);
+    return this.resposta = new Retorno(respostaTiposDebitos);
   }
 
   async gerarGRU( params ): Promise<Retorno>{

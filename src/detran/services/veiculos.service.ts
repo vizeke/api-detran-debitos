@@ -1,58 +1,44 @@
-import { Injectable, HttpStatus } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { DetranSoapClient } from '../repository/detran-soap-client';
-import { Veiculo } from '../models/veiculo.model';
 import { Retorno } from '../models/retorno';
+import { VeiculoConsulta } from 'detran/models/veiculoConsulta.model';
+import { ObterDadosVeiculoResult } from 'detran/models/obterDadosVeiculoResult.model';
 
 @Injectable()
 export class VeiculosService {
   detranSoapClient: DetranSoapClient;
   res: any;
-  resposta: any;
   vehicle: any;
+  obterDadosVeiculoResult: ObterDadosVeiculoResult;
 
   constructor() {
     this.detranSoapClient = new DetranSoapClient();
   }
 
-  async getDadosVeiculos( placa: string, doc_proprietario: string ): Promise<Retorno> {
+  async getDadosVeiculos( params: any ): Promise<Retorno> {
 
-    this.vehicle = {
-      veiculoConsulta: new Veiculo({
-        Placa: placa,
-        CPF: doc_proprietario,
-      }),
-    };
+    this.vehicle = new VeiculoConsulta( params );
+    const client = await this.detranSoapClient._client;
 
     try {
-      this.res = await this.detranSoapClient._client
-    .then(client => client.ObterDadosVeiculo(this.vehicle))
-    .then(response => {
-      return response;
-    });
+      this.res = await client.ObterDadosVeiculo(this.vehicle);
     } catch (error) {
       this.res = {
         MensagemErro: 'Erro ao obter os dados do veiculo: ' + error,
       };
     }
+    this.obterDadosVeiculoResult = new ObterDadosVeiculoResult( this.res.ObterDadosVeiculoResult );
 
-    return new Retorno(this.res.ObterDadosVeiculoResult);
+    return new Retorno(this.obterDadosVeiculoResult);
   }
 
-  async getDebits(placa: string, doc_proprietario: string): Promise<Retorno> {
+  async getDebitos( params: any ): Promise<Retorno> {
 
-    this.vehicle = {
-      veiculoConsulta: new Veiculo({
-        Placa: placa,
-        CPF: doc_proprietario,
-      }),
-    };
+    this.vehicle = new VeiculoConsulta(params);
+    const client = await this.detranSoapClient._client;
 
     try {
-      this.res = await this.detranSoapClient._client
-      .then(client => client.ObterDebitos(this.vehicle))
-      .then(response => {
-        return response;
-      });
+      this.res = await client.ObterDebitos(this.vehicle);
     } catch (error) {
       this.res = {
         MensagemErro: 'Erro ao obter debitos: ' + error,
@@ -62,21 +48,13 @@ export class VeiculosService {
     return new Retorno(this.res.ObterDebitosResult);
   }
 
-  async getDebitsPreview(placa: string, doc_proprietario: string ): Promise<Retorno> {
+  async getDebitosPreview( params: any ): Promise<Retorno> {
 
-    this.vehicle = {
-      veiculoConsulta: new Veiculo({
-        Placa: placa,
-        CPF: doc_proprietario,
-      }),
-    };
+    this.vehicle = new VeiculoConsulta(params);
+    const client = await this.detranSoapClient._client;
 
     try {
-      this.res = await this.detranSoapClient._client
-      .then(client => client.ObterTiposDebitos(this.vehicle))
-      .then(response => {
-        return response;
-      });
+      this.res = await client.ObterTiposDebitos(this.vehicle);
     } catch (error) {
       this.res = {
         MensagemErro: 'Erro ao buscar debitos: ' + error,
@@ -86,21 +64,14 @@ export class VeiculosService {
     return new Retorno(this.res.ObterTiposDebitosResult);
   }
 
-  async getTypeDebits( placa: string, doc_proprietario: string, tipo_debito: string ): Promise<Retorno> {
+  async getTiposDebitos( params: any ): Promise<Retorno> {
 
-    this.vehicle = {
-      veiculoConsulta: new Veiculo({
-        Placa: placa,
-        CPF: doc_proprietario,
-      }),
-      tipoSelecionado: tipo_debito.toUpperCase(),
-    };
+    this.vehicle = new VeiculoConsulta(params);
+    this.vehicle.tipoSelecionado = params.tipo_debito.toUpperCase();
+    const client = await this.detranSoapClient._client;
+
     try {
-      this.res = await this.detranSoapClient._client
-      .then(client => client.ObterDebitosPorTipoDebito(this.vehicle))
-      .then(response => {
-        return response;
-      });
+      this.res = await client.ObterDebitosPorTipoDebito(this.vehicle);
     } catch (error) {
       return new Retorno({
         MensagemErro: 'Erro ao buscar os debitos: ' + error,
@@ -112,64 +83,32 @@ export class VeiculosService {
 
   async gerarGRU( params: any ): Promise<Retorno>{
 
-    this.vehicle = {
-      veiculoConsulta: new Veiculo({
-        Placa: params.placa,
-        CPF: params.doc_proprietario,
-      }),
-    };
-
-    let validacao: boolean;
+    this.vehicle = new VeiculoConsulta(params);
+    const client = await this.detranSoapClient._client;
     const array_ids: Array<string> = new Array();
 
-    if ( params.lista_id_debitos ){
-      validacao = await this.validarListaDebitos(params.placa, params.doc_proprietario, params.lista_id_debitos, params.tipo_debito);
-
-    }else{
-      try{
-        const debitos = await this.getDebits(params.placa, params.doc_proprietario);
-
-        for (const debito of debitos.res.Debito.Debito){
-          array_ids.push(debito.IdDebito);
-        }
-        validacao = true;
-      }catch (error) {
-        return new Retorno({
-          MensagemErro: 'Erro ao buscar os debitos: ' + error,
-        });
+    try{
+      const debitos = await this.getDebitos( params );
+      for (const debito of debitos.res.Debito.Debito){
+        array_ids.push(debito.IdDebito);
       }
+    }catch (error) {
+      return new Retorno({
+        MensagemErro: 'Erro ao buscar os debitos: ' + error,
+      });
     }
 
     this.vehicle.listaDebitos = array_ids.toString();
 
-    console.log('VEHICLE >> ', this.vehicle);
-
-    if (validacao){
-      try {
-        this.res = await this.detranSoapClient._client
-        .then(client => client.GerarGuia(this.vehicle))
-        .then(response => {
-          return response;
-        }).catch(err => {
-          return err;
-        });
-      } catch (error) {
-        this.res = {
-          MensagemErro: 'Error ao gerar a GRU: ' + error,
-        };
-      }
-    }else{
+    try {
+      this.res = await client.GerarGuia(this.vehicle);
+    } catch (error) {
       this.res = {
-        MensagemErro: 'É necessário escolher todos os debitos obrigatorios',
+        MensagemErro: 'Error ao gerar a GRU: ' + error,
       };
     }
 
     return new Retorno(this.res.GerarGuiaResult);
-  }
-
-  async validarListaDebitos(placa: string, doc_proprietario: string, lista_id_debitos: string, tipo_debito: string){
-
-    return true;
   }
 
 }
