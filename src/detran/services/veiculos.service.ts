@@ -10,6 +10,7 @@ export class VeiculosService {
   res: any;
   vehicle: any;
   obterDadosVeiculoResult: ObterDadosVeiculoResult;
+  client: any;
 
   constructor() {
     this.detranSoapClient = new DetranSoapClient();
@@ -18,10 +19,10 @@ export class VeiculosService {
   async getDadosVeiculos( params: any ): Promise<Retorno> {
 
     this.vehicle = new VeiculoConsulta( params );
-    const client = await this.detranSoapClient._client;
+    this.client = await this.detranSoapClient._client;
 
     try {
-      this.res = await client.ObterDadosVeiculo(this.vehicle);
+      this.res = await this.client.ObterDadosVeiculo(this.vehicle);
     } catch (error) {
       this.res = {
         MensagemErro: 'Erro ao obter os dados do veiculo: ' + error,
@@ -35,10 +36,10 @@ export class VeiculosService {
   async getDebitos( params: any ): Promise<Retorno> {
 
     this.vehicle = new VeiculoConsulta(params);
-    const client = await this.detranSoapClient._client;
+    this.client = await this.detranSoapClient._client;
 
     try {
-      this.res = await client.ObterDebitos(this.vehicle);
+      this.res = await this.client.ObterDebitos(this.vehicle);
     } catch (error) {
       this.res = {
         MensagemErro: 'Erro ao obter debitos: ' + error,
@@ -51,10 +52,10 @@ export class VeiculosService {
   async getDebitosPreview( params: any ): Promise<Retorno> {
 
     this.vehicle = new VeiculoConsulta(params);
-    const client = await this.detranSoapClient._client;
+    this.client = await this.detranSoapClient._client;
 
     try {
-      this.res = await client.ObterTiposDebitos(this.vehicle);
+      this.res = await this.client.ObterTiposDebitos(this.vehicle);
     } catch (error) {
       this.res = {
         MensagemErro: 'Erro ao buscar debitos: ' + error,
@@ -68,10 +69,10 @@ export class VeiculosService {
 
     this.vehicle = new VeiculoConsulta(params);
     this.vehicle.tipoSelecionado = params.tipo_debito.toUpperCase();
-    const client = await this.detranSoapClient._client;
+    this.client = await this.detranSoapClient._client;
 
     try {
-      this.res = await client.ObterDebitosPorTipoDebito(this.vehicle);
+      this.res = await this.client.ObterDebitosPorTipoDebito(this.vehicle);
     } catch (error) {
       return new Retorno({
         MensagemErro: 'Erro ao buscar os debitos: ' + error,
@@ -84,7 +85,7 @@ export class VeiculosService {
   async gerarGRU( params: any ): Promise<Retorno>{
 
     this.vehicle = new VeiculoConsulta(params);
-    const client = await this.detranSoapClient._client;
+    this.client = await this.detranSoapClient._client;
     const array_ids: Array<string> = new Array();
 
     try{
@@ -101,7 +102,7 @@ export class VeiculosService {
     this.vehicle.listaDebitos = array_ids.toString();
 
     try {
-      this.res = await client.GerarGuia(this.vehicle);
+      this.res = await this.client.GerarGuia(this.vehicle);
     } catch (error) {
       this.res = {
         MensagemErro: 'Error ao gerar a GRU: ' + error,

@@ -1,8 +1,8 @@
 
 export class DebitosWS {
-    private readonly serviceUrl: string;
-    private readonly user: string;
-    private readonly password: string;
+    serviceUrl: string;
+    user: string;
+    password: string;
 
     constructor(){
         this.serviceUrl = process.env.DETRAN_URL;
