@@ -5,10 +5,10 @@ import { SegurancaDetran } from '../models/segurancaDetran.model';
 // const detran = require('../config/detran');
 // const app = require('../config/app');
 let wsurl: string;
-if ( process.env.NODE_ENV !== 'development'){
+if ( process.env.NODE_ENV !== 'production'){
     wsurl = 'http://novo.detrannet.dchm.es.gov.br/wsInternetbanking/serviceInternetBanking.asmx?wsdl';
 }else {
-    wsurl = 'https://detrannet.es.gov.br/wsinternetbanking/serviceInternetBanking.asmx?wsdl';
+    wsurl = 'http://detrannet.es.gov.br/wsinternetbanking/serviceInternetBanking.asmx?wsdl';
 }
 
 @Injectable()
