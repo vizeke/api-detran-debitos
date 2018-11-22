@@ -2,6 +2,9 @@ import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { VeiculosService } from '../services/veiculos.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
 import { Retorno } from '../models/retorno';
+import { VeiculoInfo } from 'detran/models/veiculoInfo.model';
+import { Debito } from 'detran/models/debito.model';
+import { ObterDebitosResult } from 'detran/models/obterDebitosResult.model';
 
 @Controller( 'veiculos' )
 @ApiUseTags('api-detran')
@@ -16,7 +19,7 @@ export class VeiculosController {
     description: 'retorna os dados do veiculo através do WebService InternetBanking',
     title: 'Dados do veiculo WS',
   } )
-  @ApiResponse( { status: 200, description: 'Retorna informações do veiculo ' } )
+  @ApiResponse( { status: 200, description: 'Retorna informações do veiculo ', type: VeiculoInfo } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
@@ -43,7 +46,7 @@ export class VeiculosController {
     description: 'retorna uma lista com os débitos do veiculo',
     title: 'Débitos do veiculo',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado', type: ObterDebitosResult } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',

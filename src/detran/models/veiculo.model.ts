@@ -1,7 +1,13 @@
+import { ApiModelProperty } from '@nestjs/swagger';
 
 export class Veiculo{
+    @ApiModelProperty()
     Placa: string;
+
+    @ApiModelProperty()
     CPF: string;
+
+    @ApiModelProperty()
     Renavam: number;
 
     constructor( veic: any ){
