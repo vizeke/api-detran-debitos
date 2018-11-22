@@ -17,7 +17,7 @@ export class VeiculosController {
   @Get( ':placa/:doc_proprietario' )
   @ApiOperation( {
     description: 'retorna os dados do veiculo através do WebService InternetBanking',
-    title: 'Dados do veiculo WS',
+    title: 'Dados do veiculo',
   } )
   @ApiResponse( { status: 200, description: 'Retorna informações do veiculo ', type: VeiculoInfo } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
@@ -28,7 +28,7 @@ export class VeiculosController {
   } )
   @ApiImplicitParam( {
     name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo',
+    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
     required: true,
   } )
   async getDadosVeiculos( @Res() res, @Param() params ) {
@@ -55,7 +55,7 @@ export class VeiculosController {
   } )
   @ApiImplicitParam( {
     name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo',
+    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
     required: true,
   } )
   async getDebitos( @Res() res, @Param() params ) {
@@ -82,7 +82,7 @@ export class VeiculosController {
   } )
   @ApiImplicitParam( {
     name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo',
+    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
     required: true,
   } )
   async getDebitosPreview( @Res() res, @Param() params ) {
@@ -109,7 +109,7 @@ export class VeiculosController {
   } )
   @ApiImplicitParam( {
     name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo',
+    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
     required: true,
   } )
   @ApiImplicitParam( {
@@ -141,7 +141,7 @@ export class VeiculosController {
   } )
   @ApiImplicitParam( {
     name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo',
+    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
     required: true,
   } )
   async gerarGRU( @Res() res, @Param() params ) {

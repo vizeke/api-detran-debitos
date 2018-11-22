@@ -27,6 +27,8 @@
     "@types/dotenv": "^4.0.3",
     "@types/mssql": "^4.0.10",
     "ajv": "^6.5.3",
+    "axios": "^0.18.0",
+    "cors": "^2.8.5",
     "cucumber": "^5.0.1",
     "dotenv": "^6.1.0",
     "fastify-formbody": "^2.0.0",
