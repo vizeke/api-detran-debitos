@@ -4,7 +4,7 @@ export class SegurancaDetran {
     Senha: any;
 
     constructor(){
-        this.Usuario = process.env.DETRAN_USER;
-        this.Senha = process.env.DETRAN_PASS;
+        this.Usuario = process.env.DETRAN_USER || 'usuario';
+        this.Senha = process.env.DETRAN_PASS || 'senhacomplicada';
     }
 }

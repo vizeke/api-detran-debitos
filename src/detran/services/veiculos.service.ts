@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { DetranSoapClient } from '../repository/detran-soap-client';
 import { Retorno } from '../models/retorno';
-import { VeiculoConsulta } from 'detran/models/veiculoConsulta.model';
-import { ObterDadosVeiculoResult } from 'detran/models/obterDadosVeiculoResult.model';
+import { VeiculoConsulta } from '../models/veiculoConsulta.model';
+import { VeiculoRetorno } from 'detran/models/veiculoRetorno';
 
 @Injectable()
 export class VeiculosService {
   detranSoapClient: DetranSoapClient;
   res: any;
-  vehicle: any;
-  obterDadosVeiculoResult: ObterDadosVeiculoResult;
+  veiculoConsulta: any;
+  veiculoRetorno: VeiculoRetorno;
   client: any;
 
   constructor() {
@@ -18,79 +18,82 @@ export class VeiculosService {
 
   async getDadosVeiculos( params: any ): Promise<Retorno> {
 
-    this.vehicle = new VeiculoConsulta( params );
+    this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
 
     try {
-      this.res = await this.client.ObterDadosVeiculo(this.vehicle);
+      this.res = await this.client.ObterDadosVeiculo(this.veiculoConsulta);
+      if (Object.keys(this.res.ObterDadosVeiculoResult)[0] === 'MensagemErro'){
+        return new Retorno(this.res.ObterDadosVeiculoResult);
+      }else{
+        this.veiculoRetorno = new VeiculoRetorno(this.res.ObterDadosVeiculoResult);
+        return new Retorno(this.veiculoRetorno);
+      }
     } catch (error) {
-      this.res = {
-        MensagemErro: 'Erro ao obter os dados do veiculo: ' + error,
-      };
+      return new Retorno ({
+          MensagemErro: 'Erro ao obter os dados do veiculo: ' + error,
+        },
+      );
     }
-    this.obterDadosVeiculoResult = new ObterDadosVeiculoResult( this.res.ObterDadosVeiculoResult );
-
-    return new Retorno(this.obterDadosVeiculoResult);
   }
 
   async getDebitos( params: any ): Promise<Retorno> {
 
-    this.vehicle = new VeiculoConsulta(params);
+    this.veiculoConsulta = new VeiculoConsulta(params);
     this.client = await this.detranSoapClient._client;
 
     try {
-      this.res = await this.client.ObterDebitos(this.vehicle);
+      this.res = await this.client.ObterDebitos(this.veiculoConsulta);
+      return new Retorno(this.res.ObterDebitosResult);
     } catch (error) {
-      this.res = {
-        MensagemErro: 'Erro ao obter debitos: ' + error,
-      };
+      return new Retorno({
+          MensagemErro: 'Erro ao obter debitos: ' + error,
+        },
+      );
     }
-
-    return new Retorno(this.res.ObterDebitosResult);
   }
 
   async getDebitosPreview( params: any ): Promise<Retorno> {
 
-    this.vehicle = new VeiculoConsulta(params);
+    this.veiculoConsulta = new VeiculoConsulta(params);
     this.client = await this.detranSoapClient._client;
 
     try {
-      this.res = await this.client.ObterTiposDebitos(this.vehicle);
+      this.res = await this.client.ObterTiposDebitos(this.veiculoConsulta);
+      return new Retorno(this.res.ObterTiposDebitosResult);
     } catch (error) {
-      this.res = {
-        MensagemErro: 'Erro ao buscar debitos: ' + error,
-      };
+      return new Retorno({
+          MensagemErro: 'Erro ao buscar debitos: ' + error,
+        },
+      );
     }
-
-    return new Retorno(this.res.ObterTiposDebitosResult);
   }
 
   async getTiposDebitos( params: any ): Promise<Retorno> {
 
-    this.vehicle = new VeiculoConsulta(params);
-    this.vehicle.tipoSelecionado = params.tipo_debito.toUpperCase();
+    this.veiculoConsulta = new VeiculoConsulta(params);
+    this.veiculoConsulta.tipoSelecionado = params.tipo_debito.toUpperCase();
     this.client = await this.detranSoapClient._client;
 
     try {
-      this.res = await this.client.ObterDebitosPorTipoDebito(this.vehicle);
+      this.res = await this.client.ObterDebitosPorTipoDebito(this.veiculoConsulta);
+      return new Retorno(this.res.ObterDebitosPorTipoDebitoResult);
     } catch (error) {
       return new Retorno({
         MensagemErro: 'Erro ao buscar os debitos: ' + error,
       });
     }
-
-    return new Retorno(this.res.ObterDebitosPorTipoDebitoResult);
   }
 
   async gerarGRU( params: any ): Promise<Retorno>{
 
     if (process.env.NODE_ENV !== 'development' ) {
       return new Retorno({
-        MensagemErro: 'Indisponivel no momento.',
-      })
-      
+        MensagemErro: 'Recurso indisponivel no momento.',
+      });
+
     } else {
-      // this.vehicle = new VeiculoConsulta(params);
+      // this.veiculoConsulta = new VeiculoConsulta(params);
       // this.client = await this.detranSoapClient._client;
       // const array_ids: Array<string> = new Array();
 
@@ -105,22 +108,21 @@ export class VeiculosService {
       //   });
       // }
 
-      // this.vehicle.listaDebitos = array_ids.toString();
+      // this.veiculoConsulta.listaDebitos = array_ids.toString();
 
       // try {
-      //   this.res = await this.client.GerarGuia(this.vehicle);
+      //   this.res = await this.client.GerarGuia(this.veiculoConsulta);
       // } catch (error) {
       //   this.res = {
       //     MensagemErro: 'Error ao gerar a GRU: ' + error,
       //   };
       // }
-      
-      //return new Retorno(this.res.GerarGuiaResult);
+
+      // return new Retorno(this.res.GerarGuiaResult);
       return new Retorno({
-        MensagemErro: 'Comentado.'
+        MensagemErro: 'Comentado.',
       });
     }
-    
   }
 
 }

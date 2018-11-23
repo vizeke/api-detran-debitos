@@ -9,7 +9,5 @@ export class StiDB {
         readonly password: string = process.env.SIT_PASSWORD,
         readonly databese = process.env.SIT_DB,
         readonly sync = false,
-    ){
-        console.log('STIDB', process.env.SIT_SERVER);
-    }
+    ){ }
 }

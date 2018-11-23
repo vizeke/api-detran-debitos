@@ -2,9 +2,8 @@ import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { VeiculosService } from '../services/veiculos.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
 import { Retorno } from '../models/retorno';
-import { VeiculoInfo } from 'detran/models/veiculoInfo.model';
 import { Debito } from 'detran/models/debito.model';
-import { ObterDebitosResult } from 'detran/models/obterDebitosResult.model';
+import { VeiculoRetorno } from 'detran/models/veiculoRetorno';
 
 @Controller( 'veiculos' )
 @ApiUseTags('api-detran')
@@ -19,7 +18,7 @@ export class VeiculosController {
     description: 'retorna os dados do veiculo através do WebService InternetBanking',
     title: 'Dados do veiculo',
   } )
-  @ApiResponse( { status: 200, description: 'Retorna informações do veiculo ', type: VeiculoInfo } )
+  @ApiResponse( { status: 200, description: 'Retorna informações do veiculo ', type: VeiculoRetorno } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
@@ -46,7 +45,7 @@ export class VeiculosController {
     description: 'retorna uma lista com os débitos do veiculo',
     title: 'Débitos do veiculo',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado', type: ObterDebitosResult } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna um array de debitos', type: Debito } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
@@ -73,7 +72,7 @@ export class VeiculosController {
     description: 'Retorna uma previa dos débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna um array de debitos', type: Debito } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
@@ -100,7 +99,7 @@ export class VeiculosController {
     description: 'Retorna uma lista de um tipo de débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna um array de debitos', type: Debito } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
@@ -132,7 +131,7 @@ export class VeiculosController {
     description: 'Retornar uma GRU com todos os debitos ',
     title: 'Gerar GRU de todosos débitos',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado' } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens com o pdf do boleto' } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',

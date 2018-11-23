@@ -6,7 +6,7 @@ let wsurl: string;
 if ( process.env.NODE_ENV !== 'production'){
     wsurl = 'http://novo.detrannet.dchm.es.gov.br/wsInternetbanking/serviceInternetBanking.asmx?wsdl';
 }else {
-    wsurl = 'https://detrannet.es.gov.br/wsinternetbanking/serviceInternetBanking.asmx?wsdl';
+    wsurl = 'http://detrannet.es.gov.br/wsinternetbanking/serviceInternetBanking.asmx?wsdl';
 }
 
 @Injectable()
@@ -15,8 +15,6 @@ export class DetranSoapClient {
     _client: any;
 
     constructor() {
-        console.log('WSURL >>> ', wsurl);
-
         this._client = soap.createClient(this.serviceUrl)
         .then(client => {
             client.addSoapHeader(

@@ -45,9 +45,7 @@ export class ObjetoGerarGuiaResult {
 
         while (this.guia[this.i]){
             this.item = new ItemGuia(this.guia[this.i]);
-            // console.log( this.i, ' >> ', this.item );
             this.i = this.i + 1;
-
         }
     }
 }
