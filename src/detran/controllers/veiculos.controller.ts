@@ -2,8 +2,8 @@ import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { VeiculosService } from '../services/veiculos.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
 import { Retorno } from '../models/retorno';
-import { Debito } from 'detran/models/debito.model';
-import { VeiculoRetorno } from 'detran/models/veiculoRetorno';
+import { Debito } from '../models/debito.model';
+import { VeiculoRetorno } from '../models/veiculoRetorno';
 
 @Controller( 'veiculos' )
 @ApiUseTags('api-detran')
