@@ -1,6 +1,6 @@
 {
   "name": "api-detran",
-  "version": "0.0.1",
+  "version": "0.1.4",
   "description": "API de consultas ao DETRAN-ES",
   "author": "Prodest",
   "license": "MIT",
