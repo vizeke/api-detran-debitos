@@ -6,7 +6,7 @@ let wsurl: string;
 if ( process.env.NODE_ENV !== 'production'){
     wsurl = 'http://novo.detrannet.dchm.es.gov.br/wsInternetbanking/serviceInternetBanking.asmx?wsdl';
 }else {
-    wsurl = 'http://detrannet.es.gov.br/wsinternetbanking/serviceInternetBanking.asmx?wsdl';
+    wsurl = 'https://detrannet.es.gov.br/wsinternetbanking/serviceInternetBanking.asmx?wsdl';
 }
 
 @Injectable()

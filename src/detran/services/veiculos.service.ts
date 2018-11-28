@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DetranSoapClient } from '../repository/detran-soap-client';
 import { Retorno } from '../models/retorno';
 import { VeiculoConsulta } from '../models/veiculoConsulta.model';
-import { VeiculoRetorno } from 'detran/models/veiculoRetorno';
+import { VeiculoRetorno } from '../models/veiculoRetorno';
 
 @Injectable()
 export class VeiculosService {
@@ -44,7 +44,7 @@ export class VeiculosService {
 
     try {
       this.res = await this.client.ObterDebitos(this.veiculoConsulta);
-      return new Retorno(this.res.ObterDebitosResult);
+      return new Retorno(this.res.ObterDebitosResult.Debito);
     } catch (error) {
       return new Retorno({
           MensagemErro: 'Erro ao obter debitos: ' + error,
