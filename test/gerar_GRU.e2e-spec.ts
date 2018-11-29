@@ -65,7 +65,7 @@ defineFeature( feature, test => {
     given( 'o usuario informa a placa do veiculo', () => {
       placa = 'ABC1234';
     } );
-    given('informa o CPF ou CNPJ do proprietario', () => {
+    given('informa o renavam do veiculo', () => {
       cpf = '12345678910';
     });
     when( 'o usuario deseja pagar todos os debitos', async () => {

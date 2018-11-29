@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { VeiculosService } from '../services/veiculos.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
 import { Retorno } from '../models/retorno';
@@ -13,7 +13,7 @@ export class VeiculosController {
 
   constructor( private readonly veiculosService: VeiculosService ) { }
 
-  @Get( ':placa/:doc_proprietario' )
+  @Get( ':placa/:renavam' )
   @ApiOperation( {
     description: 'retorna os dados do veiculo através do WebService InternetBanking',
     title: 'Dados do veiculo',
@@ -26,8 +26,8 @@ export class VeiculosController {
     required: true,
   } )
   @ApiImplicitParam( {
-    name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
+    name: 'renavam',
+    description: 'Renavam do veiculo.',
     required: true,
   } )
   async getDadosVeiculos( @Res() res, @Param() params ) {
@@ -35,12 +35,11 @@ export class VeiculosController {
       this.resposta = await this.veiculosService.getDadosVeiculos( params );
       res.status( this.resposta.status ).send( this.resposta.res);
     } catch ( error ) {
-      res.status( HttpStatus.BAD_REQUEST )
-      .send( ' Error ao fazer a requisição dos dados do veiculo. Error: ', error );
+      throw new HttpException('Error ao fazer a requisição dos dados do veiculo.', HttpStatus.FORBIDDEN);
     }
   }
 
-  @Get( ':placa/:doc_proprietario/debitos' )
+  @Get( ':placa/:renavam/debitos' )
   @ApiOperation( {
     description: 'retorna uma lista com os débitos do veiculo',
     title: 'Débitos do veiculo',
@@ -53,8 +52,8 @@ export class VeiculosController {
     required: true,
   } )
   @ApiImplicitParam( {
-    name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
+    name: 'renavam',
+    description: 'Renavam do veiculo',
     required: true,
   } )
   async getDebitos( @Res() res, @Param() params ) {
@@ -62,12 +61,12 @@ export class VeiculosController {
       this.resposta = await this.veiculosService.getDebitos( params );
       res.status( this.resposta.status ).send( this.resposta.res);
     } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST).send('Erro ao requisitar os débitos');
+      throw new HttpException('Erro ao requisitar os débitos.', HttpStatus.FORBIDDEN);
     }
 
   }
 
-  @Get( ':placa/:doc_proprietario/debitos-preview' )
+  @Get( ':placa/:renavam/debitos-preview' )
   @ApiOperation( {
     description: 'Retorna uma previa dos débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',
@@ -80,8 +79,8 @@ export class VeiculosController {
     required: true,
   } )
   @ApiImplicitParam( {
-    name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
+    name: 'renavam',
+    description: 'Renavam do veiculo',
     required: true,
   } )
   async getDebitosPreview( @Res() res, @Param() params ) {
@@ -89,12 +88,11 @@ export class VeiculosController {
       this.resposta = await this.veiculosService.getDebitosPreview( params );
       res.status( this.resposta.status ).send( this.resposta.res);
     } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST)
-      .send('Erro ao exibir preview dos debitos.');
+      throw new HttpException('Erro ao exibir preview dos debitos.', HttpStatus.FORBIDDEN);
     }
   }
 
-  @Get( ':placa/:doc_proprietario/debitos-tipo/:tipo_debito' )
+  @Get( ':placa/:renavam/debitos-tipo/:tipo_debito' )
   @ApiOperation( {
     description: 'Retorna uma lista de um tipo de débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',
@@ -107,8 +105,8 @@ export class VeiculosController {
     required: true,
   } )
   @ApiImplicitParam( {
-    name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
+    name: 'renavam',
+    description: 'Renavam do veiculo',
     required: true,
   } )
   @ApiImplicitParam( {
@@ -121,12 +119,11 @@ export class VeiculosController {
       this.resposta = await this.veiculosService.getTiposDebitos( params );
       res.status( this.resposta.status ).send( this.resposta.res );
     } catch (error) {
-      res.status(HttpStatus.NOT_FOUND)
-      .send(`Erro ao exibir lista de debitos do tipo ${params.tipo_debito}.`);
+      throw new HttpException('Erro ao exibir lista de debitos do tipo.', HttpStatus.FORBIDDEN);
     }
   }
 
-  @Get( ':placa/:doc_proprietario/gerar-gru' )
+  @Get( ':placa/:renavam/gerar-gru' )
   @ApiOperation( {
     description: 'Retornar uma GRU com todos os debitos ',
     title: 'Gerar GRU de todosos débitos',
@@ -139,8 +136,8 @@ export class VeiculosController {
     required: true,
   } )
   @ApiImplicitParam( {
-    name: 'doc_proprietario',
-    description: 'Documento do proprietario do veiculo: CPF ou CNPJ',
+    name: 'renavam',
+    description: 'Renavam do veiculo',
     required: true,
   } )
   async gerarGRU( @Res() res, @Param() params ) {
@@ -149,8 +146,7 @@ export class VeiculosController {
       this.resposta = await this.veiculosService.gerarGRU( params);
       res.status( this.resposta.status ).send( this.resposta.res );
     } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST)
-      .send('Erro ao gerar a GRU.');
+      throw new HttpException('Erro ao gerar a GRU.', HttpStatus.FORBIDDEN);
     }
   }
 }

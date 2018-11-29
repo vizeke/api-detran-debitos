@@ -17,7 +17,7 @@ Então o sistema retorna uma mensagem informando que é necessário selecionar o
 
 Cenário: Solicitando todos debitos
 Dado o usuario informa a placa do veiculo
-E informa o CPF ou CNPJ do proprietario
+E informa o renavam do veiculo
 Quando o usuario deseja pagar todos os debitos
 E  solicita a geração da GRU
 Então o sistema retorna a GRU com os debitos

@@ -7,13 +7,13 @@ export class VeiculosService {
 
   async getDadosVeiculos( params ): Promise<any> {
 
-    if (params.placa === 'VAL1705' && params.doc_proprietario === '98765432101112' ) {
+    if (params.placa === 'VAL1705' && params.renavam === '98765432101' ) {
       this.resposta = new Retorno({
         VeiculoInfo: {
           Veiculo: {
             Placa: 'VAL1705',
             CPF: 98765432101112,
-            Renavam: 10987654321,
+            Renavam: 9876543210,
           },
           Nome: 'JOSE SILVA',
           MarcaModelo: 'VW/PARATI 1.6 TRACKFIELD',
@@ -21,7 +21,7 @@ export class VeiculosService {
         },
       });
 
-    } else if (params.placa === 'ROU8470' && params.doc_proprietario === '12345678910' ) {
+    } else if (params.placa === 'ROU8470' && params.renavam === '12345678910' ) {
       this.resposta = new Retorno({
         MensagemErro: 'Consulta não permitida para veículo com registro de furto/roubo ativo',
       });
@@ -38,7 +38,7 @@ export class VeiculosService {
 
     /*
       Placa VAL1705
-      Documento 98765432101112
+      Documento 98765432101
     */
     const respostaListaDebitos = {
         Debito: {
@@ -121,13 +121,13 @@ export class VeiculosService {
 
     /*
       Placa XXX0000
-      Documento 12345678910
+      Renavam 12345678910
      */
     const respostaNenhumDebito = {
          Debito: null,
     };
 
-    if ( params.placa === 'VAL1705' && params.doc_proprietario === '98765432101112'){
+    if ( params.placa === 'VAL1705' && params.renavam === '98765432101'){
       return this.resposta = new Retorno(respostaListaDebitos);
     }else{
       return this.resposta = new Retorno(respostaNenhumDebito);
@@ -199,7 +199,7 @@ export class VeiculosService {
             Postagem: true,
             Nome: 'TESTE',
             Placa: 'ROU8470',
-            Renavam: 225608235,
+            Renavam: 22003399510,
             Marca: 'RENAULT/CLIO EXP 10 16VH',
             Nossonumero: '00201880100847395',
             Vencimentoguia: '2018-11-30T02:00:00.000Z',

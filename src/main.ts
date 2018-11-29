@@ -5,9 +5,7 @@ import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 const ambiente = process.env.NODE_ENV || 'development';
 
-if ( process.env.NODE_ENV !== 'production' ){
-  dotenv.config();
-}
+dotenv.config();
 
 const pacote = require('../package.json');
 

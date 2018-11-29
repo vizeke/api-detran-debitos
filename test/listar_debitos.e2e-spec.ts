@@ -9,7 +9,7 @@ jest.mock( '../src/detran/services/veiculos.service' );
 
 let resposta: any;
 let placa: string;
-let cpf: string;
+let renavam: string;
 let dataVehicle: any;
 let tipoDebito: string;
 
@@ -33,12 +33,12 @@ defineFeature( feature, test => {
     given( 'o usuario informa a placa do veiculo', () => {
       placa = 'VAL170S';
     } );
-    given( 'informa o CPF ou CNPJ do proprietario', () => {
-      cpf = '98765432101112';
+    given( 'informa o renavam do veiculo', () => {
+      renavam = '98765432101';
     } );
     when( 'o usuario solicitar uma previa da lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}/debitos-preview` );
+        .get( `/veiculos/${placa}/${renavam}/debitos-preview` );
       expect( resposta.status ).toBe( 200 );
     } );
     then(
@@ -54,12 +54,12 @@ defineFeature( feature, test => {
     given( 'o usuario informa a placa do veiculo', async () => {
       placa = 'VAL1705';
     } );
-    given( 'informa o CPF ou CNPJ do proprietario', async () => {
-      cpf = '98765432101112';
+    given( 'informa o renavam do veiculo', async () => {
+      renavam = '98765432101';
     } );
     when( 'o usuario solicitar uma lista com todos debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}/debitos` );
+        .get( `/veiculos/${placa}/${renavam}/debitos` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com todos os debitos', async () => {
@@ -76,15 +76,15 @@ defineFeature( feature, test => {
     given( 'o usuario informa a placa do veiculo', async () => {
       placa = 'VAL1705';
     } );
-    given( 'informa o CPF ou CNPJ do proprietario', async () => {
-      cpf = '98765432101112';
+    given( 'informa o renavam do veiculo', async () => {
+      renavam = '98765432101';
     } );
     given( 'o tipo de debito', async () => {
       tipoDebito = 'IPVA';
     } );
     when( 'o usuario solicitar uma lista de debitos do tipo selecionado', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}/debitos-tipo/${tipoDebito}` );
+        .get( `/veiculos/${placa}/${renavam}/debitos-tipo/${tipoDebito}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com o tipo de debito selecionado', () => {
@@ -97,12 +97,12 @@ defineFeature( feature, test => {
     given( 'o usuario informa a placa do veiculo', async () => {
       placa = 'XXX0000';
     } );
-    given( 'informa o CPF ou CNPJ do proprietario', async () => {
-      cpf = '2345678910';
+    given( 'informa o renavam do veiculo', async () => {
+      renavam = '2345678910';
     } );
     when( 'o usuario solicitar uma lista de debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}/debitos` );
+        .get( `/veiculos/${placa}/${renavam}/debitos` );
       expect( resposta.status ).toBe( 200 );
     } );
     then( 'o sistema retorna uma lista com nenhum debito', async () => {

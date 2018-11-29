@@ -9,7 +9,7 @@ jest.mock( '../src/detran/services/veiculos.service' );
 
 let resposta: any;
 let placa: string;
-let cpf: string;
+let renavam: string;
 let dataVehicle: any;
 
 defineFeature( feature, test => {
@@ -32,12 +32,12 @@ defineFeature( feature, test => {
     given( 'O usuario informa a placa do veiculo', async () => {
       placa = 'VAL1705';
     } );
-    given( 'informa o CPF', async () => {
-      cpf = '98765432101112';
+    given( 'informa o renavam do veiculo', async () => {
+      renavam = '98765432101';
     } );
     when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}` );
+        .get( `/veiculos/${placa}/${renavam}` );
       expect( resposta.status ).toBe( 200 );
     } );
     then(
@@ -53,12 +53,12 @@ defineFeature( feature, test => {
     given( 'O usuario informa a placa do veiculo', async () => {
       placa = 'XXX0000';
     } );
-    given( 'informa o CPF', async () => {
-      cpf = '00000000000';
+    given( 'informa o renavam do veiculo', async () => {
+      renavam = '00000000000';
     } );
     when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}` );
+        .get( `/veiculos/${placa}/${renavam}` );
       expect( resposta.status ).toBe( 403 );
     } );
     then( 'o sistema retorna uma mensagem informando que o veículo não existe', async () => {
@@ -72,12 +72,12 @@ defineFeature( feature, test => {
     given( 'O usuario informa a placa do veiculo', () => {
       placa = 'ROU8470';
     } );
-    given( 'informa o CPF', () => {
-      cpf = '12345678910';
+    given( 'informa o renavam do veiculo', () => {
+      renavam = '12345678910';
     } );
     when( 'o usuario solicitar os dados do veiculo', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}` );
+        .get( `/veiculos/${placa}/${renavam}` );
       expect( resposta.status ).toBe( 403 );
     } );
     then( 'o sistema retorna uma mensagem informando que a consulta não é permitida para esse tipo de resgitro ativo', () => {
@@ -91,7 +91,7 @@ defineFeature( feature, test => {
     given( 'O usuario informa a placa do veiculo', () => {
       pending();
     } );
-    given( 'informa o CPF', () => {
+    given( 'informa o renavam do veiculo', () => {
       pending();
     } );
     when( 'o usuario solicitar as infrações associadas ao veiculo', () => {
@@ -106,7 +106,7 @@ defineFeature( feature, test => {
     given( 'O usuario informa a placa do veiculo', () => {
       pending();
     } );
-    given( 'informa o CPF', () => {
+    given( 'informa o renavam do veiculo', () => {
       pending();
     } );
     when( 'o usuario seleciona exibir as associadas ao veiculo', () => {
