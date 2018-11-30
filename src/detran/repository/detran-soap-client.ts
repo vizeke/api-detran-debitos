@@ -24,7 +24,7 @@ export class DetranSoapClient {
                 undefined,
                 '__tns__',
                 'http://tempuri.org/',
-            ), {time: true};
+            );
             return client;
         }).catch(console.error);
     }
