@@ -87,42 +87,32 @@ export class VeiculosService {
 
   async gerarGRU( params: any ): Promise<Retorno>{
 
-    if (process.env.NODE_ENV !== 'development' ) {
+    this.veiculoConsulta = new VeiculoConsulta(params);
+    this.client = await this.detranSoapClient._client;
+    const array_ids: Array<string> = new Array();
+
+    try{
+      const debitos = await this.getDebitos( params );
+      for (const debito of debitos.res.Debito.Debito){
+        array_ids.push(debito.IdDebito);
+      }
+    }catch (error) {
       return new Retorno({
-        MensagemErro: 'Recurso indisponivel no momento.',
-      });
-
-    } else {
-      // this.veiculoConsulta = new VeiculoConsulta(params);
-      // this.client = await this.detranSoapClient._client;
-      // const array_ids: Array<string> = new Array();
-
-      // try{
-      //   const debitos = await this.getDebitos( params );
-      //   for (const debito of debitos.res.Debito.Debito){
-      //     array_ids.push(debito.IdDebito);
-      //   }
-      // }catch (error) {
-      //   return new Retorno({
-      //     MensagemErro: 'Erro ao buscar os debitos: ' + error,
-      //   });
-      // }
-
-      // this.veiculoConsulta.listaDebitos = array_ids.toString();
-
-      // try {
-      //   this.res = await this.client.GerarGuia(this.veiculoConsulta);
-      // } catch (error) {
-      //   this.res = {
-      //     MensagemErro: 'Error ao gerar a GRU: ' + error,
-      //   };
-      // }
-
-      // return new Retorno(this.res.GerarGuiaResult);
-      return new Retorno({
-        MensagemErro: 'Comentado.',
+        MensagemErro: 'Erro ao buscar os debitos: ' + error,
       });
     }
+
+    this.veiculoConsulta.listaDebitos = array_ids.toString();
+
+    try {
+      this.res = await this.client.GerarGuia(this.veiculoConsulta);
+    } catch (error) {
+      this.res = {
+        MensagemErro: 'Error ao gerar a GRU: ' + error,
+      };
+    }
+
+    return new Retorno(this.res.GerarGuiaResult);
   }
 
 }
