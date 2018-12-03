@@ -71,12 +71,12 @@ export class Debito {
     constructor(debito: any){
         this.classe = debito.Classe;
         this.codigoServico = debito.CodigoServico;
-        this.descricaoServico = debito.descricaoServico;
-        this.dataVencimento = debito.dataVencimento;
+        this.descricaoServico = debito.DescricaoServico;
+        this.dataVencimento = debito.DataVencimento;
         this.exercicio = debito.Exercicio;
         this.idDebito = debito.IdDebito;
         this.parcela = debito.Parcela;
-        this.placa = debito.placa;
+        this.placa = debito.Placa;
         this.valorAtualizadoFranquia = debito.ValorAtualizadoFranquia;
         this.dpvatAnterior = debito.DpvatAnterior;
         this.dpvatCotas = debito.DpvatCotas;

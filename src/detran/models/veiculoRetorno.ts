@@ -10,9 +10,17 @@ export class VeiculoRetorno {
     @ApiModelProperty()
     renavam: number;
 
+    @ApiModelProperty()
+    mensagemErro: string;
+
     constructor(params: any) {
-        this.placa = params.VeiculoInfo.Veiculo.Placa;
-        this.modelo = params.VeiculoInfo.MarcaModelo;
-        this.renavam = params.VeiculoInfo.Veiculo.Renavam;
+        console.log('PARAMS >>> ', Object.keys(params));
+        if (Object.keys(params)[0] === 'MensagemErro'){
+            this.mensagemErro = params.MensagemErro;
+        }else {
+            this.placa = params.VeiculoInfo.Veiculo.Placa;
+            this.modelo = params.VeiculoInfo.MarcaModelo;
+            this.renavam = params.VeiculoInfo.Veiculo.Renavam;
+        }
     }
 }

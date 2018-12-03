@@ -1,7 +1,7 @@
 {
-  "name": "api-detran",
+  "name": "api-detran-debitos",
   "version": "0.2.1",
-  "description": "API de consultas ao DETRAN-ES",
+  "description": "API de consultas aos debitos no DETRAN-ES",
   "author": "Prodest",
   "license": "MIT",
   "scripts": {

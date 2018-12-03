@@ -3,6 +3,7 @@ import { DetranSoapClient } from '../repository/detran-soap-client';
 import { Retorno } from '../models/retorno';
 import { VeiculoConsulta } from '../models/veiculoConsulta.model';
 import { VeiculoRetorno } from '../models/veiculoRetorno';
+import { DebitoRetorno } from '../models/debitoRetorno';
 
 @Injectable()
 export class VeiculosService {
@@ -11,6 +12,7 @@ export class VeiculosService {
   veiculoConsulta: any;
   veiculoRetorno: VeiculoRetorno;
   client: any;
+  debitos: any;
 
   constructor() {
     this.detranSoapClient = new DetranSoapClient();
@@ -23,12 +25,9 @@ export class VeiculosService {
 
     try {
       this.res = await this.client.ObterDadosVeiculo(this.veiculoConsulta);
-      if (Object.keys(this.res.ObterDadosVeiculoResult)[0] === 'MensagemErro'){
-        return new Retorno(this.res.ObterDadosVeiculoResult);
-      }else{
-        this.veiculoRetorno = new VeiculoRetorno(this.res.ObterDadosVeiculoResult);
-        return new Retorno(this.veiculoRetorno);
-      }
+      this.veiculoRetorno = new VeiculoRetorno(this.res.ObterDadosVeiculoResult);
+      return new Retorno(this.veiculoRetorno);
+
     } catch (error) {
       return new Retorno ({
           MensagemErro: 'Erro ao obter os dados do veiculo: ' + error,
@@ -44,7 +43,9 @@ export class VeiculosService {
 
     try {
       this.res = await this.client.ObterDebitos(this.veiculoConsulta);
-      return new Retorno(this.res.ObterDebitosResult.Debito);
+      console.log('GET-DEBITOS', this.res.ObterDebitosResult);
+      this.debitos = new DebitoRetorno(this.res.ObterDebitosResult);
+      return new Retorno(this.debitos.debitos);
     } catch (error) {
       return new Retorno({
           MensagemErro: 'Erro ao obter debitos: ' + error,
@@ -77,7 +78,10 @@ export class VeiculosService {
 
     try {
       this.res = await this.client.ObterDebitosPorTipoDebito(this.veiculoConsulta);
-      return new Retorno(this.res.ObterDebitosPorTipoDebitoResult);
+      console.log('TIPO-DEBITOS >>> ', this.res.ObterDebitosPorTipoDebitoResult);
+      this.debitos = new DebitoRetorno(this.res.ObterDebitosPorTipoDebitoResult);
+      return new Retorno(this.debitos.debitos);
+    
     } catch (error) {
       return new Retorno({
         MensagemErro: 'Erro ao buscar os debitos: ' + error,
@@ -92,9 +96,14 @@ export class VeiculosService {
     const array_ids: Array<string> = new Array();
 
     try{
-      const debitos = await this.getDebitos( params );
-      for (const debito of debitos.res.Debito.Debito){
-        array_ids.push(debito.IdDebito);
+      const deb: Retorno = await this.getDebitos( params );
+      console.log('GRU >>>> ', deb);
+      if (deb.res[0] === 'Nenhum debito encontrado.'){
+        return new Retorno(deb.res[0]);
+      }else{
+        for (const debito of deb.res){
+          array_ids.push(debito.IdDebito);
+        }
       }
     }catch (error) {
       return new Retorno({
