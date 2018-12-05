@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import * as soap from 'soap-as-promised';
 import { SegurancaDetran } from '../models/segurancaDetran.model';
 
@@ -15,6 +15,7 @@ export class DetranSoapClient {
     _client: any;
 
     constructor() {
+
         this._client = soap.createClient(this.serviceUrl)
         .then(client => {
             client.addSoapHeader(
@@ -26,6 +27,10 @@ export class DetranSoapClient {
                 'http://tempuri.org/',
             );
             return client;
-        }).catch(console.error);
+        }).catch(error => {
+            return {
+                mensagemErro: 'Erro em conectar ao repositorio.',
+            };
+        });
     }
 }

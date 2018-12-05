@@ -1,12 +1,14 @@
 import { Controller, Get, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { VeiculosService } from '../services/veiculos.service';
 import { ApiOperation, ApiResponse, ApiImplicitParam, ApiUseTags } from '@nestjs/swagger';
-import { Retorno } from '../models/retorno';
+import { Retorno } from '../models/retorno.model';
 import { Debito } from '../models/debito.model';
-import { VeiculoRetorno } from '../models/veiculoRetorno';
+import { VeiculoRetorno } from '../models/veiculoRetorno.model';
+import { TipoDebito } from '../models/tipoDebito.model';
+import { DebitoRetorno } from '../models/debitoRetorno.model';
 
 @Controller( 'veiculos' )
-@ApiUseTags('api-detran')
+@ApiUseTags('veiculos-debitos')
 export class VeiculosController {
   resposta: Retorno;
   respostaErro: any;
@@ -71,7 +73,7 @@ export class VeiculosController {
     description: 'Retorna uma previa dos débitos do veiculo',
     title: 'Prévia dos débitos do veiculo',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna um array de debitos', type: Debito } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna um array de debitos', type: TipoDebito } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
@@ -126,9 +128,9 @@ export class VeiculosController {
   @Get( ':placa/:renavam/gerar-gru' )
   @ApiOperation( {
     description: 'Retornar uma GRU com todos os debitos ',
-    title: 'Gerar GRU de todosos débitos',
+    title: 'Gerar GRU de todos os débitos',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens com o pdf do boleto' } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens com o pdf do boleto', type: DebitoRetorno } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Retorno } from '../../models/retorno';
+import { Retorno } from '../../models/retorno.model';
 
 @Injectable()
 export class VeiculosService {

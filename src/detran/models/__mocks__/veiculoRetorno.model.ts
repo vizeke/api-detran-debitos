@@ -14,13 +14,12 @@ export class VeiculoRetorno {
     mensagemErro: string;
 
     constructor(params: any) {
-        console.log('PARAMS >>> ', Object.keys(params));
         if (Object.keys(params)[0] === 'MensagemErro'){
             this.mensagemErro = params.MensagemErro;
         }else {
-            this.placa = params.VeiculoInfo.Veiculo.Placa;
-            this.modelo = params.VeiculoInfo.MarcaModelo;
-            this.renavam = params.VeiculoInfo.Veiculo.Renavam;
+            this.placa = 'CAR1234';
+            this.modelo = 'UNO DA FIRMA';
+            this.renavam = 12345678910;
         }
     }
 }

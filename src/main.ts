@@ -21,7 +21,7 @@ async function bootstrap() {
     .setTitle( pacote.name )
     .setDescription( pacote.description )
     .setVersion( pacote.version )
-    .addTag( 'api-detran' )
+    .addTag( 'veiculos-debitos' )
     .setSchemes( schema )
     .build();
   const document = SwaggerModule.createDocument( app, options );
