@@ -21,7 +21,6 @@ export class VeiculosService {
   }
 
   async getDadosVeiculos ( params: any ): Promise<Retorno> {
-    console.log( "chamou o service!" );
 
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
