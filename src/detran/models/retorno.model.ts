@@ -12,9 +12,6 @@ export class Retorno {
     @ApiModelProperty()
     public status: number;
 
-    @ApiModelProperty()
-    public erro: errorEnum;
-
     constructor(resposta: any){
         this.res = resposta;
 
@@ -23,25 +20,5 @@ export class Retorno {
         }else {
             this.status = HttpStatus.OK;
         }
-    }
-
-    /**
-     * TO DO
-     * retornar erro
-     */
-    defineErroCode(){
-
-        switch (this.res.retorno) {
-            case (MSG_FURTO):
-                this.erro = errorEnum.VEICULO_ROUBADO;
-                break;
-            case (MSG_RENAVAN):
-                this.erro = errorEnum.RENAVAN_NAO_ENCONTRADO;
-                break;
-            default:
-                this.erro = errorEnum.CPF_NAO_ENCONTRADO;
-                break;
-        }
-        return this.status;
     }
 }

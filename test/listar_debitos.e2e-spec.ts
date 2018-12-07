@@ -31,7 +31,7 @@ defineFeature( feature, test => {
     then,
   } ) => {
     given( 'o usuario informa a placa do veiculo', () => {
-      placa = 'VAL170S';
+      placa = 'VAL1705';
     } );
     given( 'informa o renavam do veiculo', () => {
       renavam = '98765432101';
@@ -45,7 +45,7 @@ defineFeature( feature, test => {
       'o sistema retorna uma lista com a previa de todos os tipos de debitos',
       async () => {
       dataVehicle = resposta.body;
-      expect( Object.keys( dataVehicle ) ).toContain( 'TipoDebito' );
+      expect( Object.keys( dataVehicle )[0] ).toContain( 'temLicenciamentoAnual' );
       },
     );
   } );
@@ -64,7 +64,7 @@ defineFeature( feature, test => {
     } );
     then( 'o sistema retorna uma lista com todos os debitos', async () => {
       dataVehicle = resposta.body;
-      expect( Object.keys( dataVehicle.Debito ) ).toContain( 'Debito' );
+      expect( Object.keys( dataVehicle )[0] ).toContain( 'debitos' );
     } );
   } );
 
@@ -89,7 +89,7 @@ defineFeature( feature, test => {
     } );
     then( 'o sistema retorna uma lista com o tipo de debito selecionado', () => {
       dataVehicle = resposta.body;
-      expect( Object.keys( dataVehicle.Debito ) ).toContain( 'Debito' );
+      expect( Object.keys( dataVehicle )[0] ).toContain( 'debitos' );
     } );
   } );
 
@@ -107,7 +107,7 @@ defineFeature( feature, test => {
     } );
     then( 'o sistema retorna uma lista com nenhum debito', async () => {
       dataVehicle = resposta.body;
-      expect( dataVehicle.Debito ).toBeNull();
+      expect( dataVehicle.debitos[0] ).toContain( 'Não foram encontrados debitos para esse veiculo.' );
     } );
   } );
 

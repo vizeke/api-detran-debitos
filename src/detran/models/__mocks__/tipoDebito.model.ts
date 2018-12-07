@@ -27,19 +27,12 @@ export class TipoDebito {
     mensagemErro: string;
 
     constructor(tipoDeb: any){
-
-        if (Object.keys(tipoDeb)[0] === 'MensagemErro') {
-            this.mensagemErro = tipoDeb.MensagemErro;
-        } else if (tipoDeb === null || tipoDeb === undefined) {
-            this.mensagemErro = 'Erro ao gerar tipoDebito';
-        } else {
-            this.temLicenciamentoAnual = tipoDeb.TemLicenciamentoAnual;
-            this.temLicenciamentoAnterior = tipoDeb.TemLicenciamentoAnterio;
-            this.temDPVAT = tipoDeb.TemDPVAT;
-            this.temIPVA = tipoDeb.TemIPVA;
-            this.temMulta = tipoDeb.TemMulta;
-            this.temIPVAAnterior = tipoDeb.TemIPVAAnterior;
-            this.temDPVATAnterior = tipoDeb.TemDPVATAnterior;
-        }
+        this.temLicenciamentoAnual = 'S';
+        this.temLicenciamentoAnterior = 'N';
+        this.temDPVAT = 'S';
+        this.temIPVA = 'S';
+        this.temMulta = 'N';
+        this.temIPVAAnterior = 'S';
+        this.temDPVATAnterior = 'N';
     }
 }

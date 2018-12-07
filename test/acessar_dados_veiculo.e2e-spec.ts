@@ -44,7 +44,7 @@ defineFeature( feature, test => {
       'o sistema retorna os dados do veiculo',
       async () => {
         dataVehicle = resposta.body;
-        expect( Object.keys( dataVehicle ) ).toContain( 'VeiculoInfo' );
+        expect( Object.keys( dataVehicle ) ).toContain( 'placa' );
       },
     );
   } );
@@ -63,7 +63,7 @@ defineFeature( feature, test => {
     } );
     then( 'o sistema retorna uma mensagem informando que o veículo não existe', async () => {
       dataVehicle = resposta.body;
-      expect( dataVehicle.MensagemErro )
+      expect( dataVehicle.mensagemErro )
         .toEqual( 'Veículo não encontrado.' );
     } );
   } );
@@ -82,7 +82,7 @@ defineFeature( feature, test => {
     } );
     then( 'o sistema retorna uma mensagem informando que a consulta não é permitida para esse tipo de resgitro ativo', () => {
       dataVehicle = resposta.body;
-      expect( dataVehicle.MensagemErro )
+      expect( dataVehicle.mensagemErro )
         .toEqual( 'Consulta não permitida para veículo com registro de furto/roubo ativo' );
     } );
   } );

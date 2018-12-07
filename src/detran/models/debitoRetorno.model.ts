@@ -1,4 +1,5 @@
 import { ApiModelProperty } from '@nestjs/swagger';
+import { Debito } from './debito.model';
 
 export class DebitoRetorno {
     @ApiModelProperty()
@@ -18,7 +19,7 @@ export class DebitoRetorno {
             this.mensagemErro = 'Erro ao buscar debitos.';
         } else {
             for (const d of debits.Debito.Debito){
-                this.debitos.push(d);
+                this.debitos.push(new Debito(d));
             }
         }
     }

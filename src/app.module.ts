@@ -8,16 +8,14 @@ const redisConf = new RedisConfig();
   imports: [ DetranModule ],
 } )
 
-
 export class AppModule implements NestModule {
 
-  configure ( consumer: MiddlewareConsumer ) {
+  configure( consumer: MiddlewareConsumer ) {
 
     consumer
       .apply( redisConf.cacheWithRedis( '24 hours' ) )
       .forRoutes( VeiculosController );
 
   }
-
 
 }
