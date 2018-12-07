@@ -96,7 +96,6 @@ describe( 'VeiculosService', () => {
       renavam: '98765432101',
     };
     respostaDoTeste = await service.gerarGRU( params );
-    console.log(' >>>>>>>>> ', Object.keys(respostaDoTeste.res)[0]);
     expect( Object.keys(respostaDoTeste.res)[0] )
       .toBe( 'guia' );
   } );
