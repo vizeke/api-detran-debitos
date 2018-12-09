@@ -1,96 +1,47 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 
 export class Debito {
+    @ApiModelProperty()
+    id: number;
 
     @ApiModelProperty()
-    classe: number;
+    classification: number;
 
     @ApiModelProperty()
-    codigoServico: number;
+    date: string;
 
     @ApiModelProperty()
-    descricaoServico: string;
+    description: string;
 
     @ApiModelProperty()
-    dataVencimento: string;
+    district: string;
 
     @ApiModelProperty()
-    exercicio: number;
+    place: string;
 
     @ApiModelProperty()
-    idDebito: number;
+    plate: string;
 
     @ApiModelProperty()
-    parcela: number;
+    points: number;
 
     @ApiModelProperty()
-    placa: string;
+    warning: boolean;
 
     @ApiModelProperty()
-    valorAtualizadoFranquia: number;
-
-    @ApiModelProperty()
-    dpvatAnterior: number;
-
-    @ApiModelProperty()
-    dpvatCotas: string;
-
-    @ApiModelProperty()
-    dpvatExercicio: number;
-
-    @ApiModelProperty()
-    ipvaAnterior: number;
-
-    @ApiModelProperty()
-    ipvaExercicio: number;
-
-    @ApiModelProperty()
-    ipvaParcelamento: number;
-
-    @ApiModelProperty()
-    licenciamentoAnterior: number;
-
-    @ApiModelProperty()
-    licenciamentoExercicio: number;
-
-    @ApiModelProperty()
-    multas: number;
-
-    @ApiModelProperty()
-    taxaEspecial: number;
-
-    @ApiModelProperty()
-    taxaPatio: number;
-
-    @ApiModelProperty()
-    taxaServico: number;
-
-    @ApiModelProperty()
-    ipvaCotas: string;
+    amount: number;
 
     constructor(debito: any){
-        this.classe = debito.Classe;
-        this.codigoServico = debito.CodigoServico;
-        this.descricaoServico = debito.DescricaoServico;
-        this.dataVencimento = debito.DataVencimento;
-        this.exercicio = debito.Exercicio;
-        this.idDebito = debito.IdDebito;
-        this.parcela = debito.Parcela;
-        this.placa = debito.Placa;
-        this.valorAtualizadoFranquia = debito.ValorAtualizadoFranquia;
-        this.dpvatAnterior = debito.DpvatAnterior;
-        this.dpvatCotas = debito.DpvatCotas;
-        this.dpvatExercicio = debito.DpvatExercicio;
-        this.ipvaAnterior = debito.IpvaAnterior;
-        this.ipvaExercicio = debito.IpvaExercicio;
-        this.ipvaParcelamento = debito.IpvaParcelamento;
-        this.licenciamentoAnterior = debito.LicenciamentoAnterior;
-        this.licenciamentoExercicio = debito.LicenciamentoExercicio;
-        this.multas = debito.Multas;
-        this.taxaEspecial = debito.TaxaEspecial;
-        this.taxaPatio = debito.TaxaPatio;
-        this.taxaServico = debito.TaxaServico;
-        this.ipvaCotas = debito.IpvaCotas;
+        this.id = debito.IdDebito;
+        this.classification = debito.Classe;
+        this.date = debito.DataVencimento;
+        this.description = debito.DescricaoServico;
+        this.district = null;
+        this.place = null;
+        this.plate = debito.Placa;
+        this.points = null;
+        this.warning = false;
+        this.amount = debito.ValorAtualizadoFranquia;
     }
 
 }

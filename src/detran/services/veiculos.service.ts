@@ -20,7 +20,7 @@ export class VeiculosService {
     this.detranSoapClient = new DetranSoapClient();
   }
 
-  async getDadosVeiculos ( params: any ): Promise<Retorno> {
+  async getDadosVeiculos( params: any ): Promise<Retorno> {
 
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
@@ -41,7 +41,7 @@ export class VeiculosService {
     }
   }
 
-  async getDebitos ( params: any ): Promise<Retorno> {
+  async getDebitos( params: any ): Promise<Retorno> {
 
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
@@ -53,7 +53,7 @@ export class VeiculosService {
     try {
       this.res = await this.client.ObterDebitos( this.veiculoConsulta );
       this.debitos = new DebitoRetorno( this.res.ObterDebitosResult );
-      return new Retorno( this.debitos );
+      return new Retorno( this.debitos.debitos );
     } catch ( error ) {
       return new Retorno( {
         MensagemErro: 'Erro ao obter debitos: ' + error,
@@ -62,7 +62,7 @@ export class VeiculosService {
     }
   }
 
-  async getDebitosPreview ( params: any ): Promise<Retorno> {
+  async getDebitosPreview( params: any ): Promise<Retorno> {
 
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
@@ -83,7 +83,7 @@ export class VeiculosService {
     }
   }
 
-  async getTiposDebitos ( params: any ): Promise<Retorno> {
+  async getTiposDebitos( params: any ): Promise<Retorno> {
 
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.veiculoConsulta.tipoSelecionado = params.tipo_debito.toUpperCase();
@@ -105,7 +105,7 @@ export class VeiculosService {
     }
   }
 
-  async gerarGRU ( params: any ): Promise<Retorno> {
+  async gerarGRU( params: any ): Promise<Retorno> {
 
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;

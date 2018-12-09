@@ -44,7 +44,7 @@ defineFeature( feature, test => {
       'o sistema retorna os dados do veiculo',
       async () => {
         dataVehicle = resposta.body;
-        expect( Object.keys( dataVehicle ) ).toContain( 'placa' );
+        expect( Object.keys( dataVehicle ) ).toContain( 'plate' );
       },
     );
   } );
