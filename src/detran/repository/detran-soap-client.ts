@@ -28,7 +28,7 @@ export class DetranSoapClient {
             );
             return client;
         }).catch(error => {
-            console.error;
+            console.error(error);
             return {
                 mensagemErro: 'Erro em conectar ao repositorio. Error: ' + error,
             };
