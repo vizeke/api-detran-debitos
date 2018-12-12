@@ -70,7 +70,7 @@ defineFeature( feature, test => {
     });
     when( 'o usuario deseja pagar todos os debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}/gerar-gru` );
+        .get( `/veiculos/${placa}/${cpf}/debitos/guia` );
       expect( resposta.status ).toBe( 200 );
     } );
     when( 'solicita a geração da GRU', () => {

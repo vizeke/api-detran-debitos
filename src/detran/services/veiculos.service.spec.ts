@@ -21,7 +21,7 @@ describe( 'VeiculosService', () => {
     };
     respostaDoTeste = await service.getDadosVeiculos( params );
     expect( Object.keys(respostaDoTeste.res)[0])
-      .toBe( 'plate' );
+      .toBe( 'placa' );
   } );
 
   it( 'getDadosVeiculosWS() com dados errados deve retornar mensagem de erro', async () => {
@@ -52,7 +52,7 @@ describe( 'VeiculosService', () => {
     };
     respostaDoTeste = await service.getDebitos(  params );
 
-    expect( respostaDoTeste.res.debitos[0].description )
+    expect( respostaDoTeste.res.debitos[0].descricaoServico )
       .toBe( 'Licenciamento Anual 2018' );
   } );
 
@@ -85,12 +85,12 @@ describe( 'VeiculosService', () => {
       tipo_debito: 'IPVA',
     };
     respostaDoTeste = await service.getTiposDebitos(  params );
-    expect( respostaDoTeste.res.debitos[0].description )
+    expect( respostaDoTeste.res.debitos[0].descricaoServico )
       .toBe( 'IPVA 4ª Cota 2018' );
   } );
 
   /* gerarGRU() */
-  it( 'getTiposDebitos() somente com a placa do carro e o documento do proprietario', async () => {
+  it( 'gerarGRU com dados validos deve retornar uma guia', async () => {
     params = {
       placa: 'ABC1234',
       renavam: '98765432101',

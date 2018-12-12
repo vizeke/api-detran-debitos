@@ -74,7 +74,7 @@ export class VeiculosService {
     try {
       this.res = await this.client.ObterTiposDebitos( this.veiculoConsulta );
       const tipoDebito = new TipoDebito( this.res.ObterTiposDebitosResult );
-      return new Retorno( this.res.ObterTiposDebitosResult );
+      return new Retorno( tipoDebito );
     } catch ( error ) {
       return new Retorno( {
         MensagemErro: 'Erro ao buscar debitos: ' + error,

@@ -125,7 +125,7 @@ export class VeiculosController {
     }
   }
 
-  @Get( ':placa/:renavam/gerar-gru' )
+  @Get( ':placa/:renavam/debitos/guia' )
   @ApiOperation( {
     description: 'Retornar uma GRU com todos os debitos ',
     title: 'Gerar GRU de todos os débitos',

@@ -2,10 +2,10 @@ import { ApiModelProperty } from '@nestjs/swagger';
 
 export class VeiculoRetorno {
     @ApiModelProperty()
-    plate: string;
+    placa: string;
 
     @ApiModelProperty()
-    model: string;
+    modelo: string;
 
     @ApiModelProperty()
     renavam: number;
@@ -17,8 +17,8 @@ export class VeiculoRetorno {
         if (Object.keys(params)[0] === 'MensagemErro'){
             this.mensagemErro = params.MensagemErro;
         }else {
-            this.plate = params.VeiculoInfo.Veiculo.Placa;
-            this.model = params.VeiculoInfo.MarcaModelo;
+            this.placa = params.VeiculoInfo.Veiculo.Placa;
+            this.modelo = params.VeiculoInfo.MarcaModelo;
             this.renavam = params.VeiculoInfo.Veiculo.Renavam;
         }
     }

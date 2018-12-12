@@ -1,47 +1,96 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 
 export class Debito {
-    @ApiModelProperty()
-    id: number;
 
     @ApiModelProperty()
-    classification: number;
+    classe: number;
 
     @ApiModelProperty()
-    date: string;
+    codigoServico: number;
 
     @ApiModelProperty()
-    description: string;
+    descricaoServico: string;
 
     @ApiModelProperty()
-    district: string;
+    dataVencimento: string;
 
     @ApiModelProperty()
-    place: string;
+    exercicio: number;
 
     @ApiModelProperty()
-    plate: string;
+    idDebito: number;
 
     @ApiModelProperty()
-    points: number;
+    parcela: number;
 
     @ApiModelProperty()
-    warning: boolean;
+    placa: string;
 
     @ApiModelProperty()
-    amount: number;
+    valorAtualizadoFranquia: number;
+
+    @ApiModelProperty()
+    dpvatAnterior: number;
+
+    @ApiModelProperty()
+    dpvatCotas: string;
+
+    @ApiModelProperty()
+    dpvatExercicio: number;
+
+    @ApiModelProperty()
+    ipvaAnterior: number;
+
+    @ApiModelProperty()
+    ipvaExercicio: number;
+
+    @ApiModelProperty()
+    ipvaParcelamento: number;
+
+    @ApiModelProperty()
+    licenciamentoAnterior: number;
+
+    @ApiModelProperty()
+    licenciamentoExercicio: number;
+
+    @ApiModelProperty()
+    multas: number;
+
+    @ApiModelProperty()
+    taxaEspecial: number;
+
+    @ApiModelProperty()
+    taxaPatio: number;
+
+    @ApiModelProperty()
+    taxaServico: number;
+
+    @ApiModelProperty()
+    ipvaCotas: string;
 
     constructor(debito: any){
-        this.id = debito.IdDebito;
-        this.classification = debito.Classe;
-        this.date = debito.DataVencimento;
-        this.description = debito.DescricaoServico;
-        this.district = null;
-        this.place = null;
-        this.plate = debito.Placa;
-        this.points = null;
-        this.warning = false;
-        this.amount = debito.ValorAtualizadoFranquia;
+        this.classe = debito.Classe;
+        this.codigoServico = debito.CodigoServico;
+        this.descricaoServico = debito.descricaoServico;
+        this.dataVencimento = debito.dataVencimento;
+        this.exercicio = debito.Exercicio;
+        this.idDebito = debito.IdDebito;
+        this.parcela = debito.Parcela;
+        this.placa = debito.placa;
+        this.valorAtualizadoFranquia = debito.ValorAtualizadoFranquia;
+        this.dpvatAnterior = debito.DpvatAnterior;
+        this.dpvatCotas = debito.DpvatCotas;
+        this.dpvatExercicio = debito.DpvatExercicio;
+        this.ipvaAnterior = debito.IpvaAnterior;
+        this.ipvaExercicio = debito.IpvaExercicio;
+        this.ipvaParcelamento = debito.IpvaParcelamento;
+        this.licenciamentoAnterior = debito.LicenciamentoAnterior;
+        this.licenciamentoExercicio = debito.LicenciamentoExercicio;
+        this.multas = debito.Multas;
+        this.taxaEspecial = debito.TaxaEspecial;
+        this.taxaPatio = debito.TaxaPatio;
+        this.taxaServico = debito.TaxaServico;
+        this.ipvaCotas = debito.IpvaCotas;
     }
 
 }
