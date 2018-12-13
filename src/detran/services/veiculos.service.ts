@@ -35,7 +35,7 @@ export class VeiculosService {
       return new Retorno( this.veiculoRetorno );
     } catch ( error ) {
       return new Retorno( {
-        MensagemErro: 'Erro ao obter os dados do veiculo: ' + error,
+        mensagemErro: 'Erro ao obter os dados do veiculo.',
       },
       );
     }
@@ -56,7 +56,7 @@ export class VeiculosService {
       return new Retorno( this.debitos.debitos );
     } catch ( error ) {
       return new Retorno( {
-        MensagemErro: 'Erro ao obter debitos: ' + error,
+        mensagemErro: 'Erro ao obter debitos.',
       },
       );
     }
@@ -73,11 +73,13 @@ export class VeiculosService {
 
     try {
       this.res = await this.client.ObterTiposDebitos( this.veiculoConsulta );
-      const tipoDebito = new TipoDebito( this.res.ObterTiposDebitosResult );
+      console.log('>>>>>>>>>> ', this.res);
+      const tipoDebito = new TipoDebito( this.res.ObterTiposDebitosResult.TipoDebito );
+
       return new Retorno( tipoDebito );
     } catch ( error ) {
       return new Retorno( {
-        MensagemErro: 'Erro ao buscar debitos: ' + error,
+        mensagemErro: 'Erro ao buscar debitos.',
       },
       );
     }
@@ -100,7 +102,7 @@ export class VeiculosService {
 
     } catch ( error ) {
       return new Retorno( {
-        MensagemErro: 'Erro ao buscar os debitos: ' + error,
+        mensagemErro: 'Erro ao buscar os debitos.',
       } );
     }
   }
@@ -117,16 +119,17 @@ export class VeiculosService {
 
     try {
       const deb: Retorno = await this.getDebitos( params );
-      if ( deb.res.debitos[ 0 ] === 'Não foram encontrados debitos para esse veiculo.' || deb.status !== HttpStatus.OK ) {
+      console.log('DEV >>>>>> ', deb);
+      if ( deb.res[0] === 'Não foram encontrados debitos para esse veiculo.' || deb.status !== HttpStatus.OK ) {
         return deb;
       } else {
-        for ( const debito of deb.res.debitos ) {
-          array_ids.push( debito.IdDebito );
+        for ( const debito of deb.res ) {
+          array_ids.push( debito.idDebito );
         }
       }
     } catch ( error ) {
       return new Retorno( {
-        MensagemErro: 'Erro ao buscar os debitos: ' + error,
+        mensagemErro: 'Erro ao buscar os debitos.',
       } );
     }
 
@@ -138,7 +141,7 @@ export class VeiculosService {
       return new Retorno( guia );
     } catch ( error ) {
       return new Retorno( {
-        MensagemErro: 'Error ao gerar a GRU: ' + error,
+        mensagemErro: 'Error ao gerar a GRU.',
       } );
     }
   }

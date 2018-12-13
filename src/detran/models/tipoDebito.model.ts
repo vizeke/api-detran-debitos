@@ -33,8 +33,8 @@ export class TipoDebito {
         } else if (tipoDeb === null || tipoDeb === undefined) {
             this.mensagemErro = 'Erro ao gerar tipoDebito';
         } else {
-            this.temLicenciamentoAnual = tipoDeb.TemLicenciamentoAnual;
-            this.temLicenciamentoAnterior = tipoDeb.TemLicenciamentoAnterio;
+            this.temLicenciamentoAnual = tipoDeb.TemLicenciamentoAtual;
+            this.temLicenciamentoAnterior = tipoDeb.TemLicenciamentoAnterior;
             this.temDPVAT = tipoDeb.TemDPVAT;
             this.temIPVA = tipoDeb.TemIPVA;
             this.temMulta = tipoDeb.TemMulta;

@@ -2,7 +2,7 @@ import { ItemGuia } from './itemGuia.model';
 
 export class GerarGuiaRetorno {
 
-    guia: Array<ItemGuia>;
+    itensGuia: Array<ItemGuia>;
     mensagemErro: string;
     guiaPDF: string;
 
@@ -13,9 +13,9 @@ export class GerarGuiaRetorno {
         } else if (gerar_guia === null || gerar_guia === undefined) {
             this.mensagemErro = 'Erro ao gerar guia.';
         } else {
-            this.guia = new Array();
+            this.itensGuia = new Array();
             for ( const item of gerar_guia.Guia.ItemGuia ){
-                this.guia.push(new ItemGuia(item));
+                this.itensGuia.push(new ItemGuia(item));
             }
             this.guiaPDF = gerar_guia.GuiaPDF;
         }

@@ -13,7 +13,7 @@ export class AppModule implements NestModule {
   configure( consumer: MiddlewareConsumer ) {
 
     consumer
-      .apply( redisConf.cacheWithRedis( process.env.REDIS_CACHE_TIME ) )
+      .apply( redisConf.cacheWithRedis( process.env.REDIS_CACHE_TIME || '1 hour' ) )
       .forRoutes( VeiculosController );
 
   }

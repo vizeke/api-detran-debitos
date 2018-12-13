@@ -78,7 +78,7 @@ defineFeature( feature, test => {
     } );
     then( 'o sistema retorna a GRU com os debitos', () => {
       dataVehicle = resposta.body;
-      expect( Object.keys( dataVehicle )[0] ).toContain( 'guia' );
+      expect( Object.keys( dataVehicle )[0] ).toContain( 'itensGuia' );
     } );
   } );
 

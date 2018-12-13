@@ -2,14 +2,14 @@ import { ItemGuia } from './itemGuia.model';
 
 export class GerarGuiaRetorno {
 
-    guia: Array<ItemGuia>;
+    itensGuia: Array<ItemGuia>;
     mensagemErro: string;
     guiaPDF: string;
 
     constructor(gerar_guia: any) {
 
-        this.guia = new Array();
-        this.guia.push(new ItemGuia(gerar_guia));
+        this.itensGuia = new Array();
+        this.itensGuia.push(new ItemGuia(gerar_guia));
         this.guiaPDF = 'PeDeEfe';
     }
 }

@@ -97,6 +97,6 @@ describe( 'VeiculosService', () => {
     };
     respostaDoTeste = await service.gerarGRU( params );
     expect( Object.keys(respostaDoTeste.res)[0] )
-      .toBe( 'guia' );
+      .toBe( 'itensGuia' );
   } );
 } );
