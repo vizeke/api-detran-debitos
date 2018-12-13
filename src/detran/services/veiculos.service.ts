@@ -73,7 +73,6 @@ export class VeiculosService {
 
     try {
       this.res = await this.client.ObterTiposDebitos( this.veiculoConsulta );
-      console.log('>>>>>>>>>> ', this.res);
       const tipoDebito = new TipoDebito( this.res.ObterTiposDebitosResult.TipoDebito );
 
       return new Retorno( tipoDebito );
@@ -119,7 +118,6 @@ export class VeiculosService {
 
     try {
       const deb: Retorno = await this.getDebitos( params );
-      console.log('DEV >>>>>> ', deb);
       if ( deb.res[0] === 'Não foram encontrados debitos para esse veiculo.' || deb.status !== HttpStatus.OK ) {
         return deb;
       } else {
