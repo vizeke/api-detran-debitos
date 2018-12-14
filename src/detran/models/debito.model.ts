@@ -3,7 +3,7 @@ import { ApiModelProperty } from '@nestjs/swagger';
 export class Debito {
 
     @ApiModelProperty()
-    classe: number;
+    classe: string;
 
     @ApiModelProperty()
     codigoServico: number;
@@ -30,68 +30,119 @@ export class Debito {
     valorAtualizadoFranquia: number;
 
     @ApiModelProperty()
-    dpvatAnterior: number;
+    flagDpvatAnterior: number;
 
     @ApiModelProperty()
     dpvatCotas: string;
 
     @ApiModelProperty()
-    dpvatExercicio: number;
+    flagDpvatExercicio: number;
 
     @ApiModelProperty()
-    ipvaAnterior: number;
+    flagIpvaAnterior: number;
 
     @ApiModelProperty()
-    ipvaExercicio: number;
+    flagIpvaExercicio: number;
 
     @ApiModelProperty()
-    ipvaParcelamento: number;
+    flagIpvaParcelamento: number;
 
     @ApiModelProperty()
-    licenciamentoAnterior: number;
+    flagLicenciamentoAnterior: number;
 
     @ApiModelProperty()
-    licenciamentoExercicio: number;
+    flagLicenciamentoExercicio: number;
 
     @ApiModelProperty()
-    multas: number;
+    flagMultas: number;
 
     @ApiModelProperty()
-    taxaEspecial: number;
+    flagTaxaEspecial: number;
 
     @ApiModelProperty()
-    taxaPatio: number;
+    flagTaxaPatio: number;
 
     @ApiModelProperty()
-    taxaServico: number;
+    flagsTaxaServico: number;
 
     @ApiModelProperty()
     ipvaCotas: string;
 
     constructor(debito: any){
-
         this.descricaoServico = debito.DescricaoServico;
         this.valorAtualizadoFranquia = debito.ValorAtualizadoFranquia;
         this.dataVencimento = debito.DataVencimento;
         this.dpvatCotas = debito.DpvatCotas;
         this.idDebito = debito.IdDebito;
         this.placa = debito.Placa;
-        this.ipvaExercicio = debito.IpvaExercicio;
-        this.ipvaAnterior = debito.IpvaAnterior;
-        this.licenciamentoExercicio = debito.LicenciamentoExercicio;
-        this.licenciamentoAnterior = debito.LicenciamentoAnterior;
-        this.taxaServico = debito.TaxaServico;
-        this.multas = debito.Multas;
-        this.ipvaParcelamento = debito.IpvaParcelamento;
-        this.taxaEspecial = debito.TaxaEspecial;
-        this.taxaPatio = debito.TaxaPatio;
-        this.dpvatExercicio = debito.DpvatExercicio;
-        this.dpvatAnterior = debito.DpvatAnterior;
+        this.flagIpvaExercicio = debito.IpvaExercicio;
+        this.flagIpvaAnterior = debito.IpvaAnterior;
+        this.flagLicenciamentoExercicio = debito.LicenciamentoExercicio;
+        this.flagLicenciamentoAnterior = debito.LicenciamentoAnterior;
+        this.flagsTaxaServico = debito.TaxaServico;
+        this.flagMultas = debito.Multas;
+        this.flagIpvaParcelamento = debito.IpvaParcelamento;
+        this.flagTaxaEspecial = debito.TaxaEspecial;
+        this.flagTaxaPatio = debito.TaxaPatio;
+        this.flagDpvatExercicio = debito.DpvatExercicio;
+        this.flagDpvatAnterior = debito.DpvatAnterior;
         this.codigoServico = debito.CodigoServico;
-        this.classe = debito.Classe;
         this.exercicio = debito.Exercicio;
         this.parcela = debito.Parcela;
         this.ipvaCotas = debito.IpvaCotas;
+
+        this.defineClasse(debito.Classe);
+    }
+
+    defineClasse (classe: number){
+        
+        switch (classe) {
+            case 1:
+                this.classe = 'Licenciamento';
+            break;
+            case 2:
+                this.classe = 'Registro Veículo';
+            break;
+            case 3:
+                this.classe = 'IPVA';
+            break;
+            case 4:
+                this.classe = 'Seguro DPVAT';
+            break;
+            case 5:
+                this.classe = 'Multas';
+            break;
+            case 6:
+                this.classe = 'Vistoria';
+            break;
+            case 7:
+                this.classe = 'Certidões';
+            break;
+            case 8:
+                this.classe = 'Apreensão';
+            break;
+            case 9:
+                this.classe = 'Credenciamento';
+            break;
+            case 10:
+                this.classe = 'Diversos Veículos';
+            break;
+            case 11:
+                this.classe = 'Parcelamento IPVA';
+            break;
+            case 12:
+                this.classe = 'Placas';
+            break;
+            case 13:
+                this.classe = 'Pátio';
+            break;
+            case 14:
+                this.classe = 'Registro de Contrato';
+            break;
+            default:
+
+
+        }
     }
 
 }

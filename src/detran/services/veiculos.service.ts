@@ -72,7 +72,7 @@ export class VeiculosService {
     }
 
     try {
-      this.res = await this.client.ObterTiposDebitos( this.veiculoConsulta );
+      this.res = await this.client.ObterTiposDebitos( this.veiculoConsulta ); 
       const tipoDebito = new TipoDebito( this.res.ObterTiposDebitosResult.TipoDebito );
 
       return new Retorno( tipoDebito );
@@ -146,6 +146,19 @@ export class VeiculosService {
     }
   }
 
+  async validaDebitosGRU( params: any ): Promise<boolean> {
+
+    const tipoDebito: string = params.tipoDebito;
+    const debitosIdes: Array<number> = params.ids;
+    
+    try {
+      
+    } catch (error) {
+      return false;
+    }
+
+  }
+
   async verificaIpvaCotaUnica(params: any, debitos: Retorno): Promise<Retorno> {
 
     let ipvaCotaUnica: boolean =  false;
@@ -174,4 +187,5 @@ export class VeiculosService {
     }
     return debitos;
   }
+
 }
