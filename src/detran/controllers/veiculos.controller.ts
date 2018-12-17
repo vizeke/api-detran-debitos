@@ -152,4 +152,42 @@ export class VeiculosController {
       throw new HttpException('Erro ao gerar a GRU.', HttpStatus.FORBIDDEN);
     }
   }
+
+  @Get( ':placa/:renavam/debitos/guia/:tipo_debito/:listaIDs' )
+  @ApiOperation( {
+    description: 'Retornar uma GRU com os debitos requisitados',
+    title: 'Gerar GRU de alguns debitos',
+  } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens e o pdf do boleto', type: DebitoRetorno } )
+  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
+  @ApiImplicitParam( {
+    name: 'placa',
+    description: 'Placa do veiculo',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'renavam',
+    description: 'Renavam do veiculo',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'tipo_debito',
+    description: 'tipo do debito',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'listaIDs',
+    description: 'Lista de IDs de debitos',
+    required: true,
+  } )
+  async gerarGRUParcial( @Res() res, @Param() params ) {
+
+    try {
+      this.resposta = await this.veiculosService.gerarGRUParcial( params);
+      res.status( this.resposta.status ).send( this.resposta.res );
+    } catch (error) {
+      throw new HttpException('Erro ao gerar a GRU.', HttpStatus.FORBIDDEN);
+    }
+  }
+
 }

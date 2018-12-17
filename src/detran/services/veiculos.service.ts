@@ -90,6 +90,8 @@ export class VeiculosService {
     this.veiculoConsulta.tipoSelecionado = params.tipo_debito.toUpperCase();
     this.client = await this.detranSoapClient._client;
 
+    console.log('VEICULO >>> ', this.veiculoConsulta)
+
     if ( Object.keys( this.client )[ 0 ] === 'mensagemErro' ) {
       return new Retorno( this.client );
     }
@@ -146,17 +148,102 @@ export class VeiculosService {
     }
   }
 
-  async validaDebitosGRU( params: any ): Promise<boolean> {
+  async gerarGRUParcial( params: any ): Promise<Retorno> {
+    
+    this.veiculoConsulta = new VeiculoConsulta( params );
+    this.client = await this.detranSoapClient._client;
+    // const tipoDebito: Array<string> = params.tipo_debito.split(',');
 
-    const tipoDebito: string = params.tipoDebito;
-    const debitosIdes: Array<number> = params.ids;
+    let validoListaIDs: boolean;
+
+    try {
+      switch (params.tipo_debito.toUpperCase()) {
+        case 'LICENCIAMENTOATUAL':
+          validoListaIDs = await this.validaLicenciamentoAtual(params);
+          break;
+        case 'LICENCIAMENTOANTERIOR':
+          validoListaIDs = await this.validaLicenciamentoAnterior(params);
+          break;
+        case 'IPVA':
+          validoListaIDs = await this.validaIPVA(params);
+          break;
+        case 'DPVAT':
+          validoListaIDs = await this.validaDPVAT(params);
+          break;
+        case 'MULTA':
+          validoListaIDs = await this.validaMulta(params);
+          break;
+        default:
+          return new Retorno({
+            mensagemErro: 'Tipo não cadastrado.',
+          });
+      }
+    } catch (error) {
+      return new Retorno({
+        mensagemErro: 'Error ao validar debitos.',
+      })
+    }
+    
+
+    if(validoListaIDs === true){
+      return new Retorno({
+        mensagemErro: 'Ok.',
+      });
+    }else{
+      return new Retorno({
+        mensagemErro: 'Debitos obrigatorios não foram passados.',
+      })
+    }
+
+  }
+
+  async validaLicenciamentoAtual(params: any): Promise<boolean>{
+    const listaIDs: Array<number> = params.listaIDs.split(',').map(Number);
     
     try {
-      
+      const deb: Retorno = await this.getTiposDebitos( params );
+      if ( deb.res[0] === 'Não foram encontrados debitos para esse veiculo.' || deb.status !== HttpStatus.OK ) {
+        return false;
+      } else {
+        for ( const debito of deb.res ) {
+          if (debito.flagLicenciamentoExercicio === 1){
+            const index = listaIDs.indexOf(debito.idDebito);
+            if (index <= -1){
+              console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
+              return false;
+            }
+          }
+        }
+        return true;        
+      }
     } catch (error) {
       return false;
     }
 
+  }
+
+  async validaLicenciamentoAnterior(params: any): Promise<boolean>{
+    const listaIDs: Array<number> = params.listaIDs.split(',').map(Number);
+
+    return false;
+  }
+
+  async validaIPVA(params: any): Promise<boolean>{
+    const listaIDs: Array<number> = params.listaIDs.split(',').map(Number);
+
+    return false;
+  }
+
+  async validaDPVAT(params: any): Promise<boolean>{
+    const listaIDs: Array<number> = params.listaIDs.split(',').map(Number);
+
+    return false;
+  }
+
+  async validaMulta(params: any): Promise<boolean>{
+    const listaIDs: Array<number> = params.listaIDs.split(',').map(Number);
+
+    return false;
   }
 
   async verificaIpvaCotaUnica(params: any, debitos: Retorno): Promise<Retorno> {
