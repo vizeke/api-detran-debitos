@@ -13,6 +13,6 @@ export class Veiculo{
     constructor( veic: any ){
         this.Placa = veic.Placa || veic.placa;
         this.CPF = veic.CPF || veic.doc_proprietario;
-        this.Renavam = veic.Renavam || veic.renavam;
+        this.Renavam = Number(veic.Renavam) || Number(veic.renavam);
     }
 }
