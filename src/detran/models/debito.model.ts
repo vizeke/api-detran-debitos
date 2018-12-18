@@ -94,54 +94,53 @@ export class Debito {
         this.defineClasse(debito.Classe);
     }
 
-    defineClasse (classe: number){
-        
+    defineClasse(classe: number){
+
         switch (classe) {
             case 1:
                 this.classe = 'Licenciamento';
-            break;
+                break;
             case 2:
                 this.classe = 'Registro Veículo';
-            break;
+                break;
             case 3:
                 this.classe = 'IPVA';
-            break;
+                break;
             case 4:
                 this.classe = 'Seguro DPVAT';
-            break;
+                break;
             case 5:
                 this.classe = 'Multas';
-            break;
+                break;
             case 6:
                 this.classe = 'Vistoria';
-            break;
+                break;
             case 7:
                 this.classe = 'Certidões';
-            break;
+                break;
             case 8:
                 this.classe = 'Apreensão';
-            break;
+                break;
             case 9:
                 this.classe = 'Credenciamento';
-            break;
+                break;
             case 10:
                 this.classe = 'Diversos Veículos';
-            break;
+                break;
             case 11:
                 this.classe = 'Parcelamento IPVA';
-            break;
+                break;
             case 12:
                 this.classe = 'Placas';
-            break;
+                break;
             case 13:
                 this.classe = 'Pátio';
-            break;
+                break;
             case 14:
                 this.classe = 'Registro de Contrato';
-            break;
+                break;
             default:
-
-
+                break;
         }
     }
 
