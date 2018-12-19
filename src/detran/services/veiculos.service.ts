@@ -228,7 +228,7 @@ export class VeiculosService {
 
     try {
       for ( const debito of deb.res ) {
-        if (debito.flagflagLicenciamentoAnterior === 1){
+        if (debito.flagLicenciamentoAnterior === 1){
           const index = listaIDs.indexOf(debito.idDebito);
           if (index <= -1){
             // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
@@ -248,11 +248,11 @@ export class VeiculosService {
     try {
       ipvaCotasMaisNovo = 0;
       for ( const debito of deb.res ) {
-        if (debito.flagIPVAExercicio === 1){
+        if (debito.flagIpvaExercicio === 1){
           const index = listaIDs.indexOf(debito.idDebito);
-          if (ipvaCotasMaisNovo < Number(debito.ipvaCotas)){
+          /*if (ipvaCotasMaisNovo < Number(debito.ipvaCotas)){
             ipvaCotasMaisNovo = Number(debito.ipvaCotas);
-          }
+          }*/
           if (index <= -1){
             // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
             return false;
@@ -268,7 +268,7 @@ export class VeiculosService {
   async validaDPVAT(deb: Retorno, listaIDs: Array<number>): Promise<boolean>{
     try {
       for ( const debito of deb.res ) {
-        if (debito.flagDPVATExercicio === 1){
+        if (debito.flagDpvatExercicio === 1){
           const index = listaIDs.indexOf(debito.idDebito);
           if (index <= -1){
             // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
