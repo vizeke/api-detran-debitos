@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import * as soap from 'soap-as-promised';
 import { SegurancaDetran } from '../models/segurancaDetran.model';
+import { DebitosWS } from '../common/config/debitosWS.config';
 
 const wsurl: string = process.env.DETRAN_URL;
 
@@ -8,9 +9,10 @@ const wsurl: string = process.env.DETRAN_URL;
 export class DetranSoapClient {
     private readonly serviceUrl =  wsurl;
     _client: any;
+    debitosWS: DebitosWS;
 
     constructor() {
-
+        this.debitosWS = new DebitosWS();
         this._client = soap.createClient(this.serviceUrl)
         .then(client => {
             client.addSoapHeader(

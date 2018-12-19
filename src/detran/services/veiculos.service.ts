@@ -152,7 +152,6 @@ export class VeiculosService {
     this.client = await this.detranSoapClient._client;
     let validoListaIDs: boolean;
     let deb: Retorno;
-    // const tipoDebito: Array<string> = params.tipo_debito.split(',');
 
     const listaIDs: Array<number> = params.listaIDs.split(',').map(Number);
 
@@ -190,8 +189,9 @@ export class VeiculosService {
         }
       }
     } catch (error) {
-      /*TO DO */
-      validoListaIDs = false;
+      return new Retorno({
+        mensagemErro: 'Error buscar debitos.',
+      });
     }
 
     if (validoListaIDs === true){
@@ -213,7 +213,6 @@ export class VeiculosService {
         if (debito.flagLicenciamentoExercicio === 1){
           const index = listaIDs.indexOf(debito.idDebito);
           if (index <= -1){
-            // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
             return false;
           }
         }
@@ -231,7 +230,6 @@ export class VeiculosService {
         if (debito.flagLicenciamentoAnterior === 1){
           const index = listaIDs.indexOf(debito.idDebito);
           if (index <= -1){
-            // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
             return false;
           }
         }
@@ -244,17 +242,22 @@ export class VeiculosService {
 
   async validaIPVA(deb: Retorno, listaIDs: Array<number>): Promise<boolean>{
 
-    let ipvaCotasMaisNovo: number;
+    let ipvaCotasMaisNovo: number = 0;
     try {
-      ipvaCotasMaisNovo = 0;
+
       for ( const debito of deb.res ) {
-        if (debito.flagIpvaExercicio === 1){
-          const index = listaIDs.indexOf(debito.idDebito);
-          /*if (ipvaCotasMaisNovo < Number(debito.ipvaCotas)){
-            ipvaCotasMaisNovo = Number(debito.ipvaCotas);
-          }*/
+
+        const index = listaIDs.indexOf(debito.idDebito);
+        if (index > -1 && ipvaCotasMaisNovo < Number(debito.ipvaCotas)){
+          ipvaCotasMaisNovo = Number(debito.ipvaCotas);
+        }
+      }
+
+      for ( const debito of deb.res ) {
+
+        const index = listaIDs.indexOf(debito.idDebito);
+        if (debito.flagIpvaExercicio === 1 || Number(debito.ipvaCotas) <= ipvaCotasMaisNovo){
           if (index <= -1){
-            // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
             return false;
           }
         }
@@ -283,8 +286,20 @@ export class VeiculosService {
   }
 
   async validaMulta(deb: Retorno, listaIDs: Array<number>): Promise<boolean>{
-
-    return false;
+    try {
+      for ( const debito of deb.res ) {
+        if (debito.flagMulta === 1){
+          const index = listaIDs.indexOf(debito.idDebito);
+          if (index <= -1){
+            // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
+            return false;
+          }
+        }
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   async verificaIpvaCotaUnica(params: any, debitos: Retorno): Promise<Retorno> {
@@ -315,5 +330,4 @@ export class VeiculosService {
     }
     return debitos;
   }
-
 }

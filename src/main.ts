@@ -4,8 +4,8 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as fs from 'fs';
-const ambiente = process.env.NODE_ENV || 'development';
 
+const ambiente = process.env.NODE_ENV || 'development';
 const pacote = require('../package.json');
 
 async function bootstrap() {
