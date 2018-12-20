@@ -1,9 +1,15 @@
 import { ItemGuia } from './itemGuia.model';
+import { ApiModelProperty } from '@nestjs/swagger';
 
 export class GerarGuiaRetorno {
 
+    @ApiModelProperty()
     itensGuia: Array<ItemGuia>;
+
+    @ApiModelProperty()
     mensagemErro: string;
+
+    @ApiModelProperty()
     guiaPDF: string;
 
     constructor(gerar_guia: any) {

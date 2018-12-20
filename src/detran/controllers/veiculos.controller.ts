@@ -6,6 +6,7 @@ import { Debito } from '../models/debito.model';
 import { VeiculoRetorno } from '../models/veiculoRetorno.model';
 import { TipoDebito } from '../models/tipoDebito.model';
 import { DebitoRetorno } from '../models/debitoRetorno.model';
+import { GerarGuiaRetorno } from '../models/gerarGuiaRetorno.model';
 
 @Controller( 'veiculos' )
 @ApiUseTags('veiculos-debitos')
@@ -130,7 +131,7 @@ export class VeiculosController {
     description: 'Retornar uma GRU com todos os debitos ',
     title: 'Gerar GRU de todos os débitos',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens com o pdf, em base64 do boleto', type: DebitoRetorno } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens e o pdf do boleto, em base64', type: GerarGuiaRetorno } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
