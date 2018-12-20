@@ -12,6 +12,7 @@ let placa: string;
 let renavam: string;
 let dataVehicle: any;
 let tipoDebito: string;
+let listaIDs: string;
 
 defineFeature( feature, test => {
   let module: TestingModule;
@@ -30,40 +31,53 @@ defineFeature( feature, test => {
     then,
   } ) => {
     given( 'O usuario possui debitos', () => {
-      pending();
+    } );
+    given( 'informa a placa', () => {
+      placa = 'ROU8470';
+    } );
+    given( 'o renavam do veiculo', () => {
+      renavam = '12345678910';
     } );
     when( 'o usuario escolher os debitos', () => {
-      pending();
+      listaIDs = '78994349';
+      tipoDebito = 'dpvat';
     } );
-    when( 'solicita a geração da GRU', () => {
-      pending();
+    when( 'solicita a geração da GRU', async () => {
+      resposta = await request( app.getHttpServer() )
+        .get( `/veiculos/${placa}/${renavam}/debitos/guia/${tipoDebito}/${listaIDs}` );
     } );
-    then(
-      'o sistema retorna a GRU com os debitos',
-      () => {
-        pending();
-      },
-    );
+    then( 'o sistema retorna a GRU com os debitos', () => {
+      dataVehicle = resposta.body;
+      expect( Object.keys( dataVehicle )[0] ).toContain( 'itensGuia' );
+    } );
   } );
 
-  test( 'Solicitando um débito que possuem outros tipos de débitos obrigatorios', ( { given, when, then } ) => {
+  test( 'Solicitando um débito que possuem outros débitos obrigatorios', ( { given, when, then } ) => {
     given( 'O usuario possui debitos', () => {
-      pending();
+    } );
+    given( 'informa a placa', () => {
+      placa = 'ROU8470';
+    } );
+    given( 'o renavam do veiculo', () => {
+      renavam = '12345678910';
     } );
     when( 'o usuario escolhe um debito que tem outros tipos de débitos obrigatorios', () => {
-      pending();
+      listaIDs = '84677037';
+      tipoDebito = 'dpvat';
     } );
-    when( 'solicita a geração da GRU', () => {
-      pending();
+    when( 'solicita a geração da GRU', async () => {
+      resposta = await request( app.getHttpServer() )
+        .get( `/veiculos/${placa}/${renavam}/debitos/guia/${tipoDebito}/${listaIDs}` );
     } );
     then( 'o sistema retorna uma mensagem informando que é necessário selecionar os outros débitos obrigatórios', () => {
-      pending();
+      dataVehicle = resposta.body;
+      expect( Object.keys( dataVehicle )[0] ).toContain( 'mensagemErro' );
     } );
   } );
 
   test( 'Solicitando todos debitos', ( { given, when, then } ) => {
     given( 'o usuario informa a placa do veiculo', () => {
-      placa = 'ABC1234';
+      placa = 'ROU8470';
     } );
     given('informa o renavam do veiculo', () => {
       renavam = '12345678910';
@@ -79,36 +93,6 @@ defineFeature( feature, test => {
     then( 'o sistema retorna a GRU com os debitos', () => {
       dataVehicle = resposta.body;
       expect( Object.keys( dataVehicle )[0] ).toContain( 'itensGuia' );
-    } );
-  } );
-
-  test( 'Nenhum debito solicitado', ( { given, when, then } ) => {
-    given( 'O usuario possui debitos', () => {
-      pending();
-    } );
-    when( 'o usuario não escolhe nenhum debito', () => {
-      pending();
-    } );
-    when( 'solicita a geração da GRU', () => {
-      pending();
-    } );
-    then( 'o sistema retorna uma mensagem informando que é necessário selecionar pelo menos um debito', () => {
-      pending();
-    } );
-  } );
-
-  test( 'Solicitando um tipo de debito que possui débitos anteriores', ( { given, when, then } ) => {
-    given( 'O usuario possui débitos atrasados', () => {
-      pending();
-    } );
-    when( 'o usuario deseja pagar um débito de 2017-1', () => {
-      pending();
-    } );
-    when( 'possui débitos anteriores atrasados', () => {
-      pending();
-    } );
-    then( 'o sistema retorna uma mensagem informando que é necessário selecionar também os débitos anteriores', () => {
-      pending();
     } );
   } );
 

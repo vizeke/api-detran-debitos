@@ -33,4 +33,9 @@ export class VeiculosService {
     const retornoGRU = new GerarGuiaRetorno(params);
     return new Retorno(retornoGRU);
   }
+
+  async gerarGRUParcial( params ): Promise<Retorno>{
+    const retornoGRU = new GerarGuiaRetorno(params);
+    return new Retorno(retornoGRU);
+  }
 }

@@ -12,9 +12,6 @@ export class Retorno {
     @ApiModelProperty()
     public status: number;
 
-    @ApiModelProperty()
-    public erro: errorEnum;
-
     constructor(resposta: any){
         this.res = resposta;
 
