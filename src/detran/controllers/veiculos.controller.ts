@@ -130,7 +130,7 @@ export class VeiculosController {
     description: 'Retornar uma GRU com todos os debitos ',
     title: 'Gerar GRU de todos os débitos',
   } )
-  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens com o pdf do boleto', type: DebitoRetorno } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens com o pdf, em base64 do boleto', type: DebitoRetorno } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
   @ApiImplicitParam( {
     name: 'placa',
