@@ -108,6 +108,8 @@ export class VeiculosService {
 
   async gerarGRU( params: any ): Promise<Retorno> {
 
+    console.log('TOTAL');
+
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
     const array_ids: Array<string> = new Array();
@@ -194,10 +196,18 @@ export class VeiculosService {
       });
     }
 
+    // =this.veiculoConsulta.listaDebitos = listaIDs.toString();
+
     if (validoListaIDs === true){
-      return new Retorno({
-        mensagemErro: 'Ok.',
-      });
+      try {
+        this.res = await this.client.GerarGuia( this.veiculoConsulta );
+        const guia: any = new GerarGuiaRetorno( this.res.GerarGuiaResult );
+        return new Retorno( guia );
+      } catch ( error ) {
+        return new Retorno( {
+          mensagemErro: 'Error ao gerar a GRU.',
+        } );
+      }
     }else{
       return new Retorno({
         mensagemErro: 'Debitos obrigatorios não foram passados.',
