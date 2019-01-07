@@ -53,6 +53,10 @@ export class VeiculosService {
     try {
       this.res = await this.client.ObterDebitos( this.veiculoConsulta );
       this.debitos = new DebitoRetorno( this.res.ObterDebitosResult );
+
+      for (const d of this.debitos) {
+        if 
+      }
       return new Retorno( this.debitos.debitos );
     } catch ( error ) {
       return new Retorno( {
@@ -111,6 +115,8 @@ export class VeiculosService {
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
     const array_ids: Array<string> = new Array();
+    let ipvaCotaUnica: boolean =  false;
+    const regExIpvaCotas: string = '/^\d{4}1$/g';
 
     if ( Object.keys( this.client )[ 0 ] === 'mensagemErro' ) {
       return new Retorno( this.client );
@@ -121,6 +127,13 @@ export class VeiculosService {
       if ( deb.res[0] === 'Não foram encontrados debitos para esse veiculo.' || deb.status !== HttpStatus.OK ) {
         return deb;
       } else {
+        for (const debito of deb.res) {
+          if (debito.ipvaCotas === regExIpvaCotas){
+            ipvaCotaUnica = true;
+            console.log('>>>>>>>>>> ', debito, '\nFLAG >>>>> ', ipvaCotaUnica);
+            break
+          }
+        }
         for ( const debito of deb.res ) {
           array_ids.push( debito.idDebito );
         }
