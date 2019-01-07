@@ -3,6 +3,7 @@ import * as soap from 'soap-as-promised';
 import { SegurancaDetran } from '../models/segurancaDetran.model';
 
 const wsurl: string = process.env.DETRAN_URL;
+console.log(wsurl);
 
 @Injectable()
 export class DetranSoapClient {

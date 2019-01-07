@@ -1,11 +1,10 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 const ambiente = process.env.NODE_ENV || 'development';
-
-dotenv.config();
 
 const pacote = require('../package.json');
 

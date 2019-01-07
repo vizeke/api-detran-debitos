@@ -53,10 +53,6 @@ export class VeiculosService {
     try {
       this.res = await this.client.ObterDebitos( this.veiculoConsulta );
       this.debitos = new DebitoRetorno( this.res.ObterDebitosResult );
-
-      for (const d of this.debitos) {
-        if 
-      }
       return new Retorno( this.debitos.debitos );
     } catch ( error ) {
       return new Retorno( {
@@ -115,8 +111,6 @@ export class VeiculosService {
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
     const array_ids: Array<string> = new Array();
-    let ipvaCotaUnica: boolean =  false;
-    const regExIpvaCotas: string = '/^\d{4}1$/g';
 
     if ( Object.keys( this.client )[ 0 ] === 'mensagemErro' ) {
       return new Retorno( this.client );
@@ -127,14 +121,12 @@ export class VeiculosService {
       if ( deb.res[0] === 'Não foram encontrados debitos para esse veiculo.' || deb.status !== HttpStatus.OK ) {
         return deb;
       } else {
-        for (const debito of deb.res) {
-          if (debito.ipvaCotas === regExIpvaCotas){
-            ipvaCotaUnica = true;
-            console.log('>>>>>>>>>> ', debito, '\nFLAG >>>>> ', ipvaCotaUnica);
-            break
-          }
-        }
+        this.verificaIpvaCotaUnica(params, deb);
         for ( const debito of deb.res ) {
+          /*if (ipvaCotaUnica && debito.ipvaCotas != '' && !regExIpvaCotas.test(debito.ipvaCotas)){
+            console.log(debito.ipvaCotas);
+            continue
+          }*/
           array_ids.push( debito.idDebito );
         }
       }
@@ -154,6 +146,28 @@ export class VeiculosService {
       return new Retorno( {
         mensagemErro: 'Error ao gerar a GRU.',
       } );
+    }
+  }
+
+  async verificaIpvaCotaUnica(params: any, deb: Retorno) {
+
+    let ipvaCotaUnica: boolean =  false;
+    let cotaUniExerc: number = -1;
+    const regExIpvaCotas = /^\d{4}0$/g;
+    let ipvaDebitos: Retorno;
+
+    params.tipo_debito = 'ipva';
+    ipvaDebitos = await this.getTiposDebitos(params);
+    console.log('PARAMS >>>>>>>> ', params);
+    console.log('IPVADEBITOS >>>>>>>> ', ipvaDebitos);
+    
+
+    for (const debito of ipvaDebitos.res) {
+          if (regExIpvaCotas.test(debito.ipvaCotas)){
+            ipvaCotaUnica = true;
+            console.log('>>>>>>>>>> ', debito, '\nFLAG >>>>> ', ipvaCotaUnica);
+            break
+          }
     }
   }
 
