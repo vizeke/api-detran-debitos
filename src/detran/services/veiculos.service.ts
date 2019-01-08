@@ -149,7 +149,7 @@ export class VeiculosService {
     }
   }
 
-  async verificaIpvaCotaUnica(params: any, deb: Retorno) {
+  async verificaIpvaCotaUnica(params: any, debitos: Retorno) {
 
     let ipvaCotaUnica: boolean =  false;
     let cotaUniExerc: number = -1;
@@ -162,13 +162,23 @@ export class VeiculosService {
     console.log('IPVADEBITOS >>>>>>>> ', ipvaDebitos);
     
 
-    for (const debito of ipvaDebitos.res) {
-          if (regExIpvaCotas.test(debito.ipvaCotas)){
-            ipvaCotaUnica = true;
-            console.log('>>>>>>>>>> ', debito, '\nFLAG >>>>> ', ipvaCotaUnica);
-            break
-          }
+    for (const ipvadeb of ipvaDebitos.res) {
+      if (regExIpvaCotas.test(ipvadeb.ipvaCotas)){
+        ipvaCotaUnica = true;
+        cotaUniExerc = ipvadeb.exercicio;
+        console.log('>>>>>>>>>> ', ipvadeb, '\nFLAG >>>>> ', ipvaCotaUnica, '\nExercicio >>>>>', cotaUniExerc);
+        break
+      }
+    }
+
+    if (ipvaCotaUnica){
+      for (const ipvadeb of ipvaDebitos.res) { 
+        if (ipvadeb.exercicio === cotaUniExerc && ipvadeb.parcela !== 0){
+          const result = debitos.res.findIndex(obj => obj.idDebito === ipvadeb.idDebito) 
+          console.log('RESULT >>>>>>>>>> ', result);
+          console.log('IPVA >>>>>>>>>> ', debitos.res[result]);
+        }
+      }
     }
   }
-
 }
