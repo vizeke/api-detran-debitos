@@ -3,7 +3,7 @@ stages:
   - quality
   - build
   - deploy
-  - stress
+#  - stress
 
 cache:
   key: 'cache-detran'
@@ -46,7 +46,7 @@ build_job:
     
 deploy_job:
   stage: deploy
-  image: registry.es.gov.br/espm/dockers/node:8.12.0-alpine
+  image: registry.es.gov.br/espm/infraestrutura/containers/node:8.12.0
   only:
     - tags
   script:
@@ -55,18 +55,18 @@ deploy_job:
   dependencies:
     - build_job
 
-stress_job:
- stage: stress
- image: docker:stable
- dependencies:
-   - deploy_job
- only:
-   - tags
- services:
-   - docker:dind
- script:
-   - docker run -i --rm -v $(pwd)/stress:/bzt-configs -v $(pwd)/stress/artifacts:/tmp/artifacts blazemeter/taurus quick_test.yml 2>&1
- artifacts:
-  paths:
-    - $(pwd)/stress/artifacts
-  expire_in: 2 week
+#stress_job:
+# stage: stress
+# image: docker:stable
+# dependencies:
+#   - deploy_job
+# only:
+#   - tags
+# services:
+#   - docker:dind
+# script:
+#   - docker run -i --rm -v $(pwd)/stress:/bzt-configs -v $(pwd)/stress/artifacts:/tmp/artifacts blazemeter/taurus quick_test.yml 2>&1
+# artifacts:
+#  paths:
+#    - $(pwd)/stress/artifacts
+#  expire_in: 2 week
