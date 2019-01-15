@@ -33,3 +33,10 @@ Dado O usuario possui débitos atrasados
 Quando o usuario deseja pagar um débito de 2017-1
 E possui débitos anteriores atrasados
 Então o sistema retorna uma mensagem informando que é necessário selecionar também os débitos anteriores
+
+Cenário: Solicitando com a cota unica do IPVA e as demais cotas ao mesmo tempo
+Dado o usuario informa a placa do veiculo
+E informa o renavam do veiculo
+Quando o usuario deseja pagar todos os debitos
+E  solicita a geração da GRU
+Então o sistema retorna uma mensagem informando que não é possivel escolher a cota única e as demais cotas de IPVA para o mesmo exercício

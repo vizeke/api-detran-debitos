@@ -9,7 +9,7 @@ jest.mock( '../src/detran/services/veiculos.service' );
 
 let resposta: any;
 let placa: string;
-let cpf: string;
+let renavam: string;
 let dataVehicle: any;
 let tipoDebito: string;
 
@@ -66,11 +66,11 @@ defineFeature( feature, test => {
       placa = 'ABC1234';
     } );
     given('informa o renavam do veiculo', () => {
-      cpf = '12345678910';
+      renavam = '12345678910';
     });
     when( 'o usuario deseja pagar todos os debitos', async () => {
       resposta = await request( app.getHttpServer() )
-        .get( `/veiculos/${placa}/${cpf}/debitos/guia` );
+        .get( `/veiculos/${placa}/${renavam}/debitos/guia` );
       expect( resposta.status ).toBe( 200 );
     } );
     when( 'solicita a geração da GRU', () => {
@@ -110,5 +110,30 @@ defineFeature( feature, test => {
     then( 'o sistema retorna uma mensagem informando que é necessário selecionar também os débitos anteriores', () => {
       pending();
     } );
+  } );
+
+  test( 'Solicitando com a cota unica do IPVA e as suas parcelas ao mesmo tempo', ( { given, when, then } ) => {
+    given( 'o usuario informa a placa do veiculo', () => {
+      placa = 'COT4100';
+    } );
+    given('informa o renavam do veiculo', () => {
+      renavam = '12345678910';
+    });
+    when( 'o usuario deseja pagar todos os debitos', async () => {
+      resposta = await request( app.getHttpServer() )
+        .get( `/veiculos/${placa}/${renavam}/debitos/guia` );
+      expect( resposta.status ).toBe( 403 );
+    } );
+    when( 'solicita a geração da GRU', () => {
+      // Já testado acima
+    } );
+    then( 'o sistema retorna uma mensagem informando que não é possivel escolher a cota única e as demais cotas de IPVA para o mesmo exercício', () => {
+      dataVehicle = resposta.body;
+      expect( Object.keys( dataVehicle )[0] ).toContain( 'mensagemErro' );
+    } );
+  } );
+
+  afterAll( async () => {
+    await app.close();
   } );
 } );

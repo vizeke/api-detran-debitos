@@ -7,9 +7,12 @@ export class GerarGuiaRetorno {
     guiaPDF: string;
 
     constructor(gerar_guia: any) {
-
-        this.itensGuia = new Array();
-        this.itensGuia.push(new ItemGuia(gerar_guia));
-        this.guiaPDF = 'PeDeEfe';
+        if (gerar_guia.placa === 'COT4100') {
+            this.mensagemErro = 'Não é possível escolher cota única e as demais cotas de IPVA para o mesmo exercício. Verifique conjunto de débitos.' ;          
+        } else {
+            this.itensGuia = new Array();
+            this.itensGuia.push(new ItemGuia(gerar_guia));
+            this.guiaPDF = 'PeDeEfe';
+        }
     }
 }

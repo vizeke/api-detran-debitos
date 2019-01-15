@@ -122,12 +122,8 @@ export class VeiculosService {
       if ( deb.res[0] === 'Não foram encontrados debitos para esse veiculo.' || deb.status !== HttpStatus.OK ) {
         return deb;
       } else {
-        d = await this.verificaIpvaCotaUnica(params, deb);
+        deb = await this.verificaIpvaCotaUnica(params, deb);
         for ( const debito of deb.res ) {
-          /*if (ipvaCotaUnica && debito.ipvaCotas != '' && !regExIpvaCotas.test(debito.ipvaCotas)){
-            console.log(debito.ipvaCotas);
-            continue
-          }*/
           array_ids.push( debito.idDebito );
         }
       }
@@ -140,9 +136,9 @@ export class VeiculosService {
     this.veiculoConsulta.listaDebitos = array_ids.toString();
 
     try {
-      // this.res = await this.client.GerarGuia( this.veiculoConsulta );
-      const guia: any = null; // new GerarGuiaRetorno( this.res.GerarGuiaResult );
-      return d; // new Retorno( guia );
+      this.res = await this.client.GerarGuia( this.veiculoConsulta );
+      const guia: any = new GerarGuiaRetorno( this.res.GerarGuiaResult );
+      return new Retorno( guia );
     } catch ( error ) {
       return new Retorno( {
         mensagemErro: 'Error ao gerar a GRU.',
@@ -158,16 +154,12 @@ export class VeiculosService {
     let ipvaDebitos: Retorno;
 
     params.tipo_debito = 'ipva';
-    ipvaDebitos = await this.getTiposDebitos(params);
-    //console.log('PARAMS >>>>>>>> ', params);
-    //console.log('IPVADEBITOS >>>>>>>> ', ipvaDebitos);
-    
+    ipvaDebitos = await this.getTiposDebitos(params);    
 
     for (const ipvadeb of ipvaDebitos.res) {
       if (regExIpvaCotas.test(ipvadeb.ipvaCotas)){
         ipvaCotaUnica = true;
         cotaUniExerc = ipvadeb.exercicio;
-        //console.log('>>>>>>>>>> ', ipvadeb, '\nFLAG >>>>> ', ipvaCotaUnica, '\nExercicio >>>>>', cotaUniExerc);
         break
       }
     }
@@ -176,11 +168,7 @@ export class VeiculosService {
       for (const ipvadeb of ipvaDebitos.res) { 
         if (ipvadeb.exercicio === cotaUniExerc && ipvadeb.parcela !== 0){
           const result = debitos.res.findIndex(obj => obj.idDebito === ipvadeb.idDebito) 
-          //console.log('RESULT >>>>>>>>>> ', result);
-          //console.log('IPVA antes >>>>>>>>>> ', debitos.res[result].idDebito);
           debitos.res.splice(result, 1);
-          //console.log('IPVA depois >>>>>>>>>> ', debitos.res[result].idDebito);
-          //console.log('REMOVED >>>>>>>>>> ', removedItem[0].idDebito);
         }
       }
     }

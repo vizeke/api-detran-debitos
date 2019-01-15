@@ -99,4 +99,14 @@ describe( 'VeiculosService', () => {
     expect( Object.keys(respostaDoTeste.res)[0] )
       .toBe( 'itensGuia' );
   } );
+
+  it( 'gerarGRU com cota unica e as demais cotas do IPVA do mesmo exercicio', async () => {
+    params = {
+      placa: 'COT4100',
+      renavam: '98765432101',
+    };
+    respostaDoTeste = await service.gerarGRU( params );
+    expect( Object.keys(respostaDoTeste.res)[0] )
+      .toBe( 'mensagemErro' );
+  } );
 } );
