@@ -11,7 +11,7 @@ cache:
   - node_modules/
   
 test_job:
-  image: registry.es.gov.br/espm/dockers/node:8.12.0-alpine
+  image: registry.es.gov.br/espm/infraestrutura/containers/node:8.12.0
   stage: test
   script:
      - npm install
@@ -19,7 +19,7 @@ test_job:
      - npm run test:e2e
 
 quality_job:
-  image: registry.es.gov.br/espm/dockers/ci-node_sonar:8.11.2__3.2
+  image: registry.es.gov.br/espm/infraestrutura/containers/sonar-scanner:3.3.0.1492
   stage: quality
   dependencies:
       - test_job    
