@@ -108,12 +108,9 @@ export class VeiculosService {
 
   async gerarGRU( params: any ): Promise<Retorno> {
 
-    console.log('TOTAL');
-
     this.veiculoConsulta = new VeiculoConsulta( params );
     this.client = await this.detranSoapClient._client;
     const array_ids: Array<string> = new Array();
-    let d: Retorno;
 
     if ( Object.keys( this.client )[ 0 ] === 'mensagemErro' ) {
       return new Retorno( this.client );
@@ -173,9 +170,16 @@ export class VeiculosService {
             case 'IPVA':
               validoListaIDs = await this.validaIPVA(deb, listaIDs);
               break;
+            case 'IPVAANTERIOR':
+              validoListaIDs = await this.validaIPVAAnterior(deb, listaIDs);
+              break;
             case 'DPVAT':
               validoListaIDs = await this.validaDPVAT(deb, listaIDs);
               break;
+            case 'DPVATANTERIOR':
+              validoListaIDs = await this.validaDPVATAnterior(deb, listaIDs);
+              break;
+            
             case 'MULTA':
               validoListaIDs = await this.validaMulta(deb, listaIDs);
               break;
@@ -192,11 +196,11 @@ export class VeiculosService {
       }
     } catch (error) {
       return new Retorno({
-        mensagemErro: 'Error buscar debitos.',
+        mensagemErro: 'Error ao validar a lista de debitos.',
       });
     }
 
-    // =this.veiculoConsulta.listaDebitos = listaIDs.toString();
+    this.veiculoConsulta.listaDebitos = listaIDs.toString();
 
     if (validoListaIDs === true){
       try {
@@ -205,7 +209,7 @@ export class VeiculosService {
         return new Retorno( guia );
       } catch ( error ) {
         return new Retorno( {
-          mensagemErro: 'Error ao gerar a GRU.',
+          mensagemErro: 'Error ao gerar a GRU.'
         } );
       }
     }else{
@@ -266,7 +270,7 @@ export class VeiculosService {
       for ( const debito of deb.res ) {
 
         const index = listaIDs.indexOf(debito.idDebito);
-        if (debito.flagIpvaExercicio === 1 || Number(debito.ipvaCotas) <= ipvaCotasMaisNovo){
+        if (debito.flagIpvaExercicio === 1 || (Number(debito.ipvaCotas) <= ipvaCotasMaisNovo && debito.parcela != 0)){
           if (index <= -1){
             return false;
           }
@@ -278,10 +282,56 @@ export class VeiculosService {
     }
   }
 
+  async validaIPVAAnterior(deb: Retorno, listaIDs: Array<number>): Promise<boolean>{
+
+    let ipvaCotasMaisNovo: number = 0;
+    try {
+
+      for ( const debito of deb.res ) {
+
+        const index = listaIDs.indexOf(debito.idDebito);
+        if (index > -1 && ipvaCotasMaisNovo < Number(debito.ipvaCotas)){
+          ipvaCotasMaisNovo = Number(debito.ipvaCotas);
+        }
+      }
+
+      for ( const debito of deb.res ) {
+
+        const index = listaIDs.indexOf(debito.idDebito);
+        if (debito.flagIpvaAnterior === 1 || Number(debito.ipvaCotas) <= ipvaCotasMaisNovo){
+          if (index <= -1){
+            return false;
+          }
+        }
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+
   async validaDPVAT(deb: Retorno, listaIDs: Array<number>): Promise<boolean>{
     try {
       for ( const debito of deb.res ) {
         if (debito.flagDpvatExercicio === 1){
+          const index = listaIDs.indexOf(debito.idDebito);
+          if (index <= -1){
+            // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
+            return false;
+          }
+        }
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async validaDPVATAnterior(deb: Retorno, listaIDs: Array<number>): Promise<boolean>{
+    try {
+      for ( const debito of deb.res ) {
+        if (debito.flagDpvatAnterior === 1){
           const index = listaIDs.indexOf(debito.idDebito);
           if (index <= -1){
             // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
