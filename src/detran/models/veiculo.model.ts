@@ -1,18 +1,18 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class Veiculo{
-    @ApiModelProperty()
-    Placa: string;
+export class Veiculo {
+  @ApiModelProperty()
+  Placa: string;
 
-    @ApiModelProperty()
-    CPF: string;
+  @ApiModelProperty()
+  CPF: string;
 
-    @ApiModelProperty()
-    Renavam: number;
+  @ApiModelProperty()
+  Renavam: number;
 
-    constructor( veic: any ){
-        this.Placa = veic.Placa || veic.placa;
-        this.CPF = veic.CPF || veic.doc_proprietario;
-        this.Renavam = Number(veic.Renavam) || Number(veic.renavam);
-    }
+  constructor(veic: any) {
+    this.Placa = veic.Placa || veic.placa;
+    this.CPF = veic.CPF || veic.doc_proprietario;
+    this.Renavam = Number(veic.Renavam) || Number(veic.renavam);
+  }
 }
