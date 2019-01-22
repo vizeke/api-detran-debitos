@@ -3,3 +3,5 @@ REDIS_CACHE_TIME=1 seconds
 DETRAN_USER=usuario
 DETRAN_PASS=senh@dificil
 DETRAN_URL=https://exemplo.com/service?wsdl
+#REDIS_HOST="127.0.0.1"
+#REDIS_PORT="6379"
