@@ -300,21 +300,10 @@ export class VeiculosService {
     deb: Retorno,
     listaIDs: Array<number>,
   ): Promise<boolean> {
-    let ipvaCotasMaisNovo: number = 0;
     try {
       for (const debito of deb.res) {
         const index = listaIDs.indexOf(debito.idDebito);
-        if (index > -1 && ipvaCotasMaisNovo < Number(debito.ipvaCotas)) {
-          ipvaCotasMaisNovo = Number(debito.ipvaCotas);
-        }
-      }
-
-      for (const debito of deb.res) {
-        const index = listaIDs.indexOf(debito.idDebito);
-        if (
-          debito.flagIpvaAnterior === 1 ||
-          Number(debito.ipvaCotas) <= ipvaCotasMaisNovo
-        ) {
+        if ( debito.flagIpvaAnterior === 1 ) {
           if (index <= -1) {
             return false;
           }
@@ -332,7 +321,6 @@ export class VeiculosService {
         if (debito.flagDpvatExercicio === 1) {
           const index = listaIDs.indexOf(debito.idDebito);
           if (index <= -1) {
-            // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
             return false;
           }
         }
@@ -352,7 +340,6 @@ export class VeiculosService {
         if (debito.flagDpvatAnterior === 1) {
           const index = listaIDs.indexOf(debito.idDebito);
           if (index <= -1) {
-            // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
             return false;
           }
         }
@@ -369,7 +356,6 @@ export class VeiculosService {
         if (debito.flagMulta === 1) {
           const index = listaIDs.indexOf(debito.idDebito);
           if (index <= -1) {
-            // console.log('INDEX obrigatorio não encontrado > ', debito.idDebito);
             return false;
           }
         }

@@ -92,5 +92,6 @@ export class Debito extends DefineClasseDebitos{
     this.classe = super.defineClasse(debito.Classe);
     this.exercicio = debito.Exercicio;
     this.parcela = debito.Parcela;
+    this.ipvaCotas = debito.IpvaCotas;
   }
 }
