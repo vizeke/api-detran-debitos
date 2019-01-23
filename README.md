@@ -63,12 +63,22 @@ pela rota /veiculos/*PLACA*/*RENAVAM*/debitos/guia/*TIPO_DO_DEBITO*/*LISTA_DE_ID
 
 ## Flags da classe Debito
 
-|**Flags**|**Definição**                                    |  
-|:-------:|-------------------------------------------------|
-|    0    | Não marcado                                     |
-|    1    | Marcado (não pode desmarcar, debito obrigatório)|
-|    2    | Marcado (pode desmarcar)                        |
-|    3    | Desabilitado                                    |
+|**Tipo de debito**     |**A respectiva flag**     |
+|:---------------------:|--------------------------|
+|  LICENCIAMENTOATUAL   |flagLicenciamentoExercicio|
+| LICENCIAMENTOANTERIOR |flagLicenciamentoAnterior |
+|         IPVA          |flagIpvaExercicio         |
+|     IPVAANTERIOR      |flagIpvaAnterior          |
+|         DPVAT         |flagDpvatExercicio        |
+|     DPVATANTERIOR     |flagDpvatAnterior         |
+|         MULTA         |flagMultas                |
+
+|**Valores**|**Definição**                                    |  
+|:---------:|-------------------------------------------------|
+|     0     | Não marcado                                     |
+|     1     | Marcado (não pode desmarcar, debito obrigatório)|
+|     2     | Marcado (pode desmarcar)                        |
+|     3     | Desabilitado                                    |
 
 ## Instalando
 
