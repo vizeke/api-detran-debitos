@@ -35,7 +35,7 @@ Para finalizar esta imagem docker é só executar o seguinte comando.
 ```bash
 npm run stopdocker
 ```
-**PS: Este comando finaliza todos os container em execução.**
+**OBS: Este comando finalizará todos os container em execução.**
 
 Para apontar um servidor dedicado (ambiente de produção) basta definir as variaveis de ambiente como nesse exemplo:  
 ```bash
@@ -44,7 +44,7 @@ export REDIS_PORT="6379"
 ```
 
 ## Descrição
-Api de consulta aos debitos do DETRAN-ES e geração de guia para o pagamento.
+Api de consulta aos débitos do DETRAN-ES e geração de guia para o pagamento.
 
 ## Rotas
 /docs Abre o <a href="https://swagger.io/">swagger</a> com todas as rotas.
@@ -61,9 +61,12 @@ pela rota /veiculos/*PLACA*/*RENAVAM*/debitos/guia/*TIPO_DO_DEBITO*/*LISTA_DE_ID
 - DPVATANTERIOR
 - MULTA
 
-## Flags da classe Debito
+## Flags
+Com as flags é possivel determinar se um débito é opcional ou não. Por exemplo, se deseja pagar debitos do LICENCIAMENTOATUAL, todos os debitos obrigatórios virão com **flagLicenciamentoExercicio** igual a *1*. Nesse mesmo tipo, se tiver uma multa que não foi vencida, ela virá com a **flagLicenciamentoExercicio** igual a *2*, ou seja, opcional.
 
-|**Tipo de debito**     |**A respectiva flag**     |
+Existem mais flags, mas somente estas abaixo estão sendo utilizadas:
+
+|**Tipo de debito**     |**Respectiva flag**     |
 |:---------------------:|--------------------------|
 |  LICENCIAMENTOATUAL   |flagLicenciamentoExercicio|
 | LICENCIAMENTOANTERIOR |flagLicenciamentoAnterior |
@@ -75,19 +78,26 @@ pela rota /veiculos/*PLACA*/*RENAVAM*/debitos/guia/*TIPO_DO_DEBITO*/*LISTA_DE_ID
 
 |**Valores**|**Definição**                                    |  
 |:---------:|-------------------------------------------------|
-|     0     | Não marcado                                     |
-|     1     | Marcado (não pode desmarcar, debito obrigatório)|
-|     2     | Marcado (pode desmarcar)                        |
-|     3     | Desabilitado                                    |
+|     0     | Não marcado (débito opcional)                   |
+|     1     | Marcado (não pode desmarcar, débito obrigatório)|
+|     2     | Marcado (pode desmarcar, débito opcional)       |
+|     3     | Desabilitado (não exibir o débito)              |
+
+## Fluxo básico
+O fluxo básico esperado para as aplicações que consomem este serviço é o seguinte:
+>1. Informe a **placa** e o **renavam** do veículo e solicite os tipos de débitos (através da rota debitos-preview);
+>    - Receba os tipos de débitos em aberto.
+>2. Escolha o tipo de débito a ser pago e solicita os débitos (através da rota *debitos-tipo/<tipo_debito>*)
+>    - Receba uma lista de débitos.
+>3. Defina os débitos a serem pagos e solicite a guia;
+>    - Receba as informações necessarias para o pagamento.
 
 ## Instalando
-
 ```bash
 $ npm install
 ```
 
 ## Executando
-
 ```bash
 # development
 $ npm run start
@@ -99,8 +109,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
-
+## Testes
 ```bash
 # unit tests
 $ npm run test
@@ -111,4 +120,3 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
