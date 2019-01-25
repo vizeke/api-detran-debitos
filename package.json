@@ -39,13 +39,11 @@
     "fastify-formbody": "^2.0.0",
     "g": "^2.0.1",
     "jest-cucumber": "^1.0.11",
-    "mssql": "^4.2.3",
     "redis": "^2.8.0",
     "reflect-metadata": "^0.1.12",
     "request-promise": "^4.2.2",
     "rxjs": "^6.0.0",
     "soap-as-promised": "^1.23.0",
-    "typeorm": "^0.2.8",
     "typescript": "^2.6.2",
     "xmlserializer": "^0.6.1"
   },

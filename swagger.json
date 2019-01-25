@@ -7,7 +7,7 @@
   },
   "basePath": "/",
   "tags": [{ "name": "veiculos-debitos", "description": "" }],
-  "schemes": ["https"],
+  "schemes": ["http"],
   "paths": {
     "/veiculos/{placa}/{renavam}": {
       "get": {
