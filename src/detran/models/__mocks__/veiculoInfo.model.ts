@@ -17,7 +17,7 @@ export class VeiculoInfo {
   constructor(veicInfo: any) {
     this.veiculo = new Veiculo(veicInfo.Veiculo);
     this.nome = 'Jose da Silva';
-    this.marcaModelo = 'Uno da Firma';
+    this.marcaModelo = 'UNO MILE 1.0';
     this.anoFabricacao = 2000;
   }
 }

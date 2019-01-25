@@ -20,16 +20,3 @@ Dado O usuario informa a placa do veiculo
 E informa o renavam do veiculo
 Quando o usuario solicitar os dados do veiculo
 Então o sistema retorna uma mensagem informando que a consulta não é permitida para esse tipo de resgitro ativo
-
-Cenário: Exibindo as infrações do veículo
-Dado O usuario informa a placa do veiculo
-E informa o renavam do veiculo
-Quando o usuario solicitar as infrações associadas ao veiculo
-Então o sistema retorna as infrações associdas ao veiculo
-
-Cenário: Veiculo nao possui infrações
-Dado O usuario informa a placa do veiculo
-E informa o renavam do veiculo
-Quando o usuario seleciona exibir as associadas ao veiculo
-Então o sistema retorna uma mensagem informando que o veiculo não possui infrações
-

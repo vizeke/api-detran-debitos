@@ -86,37 +86,6 @@ defineFeature( feature, test => {
         .toEqual( 'Consulta não permitida para veículo com registro de furto/roubo ativo' );
     } );
   } );
-
-  test( 'Exibindo as infrações do veículo', ( { given, when, then } ) => {
-    given( 'O usuario informa a placa do veiculo', () => {
-      pending();
-    } );
-    given( 'informa o renavam do veiculo', () => {
-      pending();
-    } );
-    when( 'o usuario solicitar as infrações associadas ao veiculo', () => {
-      pending();
-    } );
-    then( 'o sistema retorna as infrações associdas ao veiculo', () => {
-      pending();
-    } );
-  } );
-
-  test( 'Veiculo nao possui infrações', ( { given, when, then } ) => {
-    given( 'O usuario informa a placa do veiculo', () => {
-      pending();
-    } );
-    given( 'informa o renavam do veiculo', () => {
-      pending();
-    } );
-    when( 'o usuario seleciona exibir as associadas ao veiculo', () => {
-      pending();
-    } );
-    then( 'o sistema retorna uma mensagem informando que o veiculo não possui infrações', () => {
-      pending();
-    } );
-  } );
-
   afterAll( async () => {
     await app.close();
   } );
