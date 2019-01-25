@@ -10,6 +10,6 @@ export class DebitosWS {
   constructor() {
     this.serviceUrl = wsurl || 'example.com.br';
     this.user = userWS || 'usuario';
-    this.password = passWS || 'senh@complicada';
+    this.password = passWS || 'senha';
   }
 }

@@ -4,6 +4,6 @@ export class SegurancaDetran {
 
   constructor() {
     this.Usuario = 'usuario';
-    this.Senha = 'senhacomplicada';
+    this.Senha = 'senha';
   }
 }

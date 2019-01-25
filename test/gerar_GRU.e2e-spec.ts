@@ -95,7 +95,7 @@ defineFeature( feature, test => {
       expect( Object.keys( dataVehicle )[0] ).toContain( 'itensGuia' );
     } );
   } );
-
+  
   test( 'Solicitando com a cota unica do IPVA e as demais cotas ao mesmo tempo', ( { given, when, then } ) => {
     given( 'o usuario informa a placa do veiculo', () => {
       placa = 'COT4100';
