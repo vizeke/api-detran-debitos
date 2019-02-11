@@ -1,97 +1,97 @@
 import { ApiModelProperty } from '@nestjs/swagger';
+import { ClassDeb } from './enum';
+import { DefineClasseDebitos } from '../common/config/defineClasseDebitos.config';
 
-export class Debito {
+export class Debito extends DefineClasseDebitos{
+  @ApiModelProperty()
+  classe: string;
 
-    @ApiModelProperty()
-    classe: number;
+  @ApiModelProperty()
+  codigoServico: number;
 
-    @ApiModelProperty()
-    codigoServico: number;
+  @ApiModelProperty()
+  descricaoServico: string;
 
-    @ApiModelProperty()
-    descricaoServico: string;
+  @ApiModelProperty()
+  dataVencimento: string;
 
-    @ApiModelProperty()
-    dataVencimento: string;
+  @ApiModelProperty()
+  exercicio: number;
 
-    @ApiModelProperty()
-    exercicio: number;
+  @ApiModelProperty()
+  idDebito: number;
 
-    @ApiModelProperty()
-    idDebito: number;
+  @ApiModelProperty()
+  parcela: number;
 
-    @ApiModelProperty()
-    parcela: number;
+  @ApiModelProperty()
+  placa: string;
 
-    @ApiModelProperty()
-    placa: string;
+  @ApiModelProperty()
+  valorAtualizadoFranquia: number;
 
-    @ApiModelProperty()
-    valorAtualizadoFranquia: number;
+  @ApiModelProperty()
+  flagDpvatAnterior: number;
 
-    @ApiModelProperty()
-    dpvatAnterior: number;
+  @ApiModelProperty()
+  dpvatCotas: string;
 
-    @ApiModelProperty()
-    dpvatCotas: string;
+  @ApiModelProperty()
+  flagDpvatExercicio: number;
 
-    @ApiModelProperty()
-    dpvatExercicio: number;
+  @ApiModelProperty()
+  flagIpvaAnterior: number;
 
-    @ApiModelProperty()
-    ipvaAnterior: number;
+  @ApiModelProperty()
+  flagIpvaExercicio: number;
 
-    @ApiModelProperty()
-    ipvaExercicio: number;
+  @ApiModelProperty()
+  flagIpvaParcelamento: number;
 
-    @ApiModelProperty()
-    ipvaParcelamento: number;
+  @ApiModelProperty()
+  flagLicenciamentoAnterior: number;
 
-    @ApiModelProperty()
-    licenciamentoAnterior: number;
+  @ApiModelProperty()
+  flagLicenciamentoExercicio: number;
 
-    @ApiModelProperty()
-    licenciamentoExercicio: number;
+  @ApiModelProperty()
+  flagMultas: number;
 
-    @ApiModelProperty()
-    multas: number;
+  @ApiModelProperty()
+  flagTaxaEspecial: number;
 
-    @ApiModelProperty()
-    taxaEspecial: number;
+  @ApiModelProperty()
+  flagTaxaPatio: number;
 
-    @ApiModelProperty()
-    taxaPatio: number;
+  @ApiModelProperty()
+  flagTaxaServico: number;
 
-    @ApiModelProperty()
-    taxaServico: number;
+  @ApiModelProperty()
+  ipvaCotas: string;
 
-    @ApiModelProperty()
-    ipvaCotas: string;
-
-    constructor(debito: any){
-
-        this.descricaoServico = debito.DescricaoServico;
-        this.valorAtualizadoFranquia = debito.ValorAtualizadoFranquia;
-        this.dataVencimento = debito.DataVencimento;
-        this.dpvatCotas = debito.DpvatCotas;
-        this.idDebito = debito.IdDebito;
-        this.placa = debito.Placa;
-        this.ipvaExercicio = debito.IpvaExercicio;
-        this.ipvaAnterior = debito.IpvaAnterior;
-        this.licenciamentoExercicio = debito.LicenciamentoExercicio;
-        this.licenciamentoAnterior = debito.LicenciamentoAnterior;
-        this.taxaServico = debito.TaxaServico;
-        this.multas = debito.Multas;
-        this.ipvaParcelamento = debito.IpvaParcelamento;
-        this.taxaEspecial = debito.TaxaEspecial;
-        this.taxaPatio = debito.TaxaPatio;
-        this.dpvatExercicio = debito.DpvatExercicio;
-        this.dpvatAnterior = debito.DpvatAnterior;
-        this.codigoServico = debito.CodigoServico;
-        this.classe = debito.Classe;
-        this.exercicio = debito.Exercicio;
-        this.parcela = debito.Parcela;
-        this.ipvaCotas = debito.IpvaCotas;
-    }
-
+  constructor(debito: any) {
+    super();
+    this.descricaoServico = debito.DescricaoServico;
+    this.valorAtualizadoFranquia = debito.ValorAtualizadoFranquia;
+    this.dataVencimento = debito.DataVencimento;
+    this.dpvatCotas = debito.DpvatCotas;
+    this.idDebito = debito.IdDebito;
+    this.placa = debito.Placa;
+    this.flagIpvaExercicio = debito.IpvaExercicio;
+    this.flagIpvaAnterior = debito.IpvaAnterior;
+    this.flagLicenciamentoExercicio = debito.LicenciamentoExercicio;
+    this.flagLicenciamentoAnterior = debito.LicenciamentoAnterior;
+    this.flagTaxaServico = debito.TaxaServico;
+    this.flagMultas = debito.Multas;
+    this.flagIpvaParcelamento = debito.IpvaParcelamento;
+    this.flagTaxaEspecial = debito.TaxaEspecial;
+    this.flagTaxaPatio = debito.TaxaPatio;
+    this.flagDpvatExercicio = debito.DpvatExercicio;
+    this.flagDpvatAnterior = debito.DpvatAnterior;
+    this.codigoServico = debito.CodigoServico;
+    this.classe = super.defineClasse(debito.Classe);
+    this.exercicio = debito.Exercicio;
+    this.parcela = debito.Parcela;
+    this.ipvaCotas = debito.IpvaCotas;
+  }
 }

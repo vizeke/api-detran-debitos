@@ -97,8 +97,8 @@ export class VeiculosController {
 
   @Get( ':placa/:renavam/debitos-tipo/:tipo_debito' )
   @ApiOperation( {
-    description: 'Retorna uma lista de um tipo de débitos do veiculo',
-    title: 'Prévia dos débitos do veiculo',
+    description: 'Retorna uma lista de débitos do veiculo filtrada pelo tipo: LICENCIAMENTOATUAL, LICENCIAMETO ANTERIOR, IPVA, IPVAANTERIOR, DPVT, DPVATANTERIOR, MULTA',
+    title: 'Lista de débitos filtrado por tipo',
   } )
   @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna um array de debitos', type: Debito } )
   @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
@@ -152,4 +152,42 @@ export class VeiculosController {
       throw new HttpException('Erro ao gerar a GRU.', HttpStatus.FORBIDDEN);
     }
   }
+
+  @Get( ':placa/:renavam/debitos/guia/:tipo_debito/:listaIDs' )
+  @ApiOperation( {
+    description: 'Retornar uma guia para pagamento dos debitos requisitados.',
+    title: 'Gerar GRU de alguns debitos',
+  } )
+  @ApiResponse( { status: 200, description: 'Veiculo encontrado, retorna o um array de itens e o pdf em base64 do boleto', type: DebitoRetorno } )
+  @ApiResponse( { status: 403, description: 'Retorna uma MensagemErro' } )
+  @ApiImplicitParam( {
+    name: 'placa',
+    description: 'Placa do veiculo',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'renavam',
+    description: 'Renavam do veiculo',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'tipo_debito',
+    description: 'tipo do debito',
+    required: true,
+  } )
+  @ApiImplicitParam( {
+    name: 'listaIDs',
+    description: 'Lista de IDs de debitos, separados por virgula',
+    required: true,
+  } )
+  async gerarGRUParcial( @Res() res, @Param() params ) {
+
+    try {
+      this.resposta = await this.veiculosService.gerarGRUParcial( params);
+      res.status( this.resposta.status ).send( this.resposta.res );
+    } catch (error) {
+      throw new HttpException('Erro ao gerar a GRU.', HttpStatus.FORBIDDEN);
+    }
+  }
+
 }
